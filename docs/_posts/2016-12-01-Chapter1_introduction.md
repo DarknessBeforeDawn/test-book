@@ -12,7 +12,9 @@ $$f(x_i)=wx_i+b,f(x_i)\simeq y_i$$
 $$min\sum_{i=1}^m(y_i-wx_i-b)^2$$
 令$E(w,b)=\sum_{i=1}^m(y_i-wx_i-b)^2$
 分别对$w,b$求偏导
-$$\frac{\partial E(w,b)}{\partial w}=2\sum_{i=1}^m(y_i-wx_i-b)(-x_i)=2\biggl(w\sum_{i=1}^mx_i^2-\sum_{i=1}^m(y_i-b)x_i\biggr)$$
+\begin{equation}
+\frac{\partial E(w,b)}{\partial w}=2\sum_{i=1}^m(y_i-wx_i-b)(-x_i)=2\biggl(w\sum_{i=1}^mx_i^2-\sum_{i=1}^m(y_i-b)x_i\biggr)
+\end{equation}
 $$\frac{\partial E(w,b)}{\partial b}=-2\sum_{i=1}^m(y_i-wx_i-b)=2\biggl(mb-\sum_{i=1}^m(y_i-wx_i)\biggr)$$
 令偏导为零可得
 $$b=\frac{1}{m}\sum_{i=1}^m(y_i-wx_i);$$
