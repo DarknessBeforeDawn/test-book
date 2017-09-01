@@ -63,6 +63,6 @@ J(\mathbf{\theta})=\frac{1}{2m}\biggl[\sum_{i=1}^m(h_{\mathbf{\theta}}(\mathbf{x
 \end{equation}
 
 
-[线性回归参考代码]()
+[线性回归参考代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/linear_regression/linear_regression.md)
 
 
