@@ -52,4 +52,17 @@ w\sum_{i=1}^mx_i^2-\sum_{i=1}^m(y_i-\frac{1}{m}\sum_{i=1}^m(y_i-wx_i))x_i=w\sum_
 \end{equation}并通过梯度下降法进行迭代逐步接近最小点，迭代过程中$$\mathbf{\theta}$$不断更新：
 \begin{equation}\mathbf{\theta}_j:=\mathbf{\theta}_j-\alpha \frac{\partial }{\partial \mathbf{\theta}_j}J(\theta _0,\theta _1,\cdots,\theta _n)
 \end{equation}
-其中$$\alpha$$为步长，也称为学习率。线性回归相关代码。
+其中$$\alpha$$为步长，也称为学习率。
+
+当我们的模型比较复杂，学习能力比较强时，容易造成过拟合的情况，例如如下模型：
+\begin{equation}\theta _0+\theta _1x+\theta _2x^2+\theta _3x^3+\theta _4x^4
+\end{equation}
+
+对于过拟合，我们可以在损失函数中加入相应的正则化项来控制参数幅度，添加正则化项后的损失函数：\begin{equation}
+J(\mathbf{\theta})=\frac{1}{2m}\biggl[\sum_{i=1}^m(h_{\mathbf{\theta}}(\mathbf{x}^{(i)})-y^{(i)})+\lambda \sum_{j=1}^n \theta _j^2\biggr]
+\end{equation}
+
+
+[线性回归参考代码]()
+
+
