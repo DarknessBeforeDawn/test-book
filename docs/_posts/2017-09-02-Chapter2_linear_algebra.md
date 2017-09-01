@@ -1,5 +1,5 @@
 ---
-title: 线性代数
+title: logistic回归
 layout: post
 share: false
 ---
