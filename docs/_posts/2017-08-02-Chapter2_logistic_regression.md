@@ -72,12 +72,19 @@ $$
 
 
 则$$\theta$$的更新过程：
-\begin{equation}
+
+
+$$
 \mathbf{\theta}_j:=\mathbf{\theta}_j-\frac{\alpha}{m}\sum_{i=1}^m\biggl(h_{\theta}(x^{(i)})-y^{(i)}\biggr)x^{(i)}_j
-\end{equation}
+$$
+
+
 加入正则化项的更新过程：
-\begin{equation}
+
+
+$$
 \mathbf{\theta}_j:=\mathbf{\theta}_j-\frac{\alpha}{m}\sum_{i=1}^m\biggl(h_{\theta}(x^{(i)})-y^{(i)}\biggr)x^{(i)}_j-\frac{\lambda}{m}\theta _j
-\end{equation}
+$$
+
 
 [logistic回归相关代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/logistic_regression/logistic_regression.md)
