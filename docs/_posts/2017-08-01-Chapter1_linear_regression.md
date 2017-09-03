@@ -48,7 +48,7 @@ w\sum_{i=1}^mx_i^2-\sum_{i=1}^m(y_i-\frac{1}{m}\sum_{i=1}^m(y_i-wx_i))x_i=w\sum_
 \begin{equation}\mathbf{\widehat{w}}^*=(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}
 \end{equation}
 但在实际问题中$$\mathbf{X}^T\mathbf{X}$$往往不是满秩矩阵，并且当参数多并且数据较多时，求导的计算量是非常大的。在实际问题中,令$$f(\mathbf{x})=\mathbf{\theta}^T\mathbf{x}$$，并将$$\mathbf{x}$$到$$y$$的映射函数$$f$$记作$$\mathbf{\theta}$$的函数$$h_{\mathbf{\theta}}(\mathbf{x})$$,则线性回归的损失函数一般定义为：
-\begin{equation}J(\mathbf{\theta})=\frac{1}{2m}\sum_{i=1}^m(h_{\mathbf{\theta}}(\mathbf{x}^{(i)})-y^{(i)})
+\begin{equation}J(\mathbf{\theta})=\frac{1}{2m}\sum_{i=1}^m(h_{\mathbf{\theta}}(\mathbf{x}^{(i)})-y^{(i)})^2
 \end{equation}并通过梯度下降法进行迭代逐步接近最小点，迭代过程中$$\mathbf{\theta}$$不断更新：
 \begin{equation}\mathbf{\theta}_j:=\mathbf{\theta}_j-\alpha \frac{\partial }{\partial \mathbf{\theta}_j}J(\theta _0,\theta _1,\cdots,\theta _n)
 \end{equation}
@@ -59,7 +59,7 @@ w\sum_{i=1}^mx_i^2-\sum_{i=1}^m(y_i-\frac{1}{m}\sum_{i=1}^m(y_i-wx_i))x_i=w\sum_
 \end{equation}
 
 对于过拟合，我们可以在损失函数中加入相应的正则化项来控制参数幅度，添加正则化项后的损失函数：\begin{equation}
-J(\mathbf{\theta})=\frac{1}{2m}\biggl[\sum_{i=1}^m(h_{\mathbf{\theta}}(\mathbf{x}^{(i)})-y^{(i)})+\lambda \sum_{j=1}^n \theta _j^2\biggr]
+J(\mathbf{\theta})=\frac{1}{2m}\biggl[\sum_{i=1}^m(h_{\mathbf{\theta}}(\mathbf{x}^{(i)})-y^{(i)})^2+\lambda \sum_{j=1}^n \theta _j^2\biggr]
 \end{equation}
 
 
