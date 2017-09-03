@@ -34,6 +34,8 @@ L(\theta)=P(y^{(i)}|x^{(i)};\theta)=\prod_{i=1}^m(h_{\theta}(x^{(i)}))^{y^{(i)}}
 l(\theta)=\ln L(\theta)=\sum_{i=1}^m\biggl(y^{(i)}\ln h_{\theta}(x^{(i)})+(1-y^{(i)})ln (1-h_{\theta}(x^{(i)}))\biggr)
 \end{equation}
 在logit回归中：
+
+
 $$Cost(h_\theta(x),y)=
 \begin{cases}
 -\ln(h_\theta(x))& \text{y=1}\\
@@ -55,21 +57,20 @@ J(\theta)=-\frac{1}{m}\sum_{i=1}^m\biggl(y^{(i)}\ln h_{\theta}(x^{(i)})+(1-y^{(i
 \begin{equation}
 \mathbf{\theta}_j:=\mathbf{\theta}_j-\alpha \frac{\partial }{\partial \mathbf{\theta}_j}J(\mathbf{\theta})
 \end{equation}
-\begin{equation}
-\frac{\partial }{\partial \mathbf{\theta}_j}J(\mathbf{\theta}) = -\frac{1}{m}\sum_{i=1}^m\biggl(\frac{y^{(i)}}{h_{\theta}(x^{(i)})}\frac{\partial }{\partial \mathbf{\theta}_j}h_{\theta}(x^{(i)})-\frac{(1-y^{(i)})}{1-h_{\theta}(x^{(i)})}\frac{\partial }{\partial \mathbf{\theta}_j}h_{\theta}(x^{(i)})\biggr)
-\end{equation}
-\begin{equation}
-= -\frac{1}{m}\sum_{i=1}^m\biggl(\frac{y^{(i)}}{h_{\theta}(x^{(i)})}-\frac{(1-y^{(i)})}{1-h_{\theta}(x^{(i)})}\biggr) \frac{\partial }{\partial \mathbf{\theta}_j}h_{\theta}(x^{(i)})
-\end{equation}
-\begin{equation}
- = -\frac{1}{m}\sum_{i=1}^m\biggl(\frac{y^{(i)}}{h_{\theta}(x^{(i)})}-\frac{(1-y^{(i)})}{1-h_{\theta}(x^{(i)})}\biggr) h_{\theta}(x^{(i)}) (1-h_{\theta}(x^{(i)})) \frac{\partial }{\partial \mathbf{\theta}_j}\theta ^Tx^{(i)} 
-\end{equation}
-\begin{equation}
-= -\frac{1}{m}\sum_{i=1}^m\biggl(y^{(i)}(1-h_{\theta}(x^{(i)}))-(1-y^{(i)})h_{\theta}(x^{(i)})\biggr)x^{(i)}_j 
-\end{equation}
-\begin{equation} 
+
+
+
+$$
+\begin{align*}  
+  \frac{\partial }{\partial \mathbf{\theta}_j}J(\mathbf{\theta}) &= -\frac{1}{m}\sum_{i=1}^m\biggl(\frac{y^{(i)}}{h_{\theta}(x^{(i)})}\frac{\partial }{\partial \mathbf{\theta}_j}h_{\theta}(x^{(i)})-\frac{(1-y^{(i)})}{1-h_{\theta}(x^{(i)})}\frac{\partial }{\partial \mathbf{\theta}_j}h_{\theta}(x^{(i)})\biggr) \\  
+ &= -\frac{1}{m}\sum_{i=1}^m\biggl(\frac{y^{(i)}}{h_{\theta}(x^{(i)})}-\frac{(1-y^{(i)})}{1-h_{\theta}(x^{(i)})}\biggr) \frac{\partial }{\partial \mathbf{\theta}_j}h_{\theta}(x^{(i)})\\  
+ &= -\frac{1}{m}\sum_{i=1}^m\biggl(\frac{y^{(i)}}{h_{\theta}(x^{(i)})}-\frac{(1-y^{(i)})}{1-h_{\theta}(x^{(i)})}\biggr) h_{\theta}(x^{(i)}) (1-h_{\theta}(x^{(i)})) \frac{\partial }{\partial \mathbf{\theta}_j}\theta ^Tx^{(i)} \\ 
+&= -\frac{1}{m}\sum_{i=1}^m\biggl(y^{(i)}(1-h_{\theta}(x^{(i)}))-(1-y^{(i)})h_{\theta}(x^{(i)})\biggr)x^{(i)}_j \\
 &= \frac{1}{m}\sum_{i=1}^m\biggl(h_{\theta}(x^{(i)})-y^{(i)}\biggr)x^{(i)}_j
-\end{equation}
+\end{align*} 
+$$
+
+
 则$$\theta$$的更新过程：
 \begin{equation}
 \mathbf{\theta}_j:=\mathbf{\theta}_j-\frac{\alpha}{m}\sum_{i=1}^m\biggl(h_{\theta}(x^{(i)})-y^{(i)}\biggr)x^{(i)}_j
