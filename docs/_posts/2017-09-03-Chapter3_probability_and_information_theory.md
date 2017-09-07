@@ -410,8 +410,12 @@ w_{m+1,i}=\frac{w_{mi}}{Z_m}exp(-\alpha_my_iG_m(x_i))\Longrightarrow Z_mw_{m+1,i
 
 $$
 \begin{align*}
-\frac{1}{N}\sum_i\exp (-y_if(x_i)) &=\frac{1}{N}\sum_i\exp \biggl(-\sum_{m=1}^M\alpha_my_iG_m(x_i)\biggr) \
-&=\sum_iw_{1i}\prod_{m=1}^M\exp (-\alpha_my_iG_m(x_i)) 
+\frac{1}{N}\sum_i\exp (-y_if(x_i)) &=\frac{1}{N}\sum_i\exp \biggl(-\sum_{m=1}^M\alpha_my_iG_m(x_i)\biggr) \\
+&=\sum_iw_{1i}\prod_{m=1}^M\exp (-\alpha_my_iG_m(x_i)) \\
+&=Z_1\sum_iw_{2i}\prod_{m=2}^M\exp (-\alpha_my_iG_m(x_i)) \\
+&=Z_1Z_2\sum_iw_{3i}\prod_{m=3}^M\exp (-\alpha_my_iG_m(x_i)) \\
+&=Z_1Z_2\cdots Z_{M-1}\sum_iw_{Mi}\exp (-\alpha_my_iG_m(x_i)) \\
+&=\prod_{m=1}^MZ_m
 \end{align*} 
 $$
 
