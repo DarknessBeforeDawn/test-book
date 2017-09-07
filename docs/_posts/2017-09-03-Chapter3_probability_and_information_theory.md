@@ -409,12 +409,10 @@ w_{m+1,i}=\frac{w_{mi}}{Z_m}exp(-\alpha_my_iG_m(x_i))\Longrightarrow Z_mw_{m+1,i
 推导如下：
 
 $$
-\begin{equation}
 \begin{align*}
 \frac{1}{N}\sum_i\exp (-y_if(x_i)) &=\frac{1}{N}\sum_i\exp \biggl(-\sum_{m=1}^M\alpha_my_iG_m(x_i)\biggr) \
 &=\sum_iw_{1i}\prod_{m=1}^M\exp (-\alpha_my_iG_m(x_i)) 
 \end{align*} 
-\end{equation}
 $$
 
 
