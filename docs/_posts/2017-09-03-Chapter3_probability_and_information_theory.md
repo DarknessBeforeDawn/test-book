@@ -604,7 +604,7 @@ Z_m=\sum_{i=1}^Nw_{mi}\exp(-\alpha_my_iG_m(x_i))
 
 因而二者等价。
 
-##GBDT(Gradient Boosting Decision Tree)
+##梯度提升树GBDT
 
 ###1.提升树
 
@@ -774,3 +774,42 @@ $$L(y,f_6(x))=\sum_{i=1}^{10}(y_i-f_6(x_i))^2=0.17$$
 假设此时已满足误差要求，那么$f(x)=f_6(x)$即为所求提升树。
 
 ###2.梯度提升
+当提升树的损失函数是平方损失和指数损失函数时，每一步优化是比较简单的，但对于一般损失函数而言，往往每一步优化比较困难。针对该问题，Freidman提出了梯度提升算法。这是利用最速下降法的近似方法，利用损失函数的负梯度在当前模型的值
+
+$$-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)} $$
+
+作为回归问题提升树算法中的残差的近似值，拟合一个回归树。
+
+#####梯度提升树算法流程
+
+输入：训练数据$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$,$x_i\in \mathcal{X}\subseteq \mathbf{R}^n$,$y\in \mathcal{Y}\subseteq \mathbf{R}$;损失函数$L(y,f(x))$
+
+输出：回归树$\hat{f}(x)$.
+
+(1)初始化$f_0(x)=\arg\min_c\sum_{i=1}^NL(y_i,c)$
+
+(2)对$m=1,2,\cdots,M$
+
+(a)对$i=1,2,\cdots,N$，计算
+
+$$r_{mi}=-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)} $$
+
+(b)对$r_{mi}$拟合一个回归树，得到第$m$棵树的叶节点区域$R_{mj},j=1,2,\cdots,J$
+
+(c)对$j=1,2,\cdots,J$，计算
+
+$$c_{mj}=\arg\min_c\sum_{x_i\in R_{mj}}L(y_i,f_{m-1}(x_i)+c) $$
+
+利用线性搜索估计叶结点区域的值，使损失函数极小化；
+
+(d)更新$f_m(x)=f_{m-1}(x)+\sum\limits_{j=1}^Jc_{mj}I(x_i\in R_{mj})$
+
+(3)得到回归树$\hat{f}(x)=f_M(x)=\sum\limits_{m=1}^M\sum\limits_{j=1}^JI(x_i\in R_{mj})$
+
+#####Shrinkage
+Shrinkage的思想认为，每次走一小步逐渐逼近结果，要比每次迈一大步很快逼近结果的方式更容易避免过拟合。即它不完全信任每一个棵残差树，它认为每棵树只学到了真理的一小部分，累加的时候只累加一小部分，通过多学几棵树弥补不足。
+
+Shrinkage树的更新方式$f_m(x)=f_{m-1}(x)+v*\sum\limits_{j=1}^Jc_{mj}I(x_i\in R_{mj})$,Shrinkage仍然以残差作为学习目标，但对于残差学习的结果，只累加一小部分，$v$一般取值0.001-0.01，使得各个树的残差是渐变而不是陡变的，即将大步切成了小步。
+
+###2.XGBoost
+
