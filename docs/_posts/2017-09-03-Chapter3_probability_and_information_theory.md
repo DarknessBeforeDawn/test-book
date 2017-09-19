@@ -32,7 +32,7 @@ $$\begin{equation}
 P(X,Y)=P(X=x_i,Y=y_i)=p_{ij},  i=1,2,\cdots,n;j=1,2,\cdots,m
 \end{equation}$$
 
-条件熵$$H(Y$$|$$X)$$表示在已知随机变量$$X$$的条件下随机变量$$Y$$的不确定性。$$X$$给定条件下$$Y$$的条件概率分布的熵对$$X$$的数学期望：
+条件熵$$H(Y$$\|$$X)$$表示在已知随机变量$$X$$的条件下随机变量$$Y$$的不确定性。$$X$$给定条件下$$Y$$的条件概率分布的熵对$$X$$的数学期望：
 
 $$\begin{equation}
 H(Y|X)=\sum_{i=1}^np_iH(Y|X_i),p_i=P(X=x_i),i=1,2,\cdots,n
@@ -366,7 +366,7 @@ $$
 &=Z_1Z_2\sum_iw_{3i}\prod_{m=3}^M\exp (-\alpha_my_iG_m(x_i)) \\
 &=Z_1Z_2\cdots Z_{M-1}\sum_iw_{Mi}\exp (-\alpha_my_iG_m(x_i)) \\
 &=\prod_{m=1}^MZ_m
-\end{align*} 
+\end{align*}
 $$
 
 
@@ -392,7 +392,7 @@ Z_m &=-\sum_{i=1}^Nw_{mi}\exp (-\alpha_my_iG_m(x_i)) \\
 &=(1-e_m)\sqrt{\frac{e_m}{1-e_m}}+e_m\sqrt{\frac{1-e_m}{e_m}} \\
 &= 2\sqrt{e_m(1-e_m)}\\
 &=\sqrt{1-4\gamma_m^2}
-\end{align*} 
+\end{align*}
 $$
 
 至于不等式：
@@ -558,7 +558,7 @@ $$
 \begin{align*}
 \sum_{i=1}^N\overline{w}_{mi}\exp[-y_i\alpha G(x_i))] &=\sum_{y_i=G_m(x_i)}\overline{w}_{mi}e^{-\alpha}+\sum_{y_i\neq G_m(x_i)}\overline{w}_{mi}e^{\alpha} \\
 &=(e^{\alpha}-e^{-\alpha})\sum_{i=1}^N\overline{w}_{mi}I(y_i\neq G(x_i))+e^{-\alpha}\sum_{i=1}^N\overline{w}_{mi}
-\end{align*} 
+\end{align*}
 $$
 
 将$$G_m^*$$代入，并对$$\alpha$$求导，使导数等于0：
@@ -567,7 +567,7 @@ $$
 \begin{align*}
 &\frac{\partial\biggl((e^{\alpha}-e^{-\alpha})\sum\limits_{i=1}^N\overline{w}_{mi}I(y_i\neq G_m(x_i))+e^{-\alpha}\sum\limits_{i=1}^N\overline{w}_{mi}\biggr)}{\partial\alpha}\\ &=(e^{\alpha}+e^{-\alpha})\sum\limits_{i=1}^N\overline{w}_{mi}I(y_i\neq G_m(x_i))-e^{-\alpha}\sum\limits_{i=1}^N\overline{w}_{mi} \\
 &=0
-\end{align*} 
+\end{align*}
 $$
 
 即，
@@ -647,7 +647,7 @@ $$
 \begin{align*}
 f_0(x)&=0\\ f_m(x)&=f_{m-1}(x)+T(x;\Theta_m),m=1,2,\cdots,M \\
 f_M(x)&=\sum_{m=1}^MT(x;\Theta_m)
-\end{align*} 
+\end{align*}
 $$
 
 在前向分步算法的第$$m$$步，给定当前模型$$f_{m-1}(x)$$,需求解
@@ -663,7 +663,7 @@ $$
 \begin{align*}
 &L(y,f_{m-1}(x)+T(x;\Theta_m))\\ &=[y-f_{m-1}(x)-T(x;\Theta_m)]^2 \\
 &=[r-T(x;\Theta_m)]^2
-\end{align*} 
+\end{align*}
 $$
 
 这里，$$r=y-f_{m-1}(x)$$是当前模型拟合数据的残差(residual).所以，对于回归问题的提升树算法来说，只需简单地拟合当前模型的残差。
@@ -764,7 +764,7 @@ $$
 \begin{align*}
 f_6(x) &=f_5(x)+T_6(x)=T_1(x)+\cdots+T_5(x)+T_6(x) \\
 &=\begin{cases}5.63,&x<2.5\\5.82,&2.5\leq x < 3.5\\6.56,&3.5\leq x < 4.5\\6.83,&4.5\leq x < 6.5\\8.95,&x \geq 6.5\end{cases}
-\end{align*} 
+\end{align*}
 $$
 
 用$$f_6(x)$$拟合训练数据的平方损失误差：
@@ -864,7 +864,7 @@ Obj^{(t)}&\simeq \sum_{i=1}^n\biggl[g_if_t(x_i)+\frac{1}{2}h_if_t^2(x_i)\biggr]+
 &=\sum_{i=1}^n\biggl[g_if_t(x_i)+\frac{1}{2}h_if_t^2(x_i)\biggr]+\gamma T+\frac{1}{2}\lambda\|w_j\|^2\\
 &=\sum_{j=1}^T\biggl[(\sum_{i\in I_j}g_i)w_i+\frac{1}{2}(\sum_{i\in I_j}h_i+\lambda)w^2_j\biggr]+\gamma T\\
 &=\sum_{j=1}^T\biggl[(G_jw_i+\frac{1}{2}(H_j+\lambda)w^2_j\biggr]+\gamma T
-\end{align*} 
+\end{align*}
 $$
 
 其中$$G_j=\sum\limits_{i\in I_j}g_i,H_j = \sum\limits_{i\in I_j}h_i$$,对$$w_j$$求导等于0，可求得：
