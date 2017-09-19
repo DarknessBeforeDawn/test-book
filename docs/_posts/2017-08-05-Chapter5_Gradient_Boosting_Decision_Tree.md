@@ -239,7 +239,7 @@ $$
 
 ![](https://darknessbeforedawn.github.io/test-book/images/xgboost1.png)
 
-树的复杂度函数:$$\Omega(f_t)=\gamma T+\frac{1}{2}\lambda\sum\limits_{j=1}^Tw_j^2$$,其中$$T$$为叶节点个数，$$\frac{1}{2}\lambda\sum\limits_{j=1}^Tw_j^2$$为$$L2$$正则化项，也可以用$$L1$$正则化项$$\frac{1}{2}\lambda\sum\limits_{j=1}^T|w_j|$$.则上图中树的复杂为$$\Omega(f_t)=3\gamma+\frac{1}{2}\lambda(4+0.01+1)$$.
+树的复杂度函数:$$\Omega(f_t)=\gamma T+\frac{1}{2}\lambda\sum\limits_{j=1}^Tw_j^2$$,其中$$T$$为叶节点个数，$$\frac{1}{2}\lambda\sum\limits_{j=1}^Tw_j^2$$为$$L2$$正则化项，也可以用$$L1$$正则化项$$\frac{1}{2}\lambda\sum\limits_{j=1}^T$$\|$$w_j$$\|.则上图中树的复杂为$$\Omega(f_t)=3\gamma+\frac{1}{2}\lambda(4+0.01+1)$$.
 
 定义树的结构和复杂度的原因很简单，这样就可以衡量模型的复杂度，从而可以有效控制过拟合。
 
