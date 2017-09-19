@@ -32,7 +32,7 @@ $$\begin{equation}
 P(X,Y)=P(X=x_i,Y=y_i)=p_{ij},  i=1,2,\cdots,n;j=1,2,\cdots,m
 \end{equation}$$
 
-条件熵$$H(Y|X)$$表示在已知随机变量$$X$$的条件下随机变量$$Y$$的不确定性。$$X$$给定条件下$$Y$$的条件概率分布的熵对$$X$$的数学期望：
+条件熵$$H(Y$$|$$X)$$表示在已知随机变量$$X$$的条件下随机变量$$Y$$的不确定性。$$X$$给定条件下$$Y$$的条件概率分布的熵对$$X$$的数学期望：
 
 $$\begin{equation}
 H(Y|X)=\sum_{i=1}^np_iH(Y|X_i),p_i=P(X=x_i),i=1,2,\cdots,n
@@ -46,7 +46,7 @@ $$\begin{equation}
 g(D,A)=H(D)-H(D|A)
 \end{equation}$$
 
-$$H(D)$$表示对数据集$$D$$进行分类的不确定性，$$H(D|A)$$表示按特征$$A$$分类过后的所有熵的总和；二者的差表示分类前后不确定性减少的程度，因此信息增益大的特征有更强的分类能力。
+$$H(D)$$表示对数据集$$D$$进行分类的不确定性，$$H(D$$|$$A)$$表示按特征$$A$$分类过后的所有熵的总和；二者的差表示分类前后不确定性减少的程度，因此信息增益大的特征有更强的分类能力。
 
 
 设数据集为$$D$$,$$|D|$$表示样本个数，设有$$K$$个类$$C_k$$,$$|C_k|$$为属于$$C_k$$的样本个数，$$\sum_{k=1}^K|C_k|=|D|$$。设特征$$A$$有$$n$$个不同取值$$\{a_1,a_2,\cdots,a_n\}$$，根据$$A$$的取值将$$D$$划分为$$n$$个子集$$D_1,D_2,\cdots,D_n$$,$$|D_i|$$为$$D_i$$的样本个数，$$\sum_{i=1}^n|D_i|=|D|$$,记子集$$D_i$$中属于类$$C_k$$的样本的集合为$$D_{ik}$$,即$$D_{ik}=D_i\bigcap C_k,|D_{ik}|$$为$$D_{ik}$$的样本个数，则
@@ -827,7 +827,7 @@ $$\mathcal{F}=\{f_t(x)=w_q(x)\},w\in \mathbf{R}^T,q:\mathbf{R}^d\rightarrow \{1,
 
 如下图：
 
-![](xgboost1.png)
+![](https://darknessbeforedawn.github.io/test-book/images/xgboost1.png)
 
 树的复杂度函数:$$\Omega(f_t)=\gamma T+\frac{1}{2}\lambda\sum\limits_{j=1}^Tw_j^2$$,其中$$T$$为叶节点个数，$$\frac{1}{2}\lambda\sum\limits_{j=1}^Tw_j^2$$为$$L2$$正则化项，也可以用$$L1$$正则化项$$\frac{1}{2}\lambda\sum\limits_{j=1}^T|w_j|$$.则上图中树的复杂为$$\Omega(f_t)=3\gamma+\frac{1}{2}\lambda(4+0.01+1)$$.
 
@@ -835,7 +835,7 @@ $$\mathcal{F}=\{f_t(x)=w_q(x)\},w\in \mathbf{R}^T,q:\mathbf{R}^d\rightarrow \{1,
 
 #####3.1.2 boosting tree模型
 
-![](xgboost2.png)
+![](https://darknessbeforedawn.github.io/test-book/images/xgboost2.png)
 
 和传统的boosting tree模型一样，xgboost的提升模型也是采用的残差（或梯度负方向(牛顿法)），不同的是分裂结点选取的时候不一定是最小平方损失。 正则化的目标函数：
 
@@ -879,11 +879,11 @@ $$Obj=-\frac{1}{2}\sum_{j=1}^T\frac{G_j^2}{H_j+\lambda}+\gamma T$$
 
 上一节中的Obj代表了当我们指定一个树的结构的时候，我们在目标上面最多减少多少。我们可以把它叫做结构分数(structure score)。如图：
 
-![](xgboost3.png)
+![](https://darknessbeforedawn.github.io/test-book/images/xgboost3.png)
 
 对于每一次尝试去对已有的叶子加入一个分割，计算分割前后的分数差：
 
-![](xgboost5.png)
+![](https://darknessbeforedawn.github.io/test-book/images/xgboost5.png)
 
 $$Gain=\frac{1}{2}\biggl[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\biggr]-\gamma$$
 
@@ -899,7 +899,7 @@ $$Gain=\frac{1}{2}\biggl[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\fr
 
 对于每个特征，只考察分位点，减少计算复杂度;学习每棵树前，提出候选切分点;每次分裂前，重新提出候选切分点。XGBoost不是简单地按照样本个数进行分位，而是以二阶导数值作为权重,如下图:
 
-![](xgboost4.png)
+![](https://darknessbeforedawn.github.io/test-book/images/xgboost4.png)
 
 把目标函数整理成以下形式，可以看出$$h_i$$有对loss加权的作用:
 
@@ -918,7 +918,7 @@ LightGBM速度更快,内存占用更低,准确率更高(优势不明显，与XGB
 历一次数据后，直方图累积了需要的统计量，然后根据直方图的离散值，遍
 历寻找最优的分割点,如下图：
 
-![](lightGbm1.png)
+![](https://darknessbeforedawn.github.io/test-book/images/lightGbm1.png)
 
 当离散为256个bin时，只需要8bit，比原始的浮点数节省7/8的内存占用。并
 且减小了分裂时计算增益的计算量。
@@ -927,7 +927,7 @@ LightGBM速度更快,内存占用更低,准确率更高(优势不明显，与XGB
 
 一个叶子的直方图可以由它的父亲节点的直方图与它兄弟节点的直方图做差得到，提升一倍速度,如图：
 
-![](lightGbm2.png)
+![](https://darknessbeforedawn.github.io/test-book/images/lightGbm2.png)
 
 
 • 带深度限制的Leaf-wise的叶子生长策略
