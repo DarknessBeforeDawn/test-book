@@ -176,7 +176,11 @@ $$L(y,f_6(x))=\sum_{i=1}^{10}(y_i-f_6(x_i))^2=0.17$$
 ## 2.梯度提升
 当提升树的损失函数是平方损失和指数损失函数时，每一步优化是比较简单的，但对于一般损失函数而言，往往每一步优化比较困难。针对该问题，Freidman提出了梯度提升算法。这是利用最速下降法的近似方法，利用损失函数的负梯度在当前模型的值
 
-$$-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)} $$
+$$
+\begin{equation}
+-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)}
+\end{equation} 
+$$
 
 作为回归问题提升树算法中的残差的近似值，拟合一个回归树。
 
@@ -192,13 +196,13 @@ $$-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)} 
 
 (a)对$$i=1,2,\cdots,N$$，计算
 
-$$r_{mi}=-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)} $$
+$$\begin{equation} r_{mi}=-\biggl[\frac{\partial L(y,f(x_i))}{\partial f(x_i)}\biggr]_{f(x)=f_{m-1}(x)} \end{equation} $$
 
 (b)对$$r_{mi}$$拟合一个回归树，得到第$$m$$棵树的叶节点区域$$R_{mj},j=1,2,\cdots,J$$
 
 (c)对$$j=1,2,\cdots,J$$，计算
 
-$$c_{mj}=\arg\min_c\sum_{x_i\in R_{mj}}L(y_i,f_{m-1}(x_i)+c) $$
+$$\begin{equation} c_{mj}=\arg\min_c\sum_{x_i\in R_{mj}}L(y_i,f_{m-1}(x_i)+c) \end{equation}$$
 
 利用线性搜索估计叶结点区域的值，使损失函数极小化；
 
@@ -219,11 +223,17 @@ xgboost(eXtreme Gradient Boosting)是提升树模型，它与决策树是息息�
 #### 3.1.1 树的复杂度
 对数据集$$D=\{(x_i,y_i)\},(\|D\|=n,x_i\in \mathbb{R}^m,y_i\in \mathbb{R}),$$假设有$$K$$棵树，则模型为：
 
-$$\hat{y}_i=\sum_{k=1}^Kf_k(x_i),f_k\in\mathcal{F}$$
+$$
+\begin{equation}
+\hat{y}_i=\sum_{k=1}^Kf_k(x_i),f_k\in\mathcal{F}
+\end{equation}$$
 
 其中$$\mathcal{F}$$把树拆分成结构部分$$q$$和叶子权重部分$$w$$,结构函数$$q$$把输入映射到叶子的索引号上面去，而$$w$$给定了每个索引号对应的叶子分数是什么.
 
-$$\mathcal{F}=\{f_t(x)=w_q(x)\},w\in \mathbf{R}^T,q:\mathbf{R}^d\rightarrow \{1,2,\cdots,T\}$$
+$$
+\begin{equation}
+\mathcal{F}=\{f_t(x)=w_q(x)\},w\in \mathbf{R}^T,q:\mathbf{R}^d\rightarrow \{1,2,\cdots,T\}
+\end{equation}$$
 
 如下图：
 
@@ -239,13 +249,18 @@ $$\mathcal{F}=\{f_t(x)=w_q(x)\},w\in \mathbf{R}^T,q:\mathbf{R}^d\rightarrow \{1,
 
 和传统的boosting tree模型一样，xgboost的提升模型也是采用的残差（或梯度负方向(牛顿法)），不同的是分裂结点选取的时候不一定是最小平方损失。 正则化的目标函数：
 
-$$L(\phi)=\sum_il(y_i,\hat{y}_i)+\sum_k\Omega(f_k),\Omega(f)=\gamma T+\frac{1}{2}\lambda\|w_j\|^2$$
+$$\begin{equation}
+L(\phi)=\sum_il(y_i,\hat{y}_i)+\sum_k\Omega(f_k),\Omega(f)=\gamma T+\frac{1}{2}\lambda\|w_j\|^2
+\end{equation}$$
 
 #### 3.1.3 目标函数的设计
 
 由于$$\hat{y}_i^{(t)}=\hat{y}_i^{(t-1)}+f_t(x_i)$$，则目标函数可改写成：
 
-$$Obj^{(t)}=\sum_{i=1}^nl(y_i,\hat{y}_i^{(t-1)}+f_t(x_i))+\Omega(f_t)+const$$
+$$
+\begin{equation}
+Obj^{(t)}=\sum_{i=1}^nl(y_i,\hat{y}_i^{(t-1)}+f_t(x_i))+\Omega(f_t)+const
+\end{equation}$$
 
 泰勒展开:$$f(x+\Delta x) \simeq f(x)+f'(x)\Delta x +f''(x)\Delta x$$
 
@@ -254,8 +269,9 @@ $$Obj^{(t)}=\sum_{i=1}^nl(y_i,\hat{y}_i^{(t-1)}+f_t(x_i))+\Omega(f_t)+const$$
 对目标函数使用泰勒展开并简化：
 
 $$
+\begin{equation}
 Obj^{(t)}\simeq \sum_{i=1}^n\biggl[l(y_i,\hat{y}_i^{(t-1)})+g_if_t(x_i)+\frac{1}{2}h_if_t^2(x_i)\biggr]+\Omega(f_t)+const
-$$
+\end{equation}$$
 
 最终的目标函数只依赖于每个数据点的在误差函数上的一阶导数和二阶导数。去除常数项，并定义了分裂候选集合$$I_j=\{i|q(x_i)=j\}$$，可以进一步改目标函数.
 $$
@@ -269,11 +285,17 @@ $$
 
 其中$$G_j=\sum\limits_{i\in I_j}g_i,H_j = \sum\limits_{i\in I_j}h_i$$,对$$w_j$$求导等于0，可求得：
 
-$$w_j^*=-\frac{G_j}{H_j+\lambda}$$
+$$
+\begin{equation}
+w_j^*=-\frac{G_j}{H_j+\lambda}
+\end{equation}$$
 
 把$$w_j^*$$代入目标函数可得：
 
-$$Obj=-\frac{1}{2}\sum_{j=1}^T\frac{G_j^2}{H_j+\lambda}+\gamma T$$
+$$
+\begin{equation}
+Obj=-\frac{1}{2}\sum_{j=1}^T\frac{G_j^2}{H_j+\lambda}+\gamma T
+\end{equation}$$
 
 #### 3.1.4 结构的打分函数
 
@@ -285,7 +307,10 @@ $$Obj=-\frac{1}{2}\sum_{j=1}^T\frac{G_j^2}{H_j+\lambda}+\gamma T$$
 
 ![](https://darknessbeforedawn.github.io/test-book/images/xgboost5.png)
 
-$$Gain=\frac{1}{2}\biggl[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\biggr]-\gamma$$
+$$
+\begin{equation}
+Gain=\frac{1}{2}\biggl[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}\biggr]-\gamma
+\end{equation}$$
 
 其中$$\frac{G_L^2}{H_L+\lambda}$$为分割后左子树得分，$$\frac{G_R^2}{H_R+\lambda}$$为分割后右子树得分，$$\frac{(G_L+G_R)^2}{H_L+H_R+\lambda}$$为不进行分割时的得分，$$\gamma$$为加入新叶子节点引入的复杂度代价。当$$Gain$$的值越大时，目标函数值就越小。因此选择$$Gain$$值最大的节点进行分割。
 
@@ -304,7 +329,9 @@ $$Gain=\frac{1}{2}\biggl[\frac{G_L^2}{H_L+\lambda}+\frac{G_R^2}{H_R+\lambda}-\fr
 把目标函数整理成以下形式，可以看出$$h_i$$有对loss加权的作用:
 
 $$
+\begin{equation}
 Obj^{(t)}\simeq \sum_{i=1}^n\frac{1}{2}h_i(f_t(x_i)-\frac{g_i}{h_i})^2+\Omega(f_t)+const
+\end{equation}
 $$
 
 #### 3.1.5 LightGBM

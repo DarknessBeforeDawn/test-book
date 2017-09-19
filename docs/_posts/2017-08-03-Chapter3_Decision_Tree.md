@@ -7,9 +7,9 @@ share: false
 决策树学习，假设给定训练数据集：
 
 
-$$\begin{equation}
+$$
 D=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}
-\end{equation}$$
+$$
 
 其中$$x_i=(x_i^{(1)},x_i^{(2)},\cdots,x_i^{(n)})^T$$为输入实例，$$n$$为特征个数，$$y\in\{1,2,\cdots,K\}$$为类标记，$$N$$为样本容量。学习目标是根据训练数据构建一个决策树模型，使它能够对实例正确分类。
 
@@ -70,7 +70,9 @@ g_R(D,A)=\frac{g(D,A)}{H_A(D)}
 
 其中$$H_A(D)$$为数据集$$D$$关于特征$$A$$的值的熵,$$n$$是特征$$A$$取值的个数。
 
-$$H_A(D)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\log\frac{|D_i|}{|D|}$$
+$$\begin{equation}
+H_A(D)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\log\frac{|D_i|}{|D|}
+\end{equation}$$
 
 
 ID3算法是计算所有特征的信息增益，每次选择信息增益最大的特征，并对改特征的不同取值构建子节点；再对子节点递归上述操作，来构建决策树。ID3算法生成的树容易产生过拟合。
@@ -184,7 +186,9 @@ $$Gini(D)$$表示集合$$D$$的不确定性，$$Gini(D,A)$$表示经过$$A=a$$�
 
 假设训练集上一个有$$n$$个样例，并对每个样例赋上一个权重$$W_i$$,在训练起初每个点的权重相同；训练过程中提高在上次训练中分类错误的样例的权重，并降低分类正确样例的权重；在全部训练完成后得到$$M$$个模型，对$$M$$个模型的分类结果通过加权投票决定：
 
-$$C(x)=sign\biggl[\sum_m^M\alpha_mC_m(x)\biggr]$$
+$$\begin{equation}
+C(x)=sign\biggl[\sum_m^M\alpha_mC_m(x)\biggr]
+\end{equation}$$
 
 另外还有[AdaBoost](https://darknessbeforedawn.github.io/test-book/Chapter4_AdaBoost/)和[GBDT](https://darknessbeforedawn.github.io/test-book/Chapter5_Gradient_Boosting_Decision_Tree/)等。
 
