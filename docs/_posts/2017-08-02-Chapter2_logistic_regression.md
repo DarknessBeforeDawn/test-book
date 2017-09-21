@@ -137,4 +137,4 @@ $$
 $$\mathbf{\theta}:=\mathbf{\theta}-\frac{\alpha}{m} X^T(g(X\theta)-y) - \frac{\lambda}{m}\theta_{j}$$
 
 
-[logistic回归相关代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/logistic_regression/logistic_regression.md)
+[logistic回归示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/logistic_regression/logistic_regression.ipynb)

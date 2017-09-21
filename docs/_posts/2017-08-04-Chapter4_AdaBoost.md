@@ -414,3 +414,7 @@ Z_m=\sum_{i=1}^Nw_{mi}\exp(-\alpha_my_iG_m(x_i))
 \end{equation}$$
 
 因而二者等价。
+
+[决策树相关示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/decision_tree/decision_tree.ipynb)
+
+[Kaggle房价预测示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/house_price/house_price.ipynb)
