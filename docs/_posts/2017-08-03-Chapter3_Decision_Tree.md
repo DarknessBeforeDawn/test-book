@@ -38,7 +38,7 @@ $$\begin{equation}
 H(Y|X)=\sum_{i=1}^np_iH(Y|X_i),p_i=P(X=x_i),i=1,2,\cdots,n
 \end{equation}$$
 
-## 信息增益
+# 1.信息增益
 
 特征$$A$$对训练数据集$$D$$的信息增益$$g(D,A)$$，定义为集合$$D$$的经验熵$$H(D)$$与特征$$A$$给定条件下$$D$$的经验熵$$H(D$$\|$$A)$$之差，即：
 
@@ -61,7 +61,7 @@ H(D|A)=-\sum_{i=1}^n\frac{|D_i|}{|D|}H(D_i)=-\sum_{i=1}^n\frac{|D_i|}{|D|}\sum_{
 \end{equation}$$
 
 
-## 信息增益比
+# 2.信息增益比
 特征$$A$$对训练数据集$$D$$的信息增益比：
 
 $$\begin{equation}
@@ -80,7 +80,7 @@ ID3算法是计算所有特征的信息增益，每次选择信息增益最大�
 
 C4.5算法是将ID3算法生成树过程中选择特征的方法换为了信息增益比。
 
-## 决策树剪枝
+# 3.决策树剪枝
 
 决策树递归生成算法，易出现过拟合现象，这是由于在学习时过多的考虑如何提高对训练数据的正确分类，从而导致构建的决策树过于复杂，我们可以通过对决策树进行剪枝来简化决策树。
 
@@ -106,9 +106,9 @@ C(T)=\sum_{t=1}^{|T|}N_tH_t(T)=-\sum_{t=1}^{|T|}\sum_{k=1}^KN_{tk}\log\frac{N_{t
 
 剪枝就是当$$\alpha$$确定时，选择损失函数最小的模型，假设一组叶节点回缩到其父节点之前与之后的整体树分别为$$T_B$$和$$T_A$$，其对应的损失函数数值分别为$$C_\alpha(T_B)$$和$$C_\alpha(T_A)$$,如果$$C_\alpha(T_B)\geqslant C_\alpha(T_A)$$，则进行剪枝，即将父节点变为新的叶节点。
 
-## CART算法
+# 4.CART算法
 
-### 1.回归生成树
+## 4.1.回归生成树
 
 首先，选择最优切分变量$$j$$与切分点$$s$$，将每个区域切分成两个子区域
 
@@ -134,9 +134,9 @@ $$\begin{equation}
 f(x) = \sum_{m=1}^M\hat{c}_mI(x\in R_m)
 \end{equation}$$
 
-### 2.分类树生成
+## 4.2.分类树生成
 
-##### 尼基指数
+### 尼基指数
 
 分类问题中，假设有$$K$$个类，样本点属于第$$k$$类的概率为$$p_k$$,则概率分布的尼基指数定义为:
 
@@ -168,7 +168,7 @@ $$Gini(D)$$表示集合$$D$$的不确定性，$$Gini(D,A)$$表示经过$$A=a$$�
 
 对子节点递归做1,2操作直至满足停止条件，生成CART决策树。
 
-## 集成化(Ensemble)
+# 5.集成化(Ensemble)
 
 ### Bagging(bootstrap aggregating)
 首先，从大小为$$N$$的数据集$$D$$中，分别独立进行多次随机抽取$$n$$个数据，并使用每次抽取的数据训练弱分类器$$C_i$$。
@@ -191,4 +191,8 @@ C(x)=sign\biggl[\sum_m^M\alpha_mC_m(x)\biggr]
 \end{equation}$$
 
 另外还有[AdaBoost](https://darknessbeforedawn.github.io/test-book/Chapter4_AdaBoost/)和[GBDT](https://darknessbeforedawn.github.io/test-book/Chapter5_Gradient_Boosting_Decision_Tree/)等。
+
+[决策树相关示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/decision_tree/decision_tree.ipynb)
+
+[Kaggle房价预测示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/house_price/house_price.ipynb)
 

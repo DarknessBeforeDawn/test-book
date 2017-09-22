@@ -4,7 +4,7 @@ layout: post
 share: false
 ---
 
-## 1.算法流程
+# 1.算法流程
 
 设训练数据集$$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\},x_i\in \mathcal{X}\subseteq \mathbf{R}^n,x_i\in \mathcal{Y}=\{-1,+1\}$$
 
@@ -66,7 +66,7 @@ $$\begin{equation}
 G(x)=sign(f(x))=sign\biggl(\sum_{m=1}^M\alpha_mG_m(x)\biggr)
 \end{equation}$$
 
-## 2.示例
+# 2.示例
 给定训练样本：
 
 $$\begin{array}{l|lcr}  n&1&2&3&4&5&6&7&8&9&10\\
@@ -81,7 +81,7 @@ $$
 D_1=(w_{11},w_{12},\cdots,w_{110}),w_{1i}=0.1,i=1,2,\cdots,10
 $$
 
-#### 迭代过程1，$$m=1$$,
+### 迭代过程1，$$m=1$$,
 
 (a)在权值分布为$$D_1$$的训练数据上，阈值$$v$$取2.5时分类误差率最低，基本分类器为：
 
@@ -105,7 +105,7 @@ $$
 
 $$f_1(x)=0.4236G_1(x)$$，分类器$$sign(f_1(x))$$在训练集上有3个误分类点。
 
-#### 迭代过程2，$$m=2$$,
+### 迭代过程2，$$m=2$$,
 
 (a)在权值分布为$$D_2$$的训练数据上，阈值$$v$$取8.5时分类误差率最低，基本分类器为：
 
@@ -125,7 +125,7 @@ $$
 
 $$f_2(x)=0.4236G_1(x)+0.6496G_2(x)$$，分类器$$sign(f_2(x))$$在训练集上有3个误分类点。
 
-#### 迭代过程3，$$m=3$$,
+### 迭代过程3，$$m=3$$,
 
 (a)在权值分布为$$D_3$$的训练数据上，阈值$$v$$取5.5时分类误差率最低，基本分类器为：
 
@@ -149,7 +149,7 @@ $$
 G(x)=sign[f_3(x)]=sign[0.4236G_1(x)+0.6496G_2(x)+0.7514G_3(x)]
 $$
 
-## 3.AdaBoost训练误差分析
+# 3.AdaBoost训练误差分析
 
 AdaBoost误差上界为：
 
@@ -224,10 +224,10 @@ $$
 
 这个结论表明，AdaBoost的训练误差是以指数速率下降的。另外，AdaBoost算法不需要事先知道下界$$\gamma$$，AdaBoost具有自适应性，它能适应弱分类器各自的训练误差率。
 
-## 4.AdaBoost算法另一种解释
+# 4.AdaBoost算法另一种解释
 AdaBoost算法可以看做是模型为加法模型、损失函数为指数函数、学习方法为前向分步算法时的二分类学习方法。
 
-### 4.1.前向分步算法
+## 4.1.前向分步算法
 
 加法模型(additive model)如下：
 
@@ -259,7 +259,7 @@ $$
 
 这就是向前分步算法。
 
-##### 向前分步算法流程
+### 向前分步算法流程
 
 输入：训练数据集$$T=\{(x_1,y_1),(x_2,y_),\cdots,(x_N,y_N)\}$$;损失函数$$L(y,f(x))$$;基函数$$\{b(x;\gamma)\}$$。
 
@@ -298,7 +298,7 @@ $$
 
 前向分步算法将同时求解从$$m=1$$到$$M$$所有参数$$\beta_m,\gamma_m$$的优化问题简化为逐次求解各个$$\beta_m,\gamma_m$$的优化问题。
 
-### 4.2.前向分步算法与AdaBoost
+## 4.2.前向分步算法与AdaBoost
 AdaBoost算法是前向分步加法算法的特例。其模型是由基本分类器组成的加法模型，其损失函数是指数函数。
 
 AdaBoost的基本分类器为$$G_m(x)$$,其系数为$$\alpha_m$$,$$m=1,2,\cdots,M$$,AdaBoost的最终模型即最终的加法模型为：
@@ -415,6 +415,3 @@ Z_m=\sum_{i=1}^Nw_{mi}\exp(-\alpha_my_iG_m(x_i))
 
 因而二者等价。
 
-[决策树相关示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/decision_tree/decision_tree.ipynb)
-
-[Kaggle房价预测示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/house_price/house_price.ipynb)
