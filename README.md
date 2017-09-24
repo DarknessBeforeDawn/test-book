@@ -35,3 +35,22 @@
 17.Xgboost论文 http://cran.fhcrc.org/web/packages/xgboost/vignettes/xgboost.pdf
 
 18.陈天奇的boosting tree的ppt http://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf
+
+最大熵：
+
+19. http://blog.csdn.net/v_july_v/article/details/40508465
+
+20. https://www.zybuluo.com/frank-shaw/note/108124
+
+21. https://en.wikipedia.org/wiki/Entropy_(information_theory)
+
+22.http://blog.sina.com.cn/s/blog_6920072701010gw6.html
+
+23. https://en.wikipedia.org/wiki/Jensen%27s_inequality
+
+24. http://www.cs.cmu.edu/~aberger/pdf/scaling.pdf
+
+25. http://www.ueltschi.org/teaching/chapShannon.pdf
+
+26. http://math.harvard.edu/~ctm/home/text/others/shannon/entropy/entropy.pdf
+
