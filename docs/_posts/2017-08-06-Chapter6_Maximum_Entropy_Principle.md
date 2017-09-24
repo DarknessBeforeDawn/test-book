@@ -270,7 +270,7 @@ $$
 \end{equation}
 $$
 
-其中参数$$p$$表示$$p(y|x)$$,$$\overrightarrow{\lambda}$$表示$$\lambda$$的向量形式，即：
+其中参数$$p$$表示$$p(y$$\|$$x)$$,$$\overrightarrow{\lambda}$$表示$$\lambda$$的向量形式，即：
 
 $$L=\sum_{x,y}\tilde{p}(x)p(y|x)\log\frac{1}{p(y|x)}+\sum_{i=1}^n\lambda_i\sum_{x,y}f_i(x,y)\biggl(\tilde{p}(x)p(y|x)-\tilde{p}(x,y)\biggr)+\lambda_0\biggl(\sum_yp(y|x)-1\biggr)$$
 
@@ -287,7 +287,7 @@ $$
 
 $$p^*(y|x)=\exp\biggl(\sum_{i=1}^n\lambda_if_i(x,y)+\lambda_0-1\biggr)=\frac{\exp\biggl(\sum\limits_{i=1}^n\lambda_if_i(x,y)\biggr)}{\exp(1-\lambda_0)}$$
 
-由于$$\sum_yp(y|x)=1$$，得
+由于$$\sum_yp(y$$\|$$x)=1$$，得
 
 $$
 \begin{equation}
