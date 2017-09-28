@@ -345,9 +345,9 @@ $$
 \end{equation}
 $$
 
-接下来，便是要证使得上式达到最小的 $\alpha_m^*$ 和 $G_m^*(x)$ 就是 $Adaboost$ 算法所求解得到的 $\alpha_m$ 和 $G_m(x)$ .
+接下来,便是要证使得上式达到最小的$$\alpha_m^*$$和$$G_m^*(x)$$就是Adaboost算法所求解得到的 $\alpha_m$ 和 $G_m(x)$ .
 
-接下来先求 $G_m^*(x)$ 再求 $\alpha_m^*$ ,对任意 $\alpha>0$ ,使上式 $(\alpha_m,G_m(x))$ 最小的 $G(x)$ 由下式得到：
+接下来先求$$G_m^*(x)$$再求$$\alpha_m^*$$,对任意 $\alpha>0$ ,使上式 $(\alpha_m,G_m(x))$ 最小的 $G(x)$ 由下式得到：
 
 $$
 \begin{equation}
