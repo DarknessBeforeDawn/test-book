@@ -14,13 +14,13 @@ p(x|\mathbf{\theta})=\sum_{k=1}^K\pi_kp(x|\theta_k)
 \end{equation}
 $$
 
-其中~$\pi_k>0$~为混合系数,~$\sum\limits_{k=1}^K\pi_k=1$~,~$\mathbf{\theta}=(\theta_1,\cdots,\theta_K)^T$~,~$\theta_k=(\pi_k,\mu_k,\sigma_k^2)$~，多元变量~$\theta_k=(\pi_k,\sum_k)$~,~$\sum_k$~为第~$k$~个高斯混合成分的参数。
+其中 $\pi_k>0$ 为混合系数, $\sum\limits_{k=1}^K\pi_k=1$ , $\mathbf{\theta}=(\theta_1,\cdots,\theta_K)^T$ , $\theta_k=(\pi_k,\mu_k,\sigma_k^2)$ ，多元变量 $\theta_k=(\pi_k,\sum_k)$ , $\sum_k$ 为第 $k$ 个高斯混合成分的参数。
 
 $$
 p(X|\theta_k)=\frac{1}{\sqrt{z\pi}\sigma_k}\exp\biggl(-\frac{(\mathbf{x}-\mu)^2}{z\sigma_k^2}\biggr)
 $$
 
-假设观测数据~$x_1,x_2,\cdots,x_n \in \mathbf{R}$~由~$K$~个组分的高斯混合模型生成。
+假设观测数据 $x_1,x_2,\cdots,x_n \in \mathbf{R}$ 由 $K$ 个组分的高斯混合模型生成。
 
 高斯混合分布的对数最大化似然函数为:
 
