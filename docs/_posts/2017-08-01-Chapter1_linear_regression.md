@@ -4,7 +4,7 @@ layout: post
 share: false
 ---
 
-线性回归最简单的形式: $D=\{(x_i, y_i)\}_{i=1}^m,x_i \in\mathbb{R}$  ,线性回归试图学得合适的 $w$ 和 $b$ ,使得
+线性回归最简单的形式:$$D=\{(x_i, y_i)\}_{i=1}^m,x_i \in\mathbb{R}$$,线性回归试图学得合适的 $w$ 和 $b$ ,使得
 
 $$
 \begin{equation}
@@ -52,7 +52,7 @@ $$
 \end{equation}
 $$
 
-其中 $\overline{x}=\frac{1}{m}\sum_{i=1}^mx_i$ .
+其中 $\overline{x}=\frac{1}{m}\sum\limits_{i=1}^mx_i$ .
 
 对于多参数情形：
 

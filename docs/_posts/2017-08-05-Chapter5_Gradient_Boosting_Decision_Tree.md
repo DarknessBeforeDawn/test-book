@@ -33,7 +33,7 @@ $$\begin{equation}
 
 对于二分类问题，提升树算法只需将AdaBoost算法中的基本分类器限定为二分类树即可 。这里不再讨论，下边主要讨论回归问题的提升树。
 
-已知训练集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$ , $x_i\in \mathcal{X}\subseteq \mathbf{R}^n$ , $\mathcal{X}$ 为输入空间， $y\in \mathcal{Y}\subseteq \mathbf{R}$ , $\mathcal{Y}$ 为输出空间。将输入空间 $\mathcal{X}$ 划分为 $J$ 个互不相交的区域 $R_1,R_2,\cdots,R_J$ ，并且每个区域上确定输出的常量 $c_j$ ,那么树可表示为
+已知训练集$$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$$, $x_i\in \mathcal{X}\subseteq \mathbf{R}^n$ , $\mathcal{X}$ 为输入空间， $y\in \mathcal{Y}\subseteq \mathbf{R}$ , $\mathcal{Y}$ 为输出空间。将输入空间 $\mathcal{X}$ 划分为 $J$ 个互不相交的区域 $R_1,R_2,\cdots,R_J$ ，并且每个区域上确定输出的常量 $c_j$ ,那么树可表示为
 
 $$\begin{equation}
 T(x;\Theta)=\sum_{j=1}^Jc_jI(x\in R_j)
@@ -71,7 +71,7 @@ $$
 #### 只看算法本身很难理解为什么直接拟合残差就可以，引用别人博客的例子来加强理解：每一棵树学的是之前所有树结论和的残差，这个残差就是一个加预测值后能得真实值的累加量。比如A的真实年龄是18岁，但第一棵树的预测年龄是12岁，差了6岁，即残差为6岁。那么在第二棵树里我们把A的年龄设为6岁去学习，如果第二棵树真的能把A分到6岁的叶子节点，那累加两棵树的结论就是A的真实年龄；如果第二棵树的结论是5岁，则A仍然存在1岁的残差，第三棵树里A的年龄就变成1岁，继续学。
 
 ## 1.2提升树算法流程
-输入：训练数据 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$ , $x_i\in \mathcal{X}\subseteq \mathbf{R}^n$ , $y\in \mathcal{Y}\subseteq \mathbf{R}$ ;
+输入：训练数据$$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$$, $x_i\in \mathcal{X}\subseteq \mathbf{R}^n$ , $y\in \mathcal{Y}\subseteq \mathbf{R}$ ;
 
 输出：提升树 $f_M(x)$ .
 
@@ -102,13 +102,13 @@ $$
 m(s)=min_{j,s}\biggl [min_{c_1}\sum_{x_i\in R_1(j,s)} (y_i-c_1)^2+min_{c_2}\sum_{x_i\in R_2(j,s)} (y_i-c_2)^2 \biggr]
 $$
 
-当 $s=1.5$ 时， $R_1=\{1\},R_1=\{2,3,\cdots,10\},c_1=5.56,c_2=7.50,m(s)=0+15.72=15.72$ 
+当 $s=1.5$ 时，$$R_1=\{1\},R_1=\{2,3,\cdots,10\},c_1=5.56,c_2=7.50,m(s)=0+15.72=15.72$$
 
  $s$ 及 $m(s)$ 的计算结果如下表：
 
 $$\begin{array}{l|lcr} s&1.5&2.5&3.5&4.5&5.5&6.5&7.5&8.5&9.5\\ \hline m(s) &15.72&12.07&8.36&5.78&3.91&1.93&8.01&11.73&15.74 \\  \end{array}$$
 
-由上表可知，当 $x=6.5$ 的时候达到最小值，此时 $R_1=\{1,2,\cdots,6\}$ , $R_1=\{7,8,9,10\}$ , $c_1=6.24$ , $c_2=8.9$ ,所以回归树 $T_1(x)$ 为：
+由上表可知，当 $x=6.5$ 的时候达到最小值，此时$$R_1=\{1,2,\cdots,6\}$$,$$R_1=\{7,8,9,10\}$$, $c_1=6.24$ , $c_2=8.9$ ,所以回归树 $T_1(x)$ 为：
 
 $$
 T_1(x)=\begin{cases}6.24,&x<6.5\\8.91,&x \geq  6.5\end{cases}
@@ -186,7 +186,7 @@ $$
 
 ### 梯度提升树算法流程
 
-输入：训练数据 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$ , $x_i\in \mathcal{X}\subseteq \mathbf{R}^n$ , $y\in \mathcal{Y}\subseteq \mathbf{R}$ ;损失函数 $L(y,f(x))$ 
+输入：训练数据$$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$$, $x_i\in \mathcal{X}\subseteq \mathbf{R}^n$ , $y\in \mathcal{Y}\subseteq \mathbf{R}$ ;损失函数 $L(y,f(x))$ 
 
 输出：回归树 $\hat{f}(x)$ .
 
@@ -221,7 +221,7 @@ xgboost(eXtreme Gradient Boosting)是提升树模型，它与决策树是息息�
 
 ## 3.1 原理
 ### 3.1.1 树的复杂度
-对数据集 $D=\{(x_i,y_i)\},(\|D\|=n,x_i\in \mathbb{R}^m,y_i\in \mathbb{R}),$ 假设有 $K$ 棵树，则模型为：
+对数据集$$D=\{(x_i,y_i)\},(\|D\|=n,x_i\in \mathbb{R}^m,y_i\in \mathbb{R}),$$假设有 $K$ 棵树，则模型为：
 
 $$
 \begin{equation}
@@ -264,7 +264,7 @@ Obj^{(t)}=\sum_{i=1}^nl(y_i,\hat{y}_i^{(t-1)}+f_t(x_i))+\Omega(f_t)+const
 
 泰勒展开: $f(x+\Delta x) \simeq f(x)+f'(x)\Delta x +f''(x)\Delta x$ 
 
-并定义: $ g_i=\partial_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)}),h_i=\partial^2_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)}) $ .
+并定义:$$g_i=\partial_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)}),h_i=\partial^2_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)})$$.
 
 对目标函数使用泰勒展开并简化：
 
@@ -274,6 +274,7 @@ Obj^{(t)}\simeq \sum_{i=1}^n\biggl[l(y_i,\hat{y}_i^{(t-1)})+g_if_t(x_i)+\frac{1}
 \end{equation}$$
 
 最终的目标函数只依赖于每个数据点的在误差函数上的一阶导数和二阶导数。去除常数项，并定义了分裂候选集合$$I_j=\{i|q(x_i)=j\}$$，可以进一步改目标函数.
+
 $$
 \begin{align*}
 Obj^{(t)}&\simeq \sum_{i=1}^n\biggl[g_if_t(x_i)+\frac{1}{2}h_if_t^2(x_i)\biggr]+\Omega(f_t)\\

@@ -4,7 +4,7 @@ layout: post
 share: false
 ---
 
-对于二分类问题，假设 $y\in \{0,1\}$ ,而线性回归预测值 $z=\theta^Tx$ 是一个实值，对于这个问题，我们引入sigmoid函数: $y=\frac{1}{1+e^{-z}}$ ，sigmoid函数可以将 $z$ 值转化为0到1之间的一个值,sigmoid函数特性 $y'=y(1-y)$ 。即预测函数
+对于二分类问题，假设$$y\in \{0,1\}$$,而线性回归预测值 $z=\theta^Tx$ 是一个实值，对于这个问题，我们引入sigmoid函数: $y=\frac{1}{1+e^{-z}}$ ，sigmoid函数可以将 $z$ 值转化为0到1之间的一个值,sigmoid函数特性 $y'=y(1-y)$ 。即预测函数
 
 
 $$
