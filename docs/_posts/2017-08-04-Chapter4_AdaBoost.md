@@ -337,7 +337,7 @@ $$
 \end{equation}
 $$
 
-假定 $G_1(x),\cdots,G_{m-1}(x)$ 和 $\alpha_1,\cdots,\alpha_{m-1}(x)$ 为已知参数，现在求解 $G_m(x),\alpha_m$ ,并令 $\overline{w}_{mi}=\exp[-y_i(f_{m-1}(x_i)],\overline{w}_{mi}$ 与 $\alpha,G$ 都无关，所以与最小化无关， $\overline{w}_{mi}$ 只依赖于与 $f_{m-1}(x)$ ,并随着每一轮迭代而发生改变，于是上式可以表示为
+假定 $G_1(x),\cdots,G_{m-1}(x)$ 和 $\alpha_1,\cdots,\alpha_{m-1}(x)$ 为已知参数，现在求解 $G_m(x),\alpha_m$ ,并令 $ \overline{w}_{mi}=\exp[-y_i(f_{m-1}(x_i)],\overline{w}_{mi} $ 与 $\alpha,G$ 都无关，所以与最小化无关， $ \overline{w}_{mi} $ 只依赖于与 $f_{m-1}(x)$ ,并随着每一轮迭代而发生改变，于是上式可以表示为
 
 $$
 \begin{equation}
@@ -345,9 +345,9 @@ $$
 \end{equation}
 $$
 
-接下来，便是要证使得上式达到最小的 $\alpha_m^*$ 和 $G_m^*(x)$ 就是 $Adaboost$ 算法所求解得到的 $\alpha_m$ 和 $G_m(x)$ .
+接下来，便是要证使得上式达到最小的 $ \alpha_m^* $ 和 $ G_m^*(x) $ 就是 $Adaboost$ 算法所求解得到的 $\alpha_m$ 和 $G_m(x)$ .
 
-接下来先求 $G_m^*(x)$ 再求 $\alpha_m^*$ ,对任意 $\alpha>0$ ,使上式 $(\alpha_m,G_m(x))$ 最小的 $G(x)$ 由下式得到：
+接下来先求 $ G_m^*(x) $ 再求 $ \alpha_m^* $ ,对任意 $ \alpha>0 $ ,使上式 $ (\alpha_m,G_m(x)) $ 最小的 $ G(x) $ 由下式得到：
 
 $$
 \begin{equation}
@@ -355,7 +355,7 @@ G_m^*(x)=\arg\min_G\sum_{i=1}^N\overline{w}_{mi}I(y_i\neq G(x_i))
 \end{equation}
 $$
 
-其中 $\overline{w}_{mi}=\exp[-y_i(f_{m-1}(x_i)]$ . $AdaBoost$ 算法中的误差率 $e_m$ 为：
+其中 $ \overline{w}_{mi}=\exp[-y_i(f_{m-1}(x_i)] $ . $AdaBoost$ 算法中的误差率 $e_m$ 为：
 
 $$\begin{equation}
 e_m(x)=P(G_m(x_i)\neq y_i)=\sum_{i=1}^Nw_{mi}I(G_m(x_i)\neq y_i)
@@ -395,13 +395,13 @@ $$\begin{equation}
 
 这里的 $\alpha_m^*$ 与 $AdaBoost$ 算法的 $\alpha_m$ 完全一致。
 
-最后看每一轮样本的权值更新，由 $f_m(x)=f_{m-1}(x)+\alpha_mG_m(x)$ 以及 $\overline{w}_{mi}=\exp[-y_i(f_{m-1}(x_i)]$ 可得：
+最后看每一轮样本的权值更新，由 $ f_m(x)=f_{m-1}(x)+\alpha_mG_m(x) $ 以及 $ \overline{w}_{mi}=\exp[-y_i(f_{m-1}(x_i)] $ 可得：
 
 $$\begin{equation}
 \overline{w}_{m+1,i}=\exp[-y_i(f_m(x_i)]=\exp[-y_i(f_{m-1}(x)+\alpha_mG_m(x))]=\exp(-y_if_{m-1}(x))\exp(-y_i\alpha_mG_m(x))
 \end{equation}$$
 
-可得， $\overline{w}_{m+1,i}=\overline{w}_{m,i}\exp(-y_i\alpha_mG_m(x))$ ，这与 $AdaBoost$ 算法中 $w_{m+1,i}$ 
+可得， $ \overline{w}_{m+1,i}=\overline{w}_{m,i}\exp(-y_i\alpha_mG_m(x)) $ ，这与 $AdaBoost$ 算法中 $ w_{m+1,i} $ 
 
 $$\begin{equation}
 w_{m+1,i}=\frac{w_{mi}}{Z_m}\exp(-\alpha_my_iG_m(x_i)),i=1,2,\cdots,N

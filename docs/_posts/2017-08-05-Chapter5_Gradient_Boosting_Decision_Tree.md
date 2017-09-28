@@ -264,7 +264,7 @@ Obj^{(t)}=\sum_{i=1}^nl(y_i,\hat{y}_i^{(t-1)}+f_t(x_i))+\Omega(f_t)+const
 
 泰勒展开: $f(x+\Delta x) \simeq f(x)+f'(x)\Delta x +f''(x)\Delta x$ 
 
-并定义: $g_i=\partial_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)})$ , $h_i=\partial^2_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)})$ .
+并定义: $ g_i=\partial_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)}),h_i=\partial^2_{\hat{y}_i^{(t-1)}}l(y_i,\hat{y}_i^{(t-1)}) $ .
 
 对目标函数使用泰勒展开并简化：
 
