@@ -18,7 +18,7 @@ $$
 其中 $\pi_k>0$ 为混合系数, $\sum\limits_{k=1}^K\pi_k=1$ , $\mathbf{\theta}=(\theta_1,\cdots,\theta_K)^T$ , $\theta_k=(\pi_k,\mu_k,\sigma_k^2)$ ，多元变量 $\theta_k=(\pi_k,\sum_k)$ , $\sum_k$ 为第 $k$ 个高斯混合成分的参数。
 
 $$
-p(X|\theta_k)=\frac{1}{\sqrt{z\pi}\sigma_k}\exp\biggl(-\frac{(\mathbf{x}-\mu)^2}{z\sigma_k^2}\biggr)
+p(X|\theta_k)=\frac{1}{\sqrt{2\pi}\sigma_k}\exp\biggl(-\frac{(\mathbf{x}-\mu)^2}{2\sigma_k^2}\biggr)
 $$
 
 假设观测数据 $x_1,x_2,\cdots,x_n \in \mathbf{R}$ 由 $K$ 个组分的高斯混合模型生成。
@@ -107,14 +107,14 @@ $$
 Jensen &\geqslant \sum_i E(\ln\frac{p(x_i,z^{(i)}|\mathbf{\theta})}{Q_i(z^{(i)})})=\sum_i\sum_{z^{(i)}}Q_i(z^{(i)})\ln\frac{p(x_i,z^{(i)}|\mathbf{\theta})}{Q_i(z^{(i)})}\\
 &=\sum_i\sum_{z^{(i)}}p(z^{(i)}|x_i,\theta^{(t)})\ln\frac{p(x_i,z^{(i)}|\mathbf{\theta})}{p(z^{(i)}|x_i,\theta^{(t)})}\\
 &=\sum_i\sum_{z^{(i)}}p(z^{(i)}|x_i,\theta^{(t)})\ln p(x_i,z^{(i)}|\mathbf{\theta}) +\biggl(-\sum_i\sum_{z^{(i)}}p(z^{(i)}|x_i,\theta^{(t)})\ln p(z^{(i)}|x_i,\theta^{(t)})\biggr)\\
-&=\sum_{z}P(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta}) +\biggl(-\sum_{z}P(z|X,\theta^{(t)})\ln P(z|X,\theta^{(t)})\biggr)
+&=\sum_{z}p(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta}) +\biggl(-\sum_{z}p(z|X,\theta^{(t)})\ln P(z|X,\theta^{(t)})\biggr)
 \end{align*}
 $$
 
 上式中第二项与 $\theta$ 无关为常数项（熵），令：
 
 $$
-Q(\theta|\theta^{(t)}) = \sum_{z}P(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta})=E_z(\ln P(X,z|\mathbf{\theta})|X,\theta^{(t)})
+Q(\theta|\theta^{(t)}) = \sum_{z}p(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta})=E_z(\ln P(X,z|\mathbf{\theta})|X,\theta^{(t)})
 $$
 
 可得最大化似然函数等同于：
@@ -131,7 +131,7 @@ $$
 (2)E步（求期望）:
 
 $$
-Q(\theta|\theta^{(t)}) = \sum_{z}P(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta})=E_z(\ln P(X,z|\mathbf{\theta})|X,\theta^{(t)})
+Q(\theta|\theta^{(t)}) = \sum_{z}p(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta})=E_z(\ln P(X,z|\mathbf{\theta})|X,\theta^{(t)})
 $$
 
 (3)M步：最大化第二步的期望值，然后对参数求偏导等于0后求得下一步迭代的参数:
@@ -146,5 +146,128 @@ $$\|\theta^{(t+1)}-\theta^{(t)}\|>\varepsilon_1~~~~or~~~~\|Q(\theta^{(t+1)}|\the
 
 停止迭代，返回 $\theta^*=\theta^{(t+1)}$ .
 
+EM算法是利用下边界逼近真实值，如下图：
 
 
+![](https://darknessbeforedawn.github.io/test-book/images/EM3.png)
+
+$$
+\mathcal{l}(\mathbf{\theta}|X)\geqslant \sum_{z}p(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta}) +\biggl(-\sum_{z}p(z|X,\theta^{(t)})\ln P(z|X,\theta^{(t)})\biggr)\triangleq g(\theta|\theta^{(t)})
+$$
+
+# 3.EM算法收敛性
+
+观测数据的似然函数:
+
+$$
+P(X|\theta)=\frac{P(X,Z|\theta)}{P(Z|X,\theta)}
+$$
+
+$$
+Q(\theta|\theta^{(i)}) = \sum_{Z}P(Z|X,\theta^{(i)})\ln P(X,Z|\mathbf{\theta})
+$$
+
+令
+
+$$
+H(\theta|\theta^{(i)}) = \sum_{Z}P(Z|X,\theta^{(i)})\ln P(Z|X,\mathbf{\theta})
+$$
+
+则对数似然函数可以写成：
+
+$$
+\ln P(X|\theta) =Q(\theta|\theta^{(i)})-H(\theta|\theta^{(i)})
+$$
+
+$$
+\ln P(X|\theta^{(i+1)})-\ln P(X|\theta^{(i)})=[Q(\theta|\theta^{(i+1)})-Q(\theta|\theta^{(i)})]-[H(\theta|\theta^{(i+1)})-H(\theta|\theta^{(i)})]
+$$
+
+由于 $\theta^{(i+1)}$ 使 $Q(\theta|\theta^{(i)})$ 达到极大，所以有
+
+$$
+Q(\theta|\theta^{(i+1)})-Q(\theta|\theta^{(i)}) \geqslant 0
+$$
+
+第二项：
+
+$$
+\begin{align*}
+H(\theta|\theta^{(i+1)})-H(\theta|\theta^{(i)})&=\sum_Z\biggl(\ln\frac{P(Z|X,\theta^{(i+1)})}{P(Z|X,\theta^{(i)})}\biggr)P(Z|X,\theta^{(i)})\\
+&\leqslant \ln\sum_Z\biggl(\frac{P(Z|X,\theta^{(i+1)})}{P(Z|X,\theta^{(i)})}P(Z|X,\theta^{(i)})\biggr)\\
+&=\ln\sum_Z\biggl(P(Z|X,\theta^{(i+1)})\biggr)=0
+\end{align*}
+$$
+
+因此 $P(X$ \| $\theta)$ 是单调递增的，且有上界，因此收敛。
+
+# 4.EM算法在高斯混合模型中的应用
+
+高斯混合模型在第一节中已经提过，下面以单变量为例。
+
+#### 明确隐变量，写出完整的对数似然函数
+
+$$
+\gamma_{ik}=\begin{cases} 1 & x_i\in k \\ 0 &else\end{cases}
+~~~~i=1,\cdots,n;k=1,\cdots,K
+$$
+
+完整数据可表示为 $(x_i,\gamma_{i1},\cdots,\gamma_{iK})$
+
+完整数据的似然函数可表示为：
+
+$$
+\begin{align*}
+P(X,\gamma|\theta)&=\prod_{i=1}^nP(x_i,\gamma_{i1},\cdots,\gamma_{iK}|\theta)=\prod_{i=1}^n\prod_{k=1}^K(\pi_kp(x_i|\theta_k))^{\gamma_{ik}}\\
+&=\prod_{k=1}^K(\pi_k)^{n_k}\prod_{i=1}^n\biggl(\frac{1}{\sqrt{2\pi}\sigma_k}\exp\biggl(-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\biggr)\biggr)^{\gamma_{ik}}\\
+\ln P(X,\gamma|\theta)&=\sum_{k=1}^Kn_k\ln \pi_k+\sum_{i=1}^n\gamma_{ik}\biggl(\ln\frac{1}{\sqrt{2\pi}}-\frac{1}{2}\sigma_k^2-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\biggr),n_k=\sum_{i=1}^n\gamma_{ik},\sum_{k=1}^Kn_k=n
+\end{align*}
+$$
+
+E-步
+
+$$
+\begin{align*}
+Q(\theta|\theta^{(t)})&=\sum_{\gamma_{ik}}p(\gamma_{ik}|X,\theta^{(t)})\ln P(X,\gamma|\theta)\\
+&=E_{\gamma_{ik}}\biggl(\sum_{k=1}^Kn_k\ln \pi_k+\sum_{i=1}^n\gamma_{ik}\biggl(\ln\frac{1}{\sqrt{2\pi}}-\frac{1}{2}\sigma_k^2-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\biggr)\biggr)\\
+&=\biggl(\sum_{k=1}^K\sum_{i=1}^nE(\gamma_{ik})\ln \pi_k+\sum_{i=1}^nE(\gamma_{ik})\biggl(\ln\frac{1}{\sqrt{2\pi}}-\frac{1}{2}\sigma_k^2-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\biggr)\biggr)\\
+&=\biggl(\sum_{k=1}^K\hat{n}_k\ln \pi_k+\sum_{i=1}^n\hat{\gamma}_{ik}\biggl(\ln\frac{1}{\sqrt{2\pi}}-\frac{1}{2}\sigma_k^2-\frac{(x_i-\mu_k)^2}{2\sigma_k^2}\biggr)\biggr)\\
+\end{align*}
+$$
+
+M-步
+
+$$
+\theta^{(t+1)}=\arg\max_theta Q(\theta|\theta^{(t)})
+$$
+
+$$
+\frac{\partial Q(\theta|\theta^{(t)})}{\partial \mu_k}=0\Rightarrow \mu_k^{(t+1)}=\frac{\sum\limits_{i=1}^n\gamma_{ik}x_i}{\sum\limits_{i=1}^n\gamma_{ik}}
+$$
+
+$$
+\frac{\partial Q(\theta|\theta^{(t)})}{\partial \sigma_k^2}=0\Rightarrow (\sigma_k^2)^{(t+1)}=\frac{\sum\limits_{i=1}^n\gamma_{ik}(x_i-\mu_k)^2}{\sum\limits_{i=1}^n\gamma_{ik}}
+$$
+
+$$
+\pi_k^{(t+1)}=\arg\max_{\pi_k}\biggl(Q(\theta|\theta^{(t)})+\lambda \biggl(\sum\limits_{k=1}^K\pi_k-1\biggr)\biggr)
+$$
+
+$$
+\frac{\partial \biggl(Q(\theta|\theta^{(t)})+\lambda \biggl(\sum\limits_{k=1}^K\pi_k-1\biggr)\biggr)}{\partial \pi_k}=0\Rightarrow \pi_k^{(t+1)}=\frac{\sum\limits_{i=1}^n\pi_{ik}}{n}
+$$
+
+#### 多元高斯混合模型
+与单元求解类似（注意向量和矩阵求导的细节即可）
+
+$$
+\mathbf{\mu}_k^{(t+1)}=\frac{\sum\limits_{i=1}^n\gamma_{ik}\mathbf{x}_i}{\sum\limits_{i=1}^n\gamma_{ik}}
+$$
+
+$$
+\Sigma_k^{(t+1)}=\frac{\sum\limits_{i=1}^n\gamma_{ik}(\mathbf{x}_i-\mathbf{\mu}_k)(\mathbf{x}_i-\mathbf{\mu}_k)^T}{\sum\limits_{i=1}^n\gamma_{ik}}
+$$
+
+$$
+\pi_k^{(t+1)}=\frac{\sum\limits_{i=1}^n\pi_{ik}}{n}
+$$
