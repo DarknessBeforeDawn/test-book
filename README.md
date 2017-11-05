@@ -66,3 +66,22 @@ EM:
 
 29. https://www.zhihu.com/question/27976634
 
+KKT与对偶问题
+
+30. http://blog.pluskid.org/?p=702
+
+31. http://www.cnblogs.com/ooon/p/5723725.html
+
+32. http://www.cnblogs.com/ooon/p/5721119.html
+
+Hibert Space
+
+33. http://www.cnblogs.com/ben-ben/articles/3391781.html
+
+34. http://blog.csdn.net/y954877035/article/details/52150151
+
+35. http://blog.sina.com.cn/s/blog_6163bdeb0102edrl.html
+
+SVM
+
+36. http://blog.csdn.net/v_july_v/article/details/7624837
