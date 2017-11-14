@@ -310,13 +310,45 @@ $$x=x_0+\gamma \frac{w}{\|w\|}$$
 
 $x=x_0+\gamma \frac{w}{\|w\|}$ 两边同时乘以 $w^T$ , 再有 $w^Tw = \|w\|^2$ ,可得：
 
-$$\gamma = \frac{w^T+b}{\|w\|} = \frac{f(x)}{\|w\|}$$
+$$\gamma = \frac{w^Tx+b}{\|w\|} = \frac{f(x)}{\|w\|}$$
 
-为了得到 $\gamma$ 的绝对值，令 $\gamma$ 乘上对应的类别 $y$，即可得出几何间隔（用 $\tilde{\gamma}$ 表示）的定义：
+为了得到 $\gamma$ 的绝对值，令 $\gamma$ 乘上对应的类别 $y$ ,并取最小值，即可得出几何间隔（用 $\tilde{\gamma}$ 表示）的定义：
 
 
-$$\tilde{\gamma} = y\gamma =\frac{\hat\gamma}{\|w\|}$$
+$$\tilde{\gamma} = \min y\gamma =\frac{\hat\gamma}{\|w\|}$$
 
 几何间隔就是函数间隔除以 $\|w\|$ ，而且函数间隔 $y(w^Tx+b) = yf(x)$ 实际上就是$$|f(x)|$$，只是人为定义的一个间隔度量，而几何间隔$$\frac{|f(x)|}{\|w\|}$$才是直观上的点到超平面的距离。
 
-### 2.1.2 间隔最大化
+### 2.1.2 硬间隔最大化
+
+ 对一个数据点进行分类，当超平面离数据点的“间隔”越大，分类的确信度（confidence）也越大。所以，为了使得分类的确信度尽量高，需要让所选择的超平面能够最大化这个“间隔”值。通过由前面的分析可知：函数间隔不适合用来最大化间隔值，因为在超平面固定以后，可以等比例地缩放 $w$ 的长度和 $b$ 的值,可以使函数间隔的值任意大；而几何间隔的大小不会随着 $w$ 和 $b$ 的缩放而改变。因此，最大间隔分类超平面中的“间隔”指的是几何间隔。
+
+于是最大间隔分类器（maximum margin classifier）的目标函数可以定义为：
+
+$$\max_{w,b}\tilde\gamma$$
+
+同时需满足一些条件，根据间隔的定义，有
+
+$$y_i\gamma_i=y_i\frac{w^Tx_i+b}{\|w\|}=\frac{\hat\gamma_i}{\|w\|}\geq\frac{\hat\gamma}{\|w\|}=\tilde\gamma~~~\Longrightarrow ~~~y_i(w^Tx_i+b)\geq \hat\gamma, i=1,2,\cdots,n$$
+
+于是这个问题可以改写为：
+
+$$\begin{aligned}  
+&\max_{w,b} \  \frac{\hat\gamma}{\|w\|}  \\  
+&s.t.  \ \ \ y_i(w^Tx_i+b)\geq \hat\gamma, i=1,2,\cdots,n
+\end{aligned}$$
+
+函数间隔 $\hat\gamma$ 的取值是点到超平面的最小间隔，并不影响最优化问题的解， 我们固定 $\hat\gamma$ 的值也只会将 $w,b$ 成比例缩放并不会改变超平面，因此我们可以令 $\hat\gamma=1$ ，并且最大化 $\frac{1}{\|w\|}$ 等价于最小化 $\frac{1}{2}\|w\|^2$ ,于是线性可分支持向量机学习的最优化问题可以写为：
+
+$$\begin{aligned}  
+&\min_{w,b} \  \frac{1}{2} \|w\|^2 \\  
+&s.t.  \ \ \ y_i(w^Tx_i+b)-1\geq 0, i=1,2,\cdots,n
+\end{aligned}$$
+
+
+(1)分离超平面的存在性
+
+由于训练数据集线性可分，上述优化问题一定存在可行解。又由于目标函数有下界，并且数据集中既有正类又有负类，因而最优解 $(w^*,b^*)$ 必满足 $w^*\neq 0$ .由此得知分离超平面的存在性。
+
+(2)超平面的唯一性
+
