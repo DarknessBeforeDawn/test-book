@@ -425,3 +425,136 @@ L(w,b,\xi,\alpha,\mu)\equiv \frac{1}{2}\|w\|^2+C\sum_{i=1}^N\xi_i-\sum_{i=1}^N\a
 
 其中， $\alpha_i\geq 0,\mu_i\geq 0$ ,在线性可分支持向量机可以认为 $\xi_i=0$.
 
+则线性不可分支持向量机最优化原问题等价于如下无约束问题:
+
+
+$$
+\min_{w,b,\xi} \max_{\alpha,\mu}L(w,b,\xi,\alpha,\mu)
+$$
+
+其对偶问题为:
+
+$$\max_{\alpha,\mu}\min_{w,b,\xi} L(w,b,\xi,\alpha,\mu)$$
+
+首先求 $L(w,b,\xi,\alpha,\mu)$ 对 $w,b,\xi$ 的极小，由
+
+$$
+\begin{aligned}  
+\nabla_w L(w,b,\xi,\alpha,\mu) &= w- \sum_{i=1}^N\alpha_iy_ix_i=0\\ 
+\nabla_b L(w,b,\xi,\alpha,\mu) &=  -\sum_{i=1}^N\alpha_iy_i=0\\ 
+\nabla_{\xi_i} L(w,b,\xi,\alpha,\mu) &=  C-\alpha_i-\mu_i =0
+\end{aligned}
+$$
+
+得
+
+$$\begin{equation}
+w=\sum_{i=1}^N\alpha_iy_ix_i
+\end{equation}$$
+
+$$\begin{equation}
+\sum_{i=1}^N\alpha_iy_i=0
+\end{equation}$$
+
+$$\begin{equation}
+C-\alpha_i-\mu_i =0
+\end{equation}$$
+
+将上述结果代入拉格朗日函数得：
+
+$$\min_{w,b,\xi} L(w,b,\xi,\alpha,\mu)=\sum_{i=1}^N\alpha_i-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i^Tx_j)$$
+
+再对 $\min\limits_{w,b,\xi} L(w,b,\xi,\alpha,\mu)$ 求 $\alpha$ 的极大(上式中已不包含 $\mu$ ),即得对偶问题:
+
+$$\begin{aligned}  
+&\max_\alpha \  \sum_{i=1}^N\alpha_i-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i^Tx_j)\\  
+&s.t.  \ \ \ \sum_{i=1}^N\alpha_iy_i=0 \\
+& \ \ \ \ \ \ \ \ \ C-\alpha_i-\mu_i =0\\
+& \ \ \ \ \ \ \ \ \ \alpha_i\geq 0\\
+& \ \ \ \ \ \ \ \ \ \mu_i\geq 0 , i=1,2,\cdots,N
+\end{aligned}$$
+
+上式可转化为:
+
+$$\begin{aligned}  
+&\min_\alpha \  \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i^Tx_j)-\sum_{i=1}^N\alpha_i\\  
+&s.t.  \ \ \ \sum_{i=1}^N\alpha_iy_i=0 \\
+& \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
+\end{aligned}$$
+
+可以通过求解上述对偶问题的解，进而确定分离超平面。即，设 $\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$ 为上述对偶问题的一个解，若存在一个 $\alpha_j^*$ 使得 $0<\alpha_j^*<C$ ，则原始问题的解 $w^*,b^*$ 为:
+
+$$w^*=\sum_{i=1}^N\alpha_i^*y_ix_i$$
+
+$$b^* = y_j-\sum_{i=1}^N\alpha_i^*y_i(x_i^Tx_j)$$
+
+### 2.2.3 支持向量
+
+在线性不可分情况，对偶问题的解 $\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$ 中对应于 $\alpha^*_i>0$ 的样本点 $(x_i,y_i)$ 的实例 $x_i$ 称为软间隔的支持向量。如下图所示，图中分离超平面由实线表示，间隔边界由虚线表示，正离由圈表示，负例由叉表示。 $x_i$ 到间隔边界的距离 $\frac{\xi_i}{\|w\|}$ .
+
+![](https://darknessbeforedawn.github.io/test-book/images/SVM8.png)
+
+软间隔的支持向量 $x_i$ 或者在间隔边界上，或者在间隔边界与分离超平面之间，或者在分离超平面误分的一侧。若 $\alpha_i^*<C$, 则 $\xi_i=0$,支持向量 $x_i$ 恰好落在间隔边界上；若 $\alpha_i^*=C,0<$\xi_i<1$ ,则 $x_i$ 间隔边界与分离超平面之间；若 $\alpha_i^*=C,$\xi_i=1$ ,则 $x_i$ 在分离超平面上；若 $\alpha_i^*=C,$\xi_i>1$ ,则 $x_i$ 在分离超平面误分一侧。
+
+### 2.2.4 合页损失函数
+
+线性支持向量机原始最优化问题:
+
+$$\begin{aligned}  
+&\min_{w,b,\xi} \  \frac{1}{2} \|w\|^2 + C\sum_{i=1}^N\xi_i\\  
+&s.t.  \ \ \ y_i(w^Tx_i+b)\geq 1-\xi_i, i=1,2,\cdots,N \\
+& \ \ \ \ \ \ \ \ \ \xi_i\geq 0 ,\ \ i=1,2,\cdots,N
+\end{aligned}$$
+
+等价于最优化问题:
+
+$$\begin{equation}
+\min_{w,b}\sum_{i=1}^N[1-y_i(w^Tx_i+b)]_++\lambda\|w\|^2
+\end{equation}$$
+
+
+函数
+
+$$\begin{equation}
+L(y(w^Tx+b)) =[1-y(w^Tx+b)]
+\end{equation}$$
+
+称为合页损失函数(hinge loss function). 下标“+”表示以下取正直的函数:
+
+$$[z]_+=\left 
+\{ 
+\begin{aligned}  
+z, z> 0  \\ 
+0, z\leq 0 
+\end{aligned} 
+\right.$$
+
+以上说明，当样本点 $(x_i,y_i)$ 被正确分类且函数间隔(确信度) $y_i(w^Tx_i+b)$ 大于1时，损失是0，否则损失是 $1-y_i(w^Tx_i+b)$ .目标函数第二项是系数为 $\lambda$ 的 $w$ 的 $L_2$ 范数，是正则化项。
+
+令:
+
+$$[1-y_i(w^Tx_i+b)]_+ = \xi_i \Longrightarrow \xi_i\geq 0$$
+
+$$1-y_i(w^Tx_i+b) >0 \Longrightarrow y_i(w^Tx_i+b)=1-\xi_i$$
+
+$$1-y_i(w^Tx_i+b) \leq 0 \Longrightarrow xi_i=0, y_i(w^Tx_i+b)\geq 1-\xi_i$$
+
+所以等价优化问题可写为:
+
+$$\begin{equation}
+\min_{w,b}\sum_{i=1}^N\xi_i+\lambda\|w\|^2
+\end{equation}$$
+
+若取 $\lambda=\frac{1}{2C}$ ,则
+
+$$\min_{w,b}\frac{1}{2}\biggr(\frac{1}{2}\|w\|^2+C\sum_{i=1}^N\xi_i\biggl)$$
+
+合页损失函数的图形如下图，横轴是函数间隔，纵轴是损失。由于函数形状像一个合页，故名合页函数。
+
+![](https://darknessbeforedawn.github.io/test-book/images/SVM9.png)
+
+图中还花出0-1损失函数，可以认为它是二分类问题的真正的损失函数，而合页损失函数是0-1损失函数的上界。由于0-1损失函数不是连续可导的，直接优化其构成的目标函数比较困难，可以认为线性2支持向量机是优化由0-1损失函数的上界(合页损失函数)构成的目标函数。这时的上界损失函数又成为代理损失函数(surrogate loss function)。
+
+图中虚线显示的是感知机的损失函数 $[-y_i(w^Tx_i+b)]_+$ .这时，当样本点 $(x_i,y_i)$ 被正确分类时，损失是0，否则损失是 $-y_i(w^Tx_i+b)$ .相比之下，合页损失函数不仅要分类正确，而且确信度足够高时损失才是0.也就是合页损失函数对学习有更高要求。
+
+## 2.3 非线性支持向量机与核函数
