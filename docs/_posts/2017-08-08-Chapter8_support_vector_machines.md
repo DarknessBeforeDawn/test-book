@@ -384,6 +384,91 @@ $$b_1^*-b_2^*=0$$
 
 如上图所示，中间的实线便是寻找到的最优超平面（Optimal Hyper Plane），其到两条虚线边界的距离相等，这个距离便是几何间隔 $\tilde\gamma$ ,两条虚线间隔边界之间的距离等于 $2\tilde\gamma$ ,而虚线间隔边界上的点则是支持向量。由于这些支持向量刚好在虚线间隔边界上，所以它们满足 $y(w^Tx+b)=1$ ,而对于所有不是支持向量的点，则显然有 $y(w^Tx+b)>1$ 。
 
+### 2.1.4 对偶
+
+线性可分支持向量机最优化问题的原问题的拉格朗日函数为:
+
+$$\begin{equation}
+L(w,b,\alpha)= \frac{1}{2}\|w\|^2-\sum_{i=1}^N\alpha_iy_i(w^Tx_i+b)+\sum_{i=1}^N\alpha_i
+\end{equation}$$
+
+其中， $\alpha_i\geq 0$ .
+
+则线性可分支持向量机最优化原问题等价于如下无约束问题:
+
+
+$$
+\min_{w,b} \max_{\alpha}L(w,b,\alpha)
+$$
+
+其对偶问题为:
+
+$$\max_{\alpha}\min_{w,b} L(w,b,\alpha)$$
+
+首先求 $L(w,b,\alpha)$ 对 $w,b$ 的极小，由
+
+$$
+\begin{aligned}  
+\nabla_w L(w,b,\alpha) &= w- \sum_{i=1}^N\alpha_iy_ix_i=0\\ 
+\nabla_b L(w,b,\alpha) &=  -\sum_{i=1}^N\alpha_iy_i=0
+\end{aligned}
+$$
+
+得
+
+$$\begin{equation}
+w=\sum_{i=1}^N\alpha_iy_ix_i
+\end{equation}$$
+
+$$\begin{equation}
+\sum_{i=1}^N\alpha_iy_i=0
+\end{equation}$$
+
+
+将上述结果代入拉格朗日函数得：
+
+$$\min_{w,b} L(w,b,\alpha)=\sum_{i=1}^N\alpha_i-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i^Tx_j)$$
+
+再对 $\min\limits_{w,b} L(w,b,\alpha)$ 求 $\alpha$ 的极大,即得对偶问题:
+
+$$\begin{aligned}  
+&\max_\alpha \  \sum_{i=1}^N\alpha_i-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i^Tx_j)\\  
+&s.t.  \ \ \ \sum_{i=1}^N\alpha_iy_i=0 \\
+& \ \ \ \ \ \ \ \ \ \alpha_i\geq 0 , i=1,2,\cdots,N
+\end{aligned}$$
+
+上式可转化为:
+
+$$\begin{aligned}  
+&\min_\alpha \  \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_i^Tx_j)-\sum_{i=1}^N\alpha_i\\  
+&s.t.  \ \ \ \sum_{i=1}^N\alpha_iy_i=0 \\
+& \ \ \ \ \ \ \ \ \ \alpha_i\geq 0  , i=1,2,\cdots,N
+\end{aligned}$$
+
+可以通过求解上述对偶问题的解，进而确定分离超平面。即，设 $\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$ 为上述对偶问题的一个解，若存在一个 $\alpha_j^*$ 使得 $0<\alpha_j^*$ ，则原始问题的解 $w^*,b^*$ 为:
+
+$$w^*=\sum_{i=1}^N\alpha_i^*y_ix_i$$
+
+$$b^* = y_j-\sum_{i=1}^N\alpha_i^*y_i(x_i^Tx_j)$$
+
+将 $w^*$ 代入分离超平面函数可得:
+
+
+$$f(x)=\biggl(\sum_{i=1}^N\alpha_i^*y_ix_i\biggr)^Tx + b =\sum_{i=1}^N\alpha_i^*y_i\langle x_i,x\rangle +b$$
+
+其中 $\langle \cdot,\cdot\rangle$ 代表向量内积，这里的形式的有趣之处在于，对于新点 $x$ 的预测，只需要计算它与训练数据点的内积即可.
+
+由拉格朗日函数和 $KKT$ 互补条件可得：
+
+$$\alpha_i(y_i(w^*)^Tx_i)-1)=0 , i=1,2,\cdots,N$$
+
+而当 $\alpha_i>0$ 时，有
+
+$$y_i(w^*)^Tx_i)-1=0 $$
+
+即这些 $x_i$ 一定在间隔边界上， 而对于那些不在间隔边界上的实例 $x_i$ 所对应的 $\alpha_i=0$ .
+
+
 ## 2.2 线性不可分支持向量机与软间隔最大化
 
 ### 2.2.1 线性支持向量机
@@ -567,7 +652,7 @@ $$\min_{w,b}\frac{1}{2}\biggr(\frac{1}{2}\|w\|^2+C\sum_{i=1}^N\xi_i\biggl)$$
 
 如上图可见，对于非线性分类问题无法用直线将正负例正确分离，但可以用一条椭圆曲线将它们正确分开。同样也可以通过将数据映射到高维空间，使正负样例变的线性可分。具体来说，在线性不可分的情况下，支持向量机首先在低维空间中完成计算，然后通过核函数将输入空间映射到高维特征空间，最终在高维特征空间中构造出最优分离超平面，从而把平面上本身不好分的非线性数据分开。
 
-设原空间为 $\mathcal{X}\subset\mathbf{R^2},x=(x^{(1)},x^{(2)})\in\mathcal{X} $ , 新空间为 $\mathcal{Z}\subset\mathbf{R^2},z=(z^{(1)},z^{(2)})\in\mathcal{Z} $ (也可以更高维)，定义从原空间到新空间的变换(映射)：
+设原空间为 $\mathcal{X}\subset\mathbf{R^2},x=(x^{(1)},x^{(2)})\in\mathcal{X} $ , 新空间为 $\mathcal{Z}\subset\mathbf{R^2},z=(z^{(1)},z^{(2)})\in\mathcal{Z} $ ，定义从原空间到新空间的变换(映射)：
 
 $$z=\phi(x)=((x^{(1)})^2,(x^{(2)})^2)^T$$
 
@@ -590,4 +675,38 @@ $$w_1z^{(1)}+w_2z^{(2)}+b =0$$
 核技巧应用到支持向量机，就是通过一个非线性变换将输入空间（欧氏空间 $\mathbf{R^n}$ 或离散集合）对应于一个特征空间（希伯特空间 $\mathcal{H}$ ）,使得在输入空间中的超取面模型对应于特征空间中的超平面模型。这样，分类问题的学习任务通过在特征空间中求解线性支持向量机就可以完成。
 
 #### 核函数
+
+通过映射函数可以将对偶问题的目标函数转化为：
+
+$$W(\alpha) = \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j\langle\phi(x_i),\phi(x_j)\rangle-\sum_{i=1}^N\alpha_i$$
+
+这样拿到非线性数据，就找一个映射 $\phi(\cdot)$  ，然后把原来的数据映射到新空间中，再做线性 $SVM$ 即可.但是，假设我们对一个二维空间做映射，选择的新空间是原始空间的所有一阶和二阶的组合，得到了五个维度；如果原始空间是三维，那么我们会得到 19 维的新空间，这个数目是呈爆炸性增长的，这样 $\phi(\cdot)$ 的计算就非常困难。下面讨论如何解决这种问题。
+
+设两个向量 $x_1=(\eta_1,\eta_2)^T,x_2(\xi_1,\xi_2)^T$ , 则通过映射后的内积为:
+
+$$\langle \phi(x_1),\phi(x_2)\rangle =\langle(\eta_1,\eta_1^2,\eta_2,\eta_2^2,\eta_1\eta_2)^T,(\xi_1,\xi_1^2,\xi_2,\xi_2^2,\xi_1\xi_2)^T,\rangle = \eta_1\xi_1+\eta_1^2\xi_1^2 +\eta_2\xi_2+\eta_2^2\xi_2^2 + \eta_1\eta_2\xi_1\xi_2$$
+
+另外:
+
+$$(\langle x_1,x_2\rangle +1)^2 = 2\eta_1\xi_1+\eta_1^2\xi_1^2+\eta_2\xi_2+\eta_2^2\xi_2^2+2\eta_1\eta_2\xi_1\xi_2+1$$
+
+我们可以通过把映射函数的某几个维度线性缩放，然后加上一个常数维度， 使得 $\langle \phi(x_1),\phi(x_2)\rangle$ 的结果和 $(\langle x_1,x_2\rangle +1)^2$ 相同，该映射为:
+
+$$\phi(X_1,X_2) = (\sqrt{2}X_1,X_1^2,\sqrt{2}X_2,X_2^2,\sqrt{2}X_1X_2,1)^T$$
+
+这样一来我们就可以将映射到高维空间中，然后计算内积，改为直接在原来的地位空间中进行计算，而不需要显示地写出映射后的结果。
+
+##### 这里的计算两个向量在隐式映射过后的空间中的内积的函数叫做核函数 (Kernel Function)，记为 $k(x,z)$.
+
+刚才的例子中，核函数为:
+
+$$k(x_1,x_2) = (\langle x_1,x_2\rangle +1)^2$$
+
+继而将对偶问题的目标函数转化为：
+
+$$W(\alpha) = \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jk(x_i,x_j)-\sum_{i=1}^N\alpha_i$$
+
+这样就避开了直接在高维空间中进行计算内积，简化了计算。在实际应用中，往往依赖领域知识直接选择核函数，核函数选择的有效性需要通过实验验证。
+
+### 2.3.1 正定核
 
