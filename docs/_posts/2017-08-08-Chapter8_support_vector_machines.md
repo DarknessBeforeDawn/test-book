@@ -708,5 +708,188 @@ $$W(\alpha) = \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jk(x_i,x_j
 
 这样就避开了直接在高维空间中进行计算内积，简化了计算。在实际应用中，往往依赖领域知识直接选择核函数，核函数选择的有效性需要通过实验验证。
 
-### 2.3.1 正定核
+### 2.3.2 正定核
 
+在已知映射函数 $\phi$ ，可以通过 $\phi(x)$ 和 $\phi(z)$ 的内积求得核函数 $K(x,z)$ .在不用构造映射 $\phi(x)$ 能否判断一个给定的函数是不是 $K(x,z)$ 是不是核函数？接下来就来说明这个问题。
+
+给定 $m$ 个训练样本 
+
+$$\{x^{(1)},x^{(2)},\cdots,x^{(m)}\}$$
+
+每个 $x^{(i)}$ 对应一个特征向量，并且假设 $K(x,z)$ 为一个有效的核函数，我们可以计算 $K_{ij} =K(x^{(i)},x^{(j)}),i,j=1,2,\cdots,m$ ,这样我们可以计算出 $m*m$ 的核函数矩阵 $K$ (Kernel Matrix).
+
+由以上可知，矩阵 $K$ 为对称矩阵。即
+
+$$K_{ij}=K(x^{(i)},\phi(x^{(j)}) = \langle \phi(x^{(i)},\phi(x^{(j)})\rangle = \langle \phi(x^{(j)},\phi(x^{(i)})\rangle = k_{ji}$$
+
+首先使用 $\phi_k(x)$ 表示映射函数 $\phi(x)$ 的第 $k$ 维属性值。那么对任意向量 $z$, 有
+
+$$
+\begin{align}
+z^TKz &= \sum_i\sum_jz_iK_{ij}z_j   \\ 
+&= \sum_i\sum_jz_i\langle \phi(x^{(i)}),\phi(x^{(j)})\rangle z_j\\ 
+&= \sum_i\sum_jz_i\sum_k \phi_k(x^{(i)})\phi_k(x^{(j)})z_j \\ 
+&=\sum_k\sum_i\sum_jz_i\phi_k(x^{(i)})\phi_k(x^{(j)})z_j \\ 
+&=\sum_k\biggl(\sum_iz_i\phi_k(x^{(i)})\biggr)^2 \\ 
+&\geq 0
+\end{align}
+$$
+
+上述推导说明，核函数矩阵 $K$ 是半正定的 ( $K\geq 0$ ).即， $K(x,z)$ 是有效核函数，可推出核函数矩阵 $K$ 是对称半正定的。
+
+##### 正定核充要条件:
+
+设 $K : \mathcal{X}\times\mathcal{X}\rightarrow\mathbb{R}$ 是对称函数.则 $K(x,z)$ 为正定核的充要条件是，对任意 $x_i\in\mathcal{X},i=1,2,\cdots,m$ ，$K(x,z)$ 对应的核函数矩阵 $K$ 是对称半正定的. ( $\mathcal{X}$ 为欧式空间 $\mathbf{R}^n$ 的子集或离散集合)
+
+必要性已经证过，下面来说明充分性。
+
+##### 充分性:
+
+
+1.定义映射，构成向量空间 $S$
+
+定义映射为: $\phi :x\rightarrow K(\cdot,x)$ 
+
+根据映射，对任意 $x_i\in\mathcal{X}, \alpha_i\in \mathbf{R},i=1,2,\cdots,m$ ,定义线性组合
+
+$$f(\cdot) = \sum_{i=1}^m\alpha_iK(\cdot,x_i)$$
+
+由线性组合为元素的集合 $S$ 对加法和数乘运算是封闭的，所以 $S$ 构成一个向量空间。
+
+2.在 $S$ 上定义内积，使其成为内积空间
+
+在 $S$ 上定义一个运算 $*$ : 对任意 $f,g\in S$ 
+
+$$f(\cdot) =\sum_{i=1}^m\alpha_iK(\cdot,x_i),g(\cdot) =\sum_{j=1}^l\beta_jK(\cdot,z_j)$$
+
+定义运算 $*$ 
+
+$$f*g=\sum_{i=1}^m\sum_{j=1}^l\alpha_i\beta_jK(x_i,z_j)$$
+
+证明运算 $*$ 是空间 $S$ 的内积，需要证:
+
+(1) $(cf)*g=c(f*g),c\in\mathbf{R}$
+
+(2) $(f+g)*h = f*h+g*h, h\in S$
+
+(3) $f*g=g*f$
+
+(4) $f*f\geq 0, f*f=0\Leftrightarrow f=0$
+
+其中1-3有上述假设和 $K(x,z)$ 的对称性容易得到，现在只需证4
+
+$$f*f = \sum_{i,j=1}^m\alpha_i\alpha_jK(x_i,x_j)$$
+
+由核矩阵 $K$ 的半正定性可知上式非负，即 $f*f\geq 0$ .
+
+接着证 $f*f=0\Leftrightarrow f=0$ 
+
+充分性：当 $f=0$ 时，显然有 $f*f=0$ .
+
+必要性：首先证
+
+$$|f*g|^2 \leq (f*f)(g*g)$$
+
+设 $f,g\in S$ , $\lambda\in\mathbf{R}$ ,则 $f+\lambda g\in S$ ,则有
+
+$$(f+\lambda g)*(f+\lambda g) \geq 0$$
+
+$$f*f +2\lambda (f*g) + \lambda^2(g*g) \geq 0$$
+
+上式为 $\lambda$ 的二次三项式，非负，则其判别式小于等于0，即
+
+$$(f*g)^2-(f*f)(g*g) \leq 0$$
+
+设 
+
+$$f(\cdot)=\sum_{i=1}^m\alpha_iK(\cdot,x_i)$$
+
+则有
+
+$$K(\cdot,x)*f = \sum_{i=1}^m\alpha_iK(x,x_i)=f(x)$$
+
+于是
+
+$$|f(x)|^2=|K(\cdot, x)*f|^2$$
+
+根据上述证明的不等式可得
+
+$$|K(\cdot, x)*f|^2 \leq (K(\cdot,x)*K(\cdot,x))(f*f)=K(x,x)(f*f)$$
+
+上式表明，当 $f*f=0$ 时，对任意 $x$ 都有 
+
+$$|f(x)|=0$$
+
+以上可说明 $*$ 运算就是向量空间 $S$ 的内积运算，仍然可用 $\bullet$ 表示。赋予内积的向量空间为内积空间。
+
+
+3.将内积空间 $S$ 完备化为希尔伯特空间
+
+由内积的定义可以得到范数
+
+$$\|f\|=\sqrt{f\bullet f}$$
+
+这样， $S$ 就是一个赋范向量空间。根据泛函分析理论，对于不完备的赋范向量空间 $S$ ,一定可以使之完备化，得到完备的赋范向量空间 $\mathcal{H}$ ,同时又是内积空间，这就是希尔伯特空间。
+
+这一希尔伯特空间 $\mathcal{H}$ 称为再生核希伯特空间(Reproducing Kernel Hilbert Space, RKHS).这是由于核 $K$ 具有再生性，即满足
+
+$$K(\cdot,x)\cdot f=f(x)$$
+
+及
+
+$$K(\cdot,x)\cdot K(\cdot,z) = K(x,z)$$
+
+称为再生核。
+
+通过上述过程可得
+
+$$K(x,z)=\phi(x)\cdot \phi(z)$$
+
+表明 $K(x,z)$ 为 $\mathcal{X}\times\mathcal{X}$ 上的核函数。
+
+### 2.3.3 常用核函数
+
+通常人们会从一些常用的核函数中选择（根据问题和数据的不同，选择不同的参数，实际上就是得到了不同的核函数），常用核函数有以下几种：
+
+
+1.多项式核函数(Polynomial Kernel Function)
+
+$$K(x,z)=(\langle x,z\rangle +R)^d$$
+
+显然刚才我们上述举的例子是这里多项式核的一个特例( $R = 1，d = 2$ )。虽然比较麻烦，而且没有必要，不过这个核所对应的映射实际上是可以写出来的，该空间的维度是 $\binom{m+d}{d}$ ,其中 $m$ 是原始空间的维度。
+
+2.高斯核函数(Gaussian Kernel Function)
+
+$$K(x,z)=\exp\biggl(-\frac{\|x-z\|^2}{2\sigma^2}\biggr)$$
+
+这个核会将原始空间映射为无穷维空间。不过，如果 $\sigma$ 选得很大的话，高次特征上的权重实际上衰减得非常快，所以实际上（数值上近似一下）相当于一个低维的子空间；反过来，如果 $\sigma$ 选得很小，则可以将任意的数据映射为线性可分——当然，这并不一定是好事，因为随之而来的可能是非常严重的过拟合问题。不过，总的来说，通过调控参数 $\sigma$ ，高斯核实际上具有相当高的灵活性，也是使用最广泛的核函数之一。下图所示的例子便是把低维线性不可分的数据通过高斯核函数映射到了高维空间：
+
+![](https://darknessbeforedawn.github.io/test-book/images/SVM11.png)
+
+3.线性核核函数(Linear Kernel Function)
+
+$$K(x,z) = \langle x,z\rangle$$
+
+这实际上就是原始空间中的内积。这个核存在的主要目的是使得“映射后空间中的问题”和“映射前空间中的问题”两者在形式上统一起来了。
+
+### 2.3.4 非线性支持向量分类机
+
+(1) 选取适当的核函数 $K(x,z)$ 和适当参数 $C$ ,构造并求解最优化问题
+
+$$\begin{aligned}  
+&\min_\alpha \  \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i\\  
+&s.t.  \ \ \ \sum_{i=1}^N\alpha_iy_i=0 \\
+& \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
+\end{aligned}$$
+
+求最优解 $\alpha^* =(\alpha_1^*,\alpha_2^*,\cdots,\alpha_N^*)^T$
+
+(2) 选择 $\alpha^*$ 的一个正分量 $0<\alpha_i< C$ ,计算
+
+$$b^*=y_j-\sum_{i,j=1}^N\alpha_i^*y_iK(x_i,x_j)$$
+
+(3)构造决策函数
+
+$$f(x) = \sum_{i=1}^N\alpha_i^*y_iK(x,x_i) + b^*$$
+
+## 2.4 序列最小最优化算法
