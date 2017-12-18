@@ -893,3 +893,38 @@ $$b^*=y_j-\sum_{i,j=1}^N\alpha_i^*y_iK(x_i,x_j)$$
 $$f(x) = \sum_{i=1}^N\alpha_i^*y_iK(x,x_i) + b^*$$
 
 ## 2.4 序列最小最优化算法
+
+支持向量机的学习问题可以形式化为求解凸二次规划问题，这样的凸二次规划问题具有全局最优解，并且有许多最优化算法可以用于这一问题的求解。但是当数据量非常大使，这些算法往往非常低效。序列最小最优化(Sequential Minimal Optimization, SMO)算法就是一种比较高效的解决支持向量机的算法。
+
+SMO算法要解如下凸二次规划的对偶问题：
+
+$$\begin{aligned}  
+&\min_\alpha \  \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i\\  
+&s.t.  \ \ \ \sum_{i=1}^N\alpha_iy_i=0 \\
+& \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
+\end{aligned}$$
+
+其中变量是拉格朗日乘子，一个变量 $\alpha_i$ 对应于一个样本点 $(x_i,y_i)$ ;变量总数等于训练样本容量 $N$ .
+
+SMO算法是一种启发式算法，其基本思路是:如果所有变量的解都满足此最优化问题的 $KKT$ 条件，那么 这个最优化问题就解决了。否则，选择两个变量固定其他变量，针对这两个变量构建一个二次规划问题。这个二次规划问题关于这两个变量的解应该更接近原始二次规划问题，因为这会使得原始二次规划问题的目标函数值变的更新，并且这个子问题可以通过解析方法求解从而大大提高整个算法的计算速度，子问题的两个变量，一个是违反 $KKT$ 条件最严重的那一个，另一个由约束条件自动确定。如此，SMO算法将原问题不断分解为子问题并将子问题求解，进而达到求解原问题的目的。
+
+子问题中只有一个是自由变量，假设 $\alpha_1,\alpha_2$ 为两个变量， $\alpha_3,\alpha_4,\cdots,\alpha_N$ 固定，那么有等式约束可得
+
+$$\alpha_1=-y\sum_{i=2}^N\alpha_iy_i$$
+
+如果 $\alpha_2$ 确定，那么 $\alpha_1$ 也随之确定。所以子问题中同时更新两个变量。
+
+整个SMO算法包括两个部分：求解两个变量二次规划的解析方法和选择变量的启发式方法。
+
+
+## 2.4.1 两个变量二次规划的求解方法
+
+假设 $\alpha_1,\alpha_2$ 为两个变量， $\alpha_3,\alpha_4,\cdots,\alpha_N$ 固定，则SMO的最优化问题的子问题可以写成
+
+$$\begin{aligned}  
+&\min_{\alpha_1,\alpha_2}W(\alpha_1,\alpha_2)=\frac{1}{2}K_{11}\alpha_1^2+\frac{1}{2}K_{22}\alpha_2^2+y_1y_2K_{12}\alpha_1\alpha_2-(\alpha_1+\alpha_2)+y_1\alpha_1\sum_{i=3}^Ny_i\alpha_iK_{i1}+y_2\alpha_2\sum_{i=3}^Ny_i\alpha_iK_{i2}\\  
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s.t.  \ \ \ \ \alpha_1y_1+\alpha_2y_2=-\sum_{i=3}^N\alpha_iy_i=\varsigma \\
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
+\end{aligned}$$
+
+其中， $K_{ij}=K(x_i,x_j),i,j=1,2,\cdots,N$ , $\varsigma$ 是常数，目标函数省略了不含 $\alpha_1,\alpha_2$ 的常数项。
