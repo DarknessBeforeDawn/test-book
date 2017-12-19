@@ -21,7 +21,7 @@ $$\min_xf(x)$$
 
 $$\begin{aligned}
 &\min_xf(x)  \\  
-&s.t.~~~~h_i(x) = 0 , i = 1,2,...,m \\ 
+&s.t.~~~~h_i(x) = 0 , i = 1,2,...,m \\
 \end{aligned}$$
 
 约束条件会将解的范围限定在一个可行区域，此时不一定能找到 $f'(x)$ 为 $0$ 的点，只需找到可行区域内使得 $f(x)$ 最小的点即可，一般使用拉格朗日乘子法来进行求解，引入拉格朗日乘子 $\alpha\in\mathbb{R}^m$ ,构建拉格朗日函数：
@@ -30,12 +30,12 @@ $$L(x,\alpha)=f(x)+\sum_{i=1}^m\alpha_ih_i(x)$$
 
 并分别对 $\alpha$ 和 $x$ 求偏导：
 
-$$\left 
-\{ 
+$$\left
+\{
 \begin{aligned}  
-\frac{\partial L(x,\alpha)}{\partial x}= 0  \\ 
-\frac{\partial L(x,\alpha)}{\partial \alpha}= 0 
-\end{aligned} 
+\frac{\partial L(x,\alpha)}{\partial x}= 0  \\
+\frac{\partial L(x,\alpha)}{\partial \alpha}= 0
+\end{aligned}
 \right.$$
 
 求得 $x$ 、 $\alpha$ 的值，将 $x$ 代入 $f(x)$ 即为在约束条件 $h_i(x)$ 下的可行解。下面用一个示例来进行说明，对于二维的目标函数 $f(x,y)$ ,在平面中画出   $f(x,y)$ 的等高线，如下图虚线，并给出一个约束等式 $h(x,y)=0$ ,如下图绿线，目标函数 $f(x,y)$ 与约束 $g(x,y)$ 只可能相交，相切或没交集，只有相交或相切时才有可能是解，而且只有相切才可能得到可行解，因为相交意味着肯定还存在其它的等高线在该条等高线的内部或者外部，使得新的等高线与目标函数的交点的值更大或者更小。
@@ -54,7 +54,7 @@ $$f'(x)-\alpha h'(x)=0$$
 
 $$\begin{aligned}
 &\min_xf(x)  \\  
-&s.t.~~~~g(x) \leq 0 , i = 1,2,...,m \\ 
+&s.t.~~~~g(x) \leq 0 , i = 1,2,...,m \\
 \end{aligned}$$
 
 对应的拉格朗日函数：
@@ -96,7 +96,7 @@ $$-\nabla_xf(x)=\lambda\nabla_xg(x)$$
 $$\begin{aligned}
 &\min_xf(x)  \\  
 &s.t.~~~~h_i(x)=0,i = 1,2,...,m \\
-&~~~~~~~~~~g(x) \leq 0 , j = 1,2,...,n \\ 
+&~~~~~~~~~~g(x) \leq 0 , j = 1,2,...,n \\
 \end{aligned}$$
 
 对应拉格朗日函数：
@@ -106,11 +106,11 @@ $$L(x,\alpha,\beta)=f(x)+\sum_{i=1}^m\alpha_ih_i(x)+\sum_{j=1}^n\beta_ig_i(x)$$
 则不等式约束后的可行解 $x$ 需要满足的 $KKT$ 条件为：
 
 $$\begin{align}
-\nabla_x L(x,\alpha,\beta) &= 0   \\ 
-\beta_jg_j(x) &= 0  , \ j=1,2,...,n\\ 
-h_i(x)&= 0 , \ i=1,2,...,m  \\ 
-g_j(x) &\le 0  , \  j=1,2,...,n  \\ 
-\beta_j &\ge  0 , \ j=1,2,...,n  \\ 
+\nabla_x L(x,\alpha,\beta) &= 0   \\
+\beta_jg_j(x) &= 0  , \ j=1,2,...,n\\
+h_i(x)&= 0 , \ i=1,2,...,m  \\
+g_j(x) &\le 0  , \  j=1,2,...,n  \\
+\beta_j &\ge  0 , \ j=1,2,...,n  \\
 \end{align} $$
 
 满足 $KKT$ 条件后极小化拉格朗日函数即可得到在不等式约束条件下的可行解。 $KKT$ 条件:
@@ -132,7 +132,7 @@ g_j(x) &\le 0  , \  j=1,2,...,n  \\
 $$\begin{aligned}  
 &\min_x \  f(x)  \\  
 &s.t.  \ \ \ h_i(x) = 0 , \  i = 1,2,...,m \ \\  
-& \ \ \ \ \ \ \ \ \ \   g_j(x) \le 0, \  j = 1,2,...,n 
+& \ \ \ \ \ \ \ \ \ \   g_j(x) \le 0, \  j = 1,2,...,n
 \end{aligned}$$
 
 如果 $g_j(x)$ 全是凸函数，并且 $h_i(x)$ 全是仿射函数（ $Ax+b$ 的形式），上述优化就是一个凸优化问题，凸优化极值唯一。
@@ -179,7 +179,7 @@ $$
 
 $$
 \sum_{i=1}^m \alpha_i h_i(x^*) + \sum_{j=1}^n\beta_jg_j(x^*) \leq 0
-$$ 
+$$
 
 因此
 
@@ -193,7 +193,7 @@ $$
 D(\alpha, \beta)= \min_xL(x,\alpha,\beta) \leq L(x^*,\alpha,\beta) \leq f(x^*) = p^*
 $$
 
-因此 
+因此
 
 $$
 \max_{\alpha_i,\beta_j \geq 0}D(\alpha, \beta)
@@ -203,7 +203,7 @@ $$
 
 $$d^* \leq p^*$$
 
-这个性质叫做弱对偶性（weak duality），对于所有优化问题都成立，即使原始问题非凸。这里还有两个概念： $f(x)–D(\alpha, \beta)$ 叫做对偶间隔（duality gap）， $p^*–d^*$ 叫做最优对偶间隔（optimal duality gap）。无论原始问题是什么形式，对偶问题总是一个凸优化的问题，这样对于那些难以求解的原始问题 （甚至是 NP 问题），均可以通过转化为偶问题，通过优化这个对偶问题来得到原始问题的一个下界， 与弱对偶性相对应的有一个强对偶性（strong duality） ，强对偶即满足：
+这个性质叫做弱对偶性（weak duality），对于所有优化问题都成立，即使原始问题非凸。这里还有两个概念： $f(x)–D(\alpha, \beta)$ 叫做对偶间隔（duality gap），$$p^*–d^*$$叫做最优对偶间隔（optimal duality gap）。无论原始问题是什么形式，对偶问题总是一个凸优化的问题，这样对于那些难以求解的原始问题 （甚至是 NP 问题），均可以通过转化为偶问题，通过优化这个对偶问题来得到原始问题的一个下界， 与弱对偶性相对应的有一个强对偶性（strong duality） ，强对偶即满足：
 
 $$d^* = p^*$$
 
@@ -211,7 +211,7 @@ $$d^* = p^*$$
 
 #### $Slater$ 条件
 
-若原始问题为凸优化问题，且存在严格满足约束条件的点 $x$ ，这里的“严格”是指 $g_j(x)\leq 0$ 中的“ $≤$ ”严格取到“ $<$ ”，即存在 $x$ 满足 $g_j(x)<0 ,i=1,2,…,n$ ，则存在 $x^*,α^*,β^*$ 使得 $x^*$ 是原始问题的解， $α^*,β^*$ 是对偶问题的解，且满足：
+若原始问题为凸优化问题，且存在严格满足约束条件的点 $x$ ，这里的“严格”是指 $g_j(x)\leq 0$ 中的“ $≤$ ”严格取到“ $<$ ”，即存在 $x$ 满足 $g_j(x)<0 ,i=1,2,…,n$ ，则存在$$x^*,α^*,β^*$$使得 $x^*$ 是原始问题的解，$$α^*,β^*$$是对偶问题的解，且满足：
 
 $$p^* = d^* = L(x^*,\alpha^* ,\beta^*)$$
 
@@ -219,43 +219,43 @@ $$p^* = d^* = L(x^*,\alpha^* ,\beta^*)$$
 
 #### $KKT$ 条件
 
-假设 $x^*$ 与 $α^*,β^*$ 分别是原始问题（并不一定是凸的）和对偶问题的最优解，且满足强对偶性，则相应的极值的关系满足：
+假设 $x^*$ 与 $α^*$ , $β^*$ 分别是原始问题（并不一定是凸的）和对偶问题的最优解，且满足强对偶性，则相应的极值的关系满足：
 
 $$
 \begin{aligned}  f(x^*) &= d^* = p^* =D(\alpha^*,\beta^*)  \\  &=\min_x f(x)+ \sum_{i = 1}^m \alpha_i^*h_i(x) + \sum_{j=1}^n\beta_j^*g_j(x) \\  & \le f(x^*)+ \sum_{i = 1}^m \alpha_i^*h_i(x^*) + \sum_{j=1}^n\beta_j^*g_j(x^*) \\ &\le f(x^*)  \end{aligned}
 $$
 
-由于两头是相等的，所以这一系列的式子里的不等号全部都可以换成等号。根据第一个不等号我们可以得到 $x^*$ 是 $L(x,\alpha^*,\beta^*)$ 的一个极值点，因此 $L(x,\alpha^*,\beta^*)$ 在 $x^*$ 处的梯度为0，即: 
+由于两头是相等的，所以这一系列的式子里的不等号全部都可以换成等号。根据第一个不等号我们可以得到 $x^*$ 是$$L(x,\alpha^*,\beta^*)$$的一个极值点，因此$$L(x,\alpha^*,\beta^*)$$在 $x^*$ 处的梯度为0，即:
 
 $$\nabla_{x^*} L(x,\alpha^*,\beta^*) = 0$$
 
-由第二个不等式，并且 $\beta_j^*g_j(x^*)$ 都是非正的，因此有：
+由第二个不等式，并且$$\beta_j^*g_j(x^*)$$都是非正的，因此有：
 
 $$\beta_j^*g_j(x^*)=0, j=1,\cdots,m$$
 
-显然，如果 $\beta_j^* > 0$ ,那么必定有 $g_j(x^*)=0$ ,如果 $g_j(x^*) <0$ ,那么可以得到 $\beta_j^* = 0$ 。再将其他一些显而易见的条件写到一起，就是传说中的 KKT (Karush-Kuhn-Tucker) 条件：
+显然，如果$$\beta_j^* > 0$$,那么必定有$$g_j(x^*)=0$$,如果$$g_j(x^*) <0$$,那么可以得到$$\beta_j^* = 0$$。再将其他一些显而易见的条件写到一起，就是传说中的 KKT (Karush-Kuhn-Tucker) 条件：
 
 $$
 \begin{align}
-\nabla_x L(x,\alpha,\beta) &= 0   \\ 
-\beta_jg_j(x) &= 0  , \ j=1,2,...,n\\ 
-h_i(x)&= 0 , \ i=1,2,...,m  \\ 
-g_j(x) &\le 0  , \  j=1,2,...,n  \\ 
-\beta_j &\ge  0 , \ j=1,2,...,n  \\ 
+\nabla_x L(x,\alpha,\beta) &= 0   \\
+\beta_jg_j(x) &= 0  , \ j=1,2,...,n\\
+h_i(x)&= 0 , \ i=1,2,...,m  \\
+g_j(x) &\le 0  , \  j=1,2,...,n  \\
+\beta_j &\ge  0 , \ j=1,2,...,n  \\
 \end{align}
 $$
 
-总结来说就是说任何满足强对偶性的优化问题，只要其目标函数与约束函数可微，任一对原始问题与对偶问题的解都是满足 $KKT$ 条件的。即满足强对偶性的优化问题中，若 $x^*$ 为原始问题的最优解，$α^*,β^*$ 为对偶问题的最优解，则可得 $x^*,α^*,β^*$ 满足 $KKT$ 条件。
+总结来说就是说任何满足强对偶性的优化问题，只要其目标函数与约束函数可微，任一对原始问题与对偶问题的解都是满足 $KKT$ 条件的。即满足强对偶性的优化问题中，若 $x^*$ 为原始问题的最优解，$α^*$ , $β^*$ 为对偶问题的最优解，则可得 $x^*$ , $α^*$ , $β^*$ 满足 $KKT$ 条件。
 
-上面只是说明了必要性，当满足原始问题为凸优化问题时，必要性也是满足的，也就是说当原始问题是凸优化问题,且存在 $x^*,α^*,β^*$ 满足 $KKT$ 条件，那么它们分别是原始问题和对偶问题的极值点并且强对偶性成立.
+上面只是说明了必要性，当满足原始问题为凸优化问题时，必要性也是满足的，也就是说当原始问题是凸优化问题,且存在 $x^*$ , $α^*$ , $β^*$ 满足 $KKT$ 条件，那么它们分别是原始问题和对偶问题的极值点并且强对偶性成立.
 
 ##### 证明
-首先原始问题是凸优化问题，固定 $α^*,β^*$ 之后对偶问题 $D(α^*,β^*)$ 也是一个凸优化问题，$x^*$ 是 $L(x,α^*,β^*)$ 的极值点：
+首先原始问题是凸优化问题，固定 $α^*$ , $β^*$ 之后对偶问题$$D(α^*,β^*)$$也是一个凸优化问题，$x^*$ 是$$L(x,α^*,β^*)$$的极值点：
 
 $$
 \begin{aligned}  
-D(\alpha^*,\beta^*)  &= \min_x L(x,\alpha^*,\beta^*) \\ 
-&= L(x^*,\alpha^*,\beta^*) \\ 
+D(\alpha^*,\beta^*)  &= \min_x L(x,\alpha^*,\beta^*) \\
+&= L(x^*,\alpha^*,\beta^*) \\
 & =f(x^*)+\sum_{i=1}^m\alpha_i^*h_i(x^*)+\sum_{j=1}^n\beta_j^*g_j(x^*) \\  
 &= f(x^*)  
 \end{aligned}
@@ -285,10 +285,10 @@ $$w^Tx+b=0$$
 ### 2.1.2 函数间隔与几何间隔
 
 ![](https://darknessbeforedawn.github.io/test-book/images/SVM5.png)
- 
+
 如图所示，两种标记的点分别代表两个类别，直线表示一个可行的超平面。将数据点 $x$ 代入 $f(x)$ 中，如果得到的结果小于 0 ，则赋予其类别 -1 ，如果大于 0 则赋予类别 1 。对于 $f(x)$ 的绝对值很小(包括)的情况，是很难处理的，因为细微的变动（比如超平面稍微转一个小角度）就有可能导致结果类别的改变，也就是越接近超平面的点越“难”分隔。
 
-在超平面 $w^Tx+b=0$ 确定的情况下 $$|w^Tx+b|$$ 能够相对的表示点 $x$ 与超平面的距离。 $w^Tx+b$ 的符号与类标记 $y$ 的符号是否一致可判断分类是否正确,因此 $y(w^Tx+b)$ 可以用来表示分类的正确性及确信度。
+在超平面$$w^Tx+b=0$$确定的情况下$$|w^Tx+b|$$能够相对的表示点 $x$ 与超平面的距离。$$w^Tx+b$$的符号与类标记 $y$ 的符号是否一致可判断分类是否正确,因此 $y(w^Tx+b)$ 可以用来表示分类的正确性及确信度。
 
 隔函数间隔（functional margin）：
 
@@ -348,17 +348,17 @@ $$\begin{aligned}
 
 (1)分离超平面的存在性
 
-由于训练数据集线性可分，上述优化问题一定存在可行解。又由于目标函数有下界，并且数据集中既有正类又有负类，因而最优解 $(w^*,b^*)$ 必满足 $w^*\neq 0$ .由此得知分离超平面的存在性。
+由于训练数据集线性可分，上述优化问题一定存在可行解。又由于目标函数有下界，并且数据集中既有正类又有负类，因而最优解$$(w^*,b^*)$$必满足$$w^*\neq 0$$.由此得知分离超平面的存在性。
 
 (2)超平面的唯一性
 
-假设上述优化问题有两个最优解 $(w^*_1,b^*_1)$ 和 $(w^*_2,b^*_2)$ .显然 $\|w^*_1\|=\|w^*_2\|=c$ ,其中 $c$ 是一个常数。令 $w =\frac{w^*_1+w^*_2}{2},b =\frac{b^*_1+b^*_2}{2}$ ,易知 $(w,b)$ 也为原问题的可行解(非最优解)，从而有
+假设上述优化问题有两个最优解$$(w^*_1,b^*_1)$$和$$(w^*_2,b^*_2)$.显然$$\|w^*_1\|=\|w^*_2\|=c$$,其中 $c$ 是一个常数。令$$w =\frac{w^*_1+w^*_2}{2},b =\frac{b^*_1+b^*_2}{2}$$,易知 $(w,b)$ 也为原问题的可行解(非最优解)，从而有
 
 $$c\leq \|w\|\leq \frac{1}{2}\|w^*_1\|+\frac{1}{2}\|w^*_2\|=c$$
 
-从而有 $w^*_1=\lambda w^*_2$ ,易知 $\lambda =1$ 或 $\lambda=-1$ ,但 $\lambda=-1$ 时 $w=0$ 不是原问题的可行解，则有 $w^*_1=w^*_2$.
+从而有$$w^*_1=\lambda w^*_2$$,易知 $\lambda =1$ 或 $\lambda=-1$ ,但 $\lambda=-1$ 时 $w=0$ 不是原问题的可行解，则有$$w^*_1=w^*_2$$.
 
-可以将两个最优解分别写为 $(w^*,b^*_1),(w^*,b^*_2)$ ,然后证 $b^*_1=b^*_2$ .设 $x_1',x_2'$ 是 $y_i=+1$ 集合中分别对应 $(w^*,b^*_1),(w^*,b^*_2)$ 使得问题的不等式等号成立的点， $x_1'',x_2''$ 是 $y_i=-1$ 集合中分别对应 $(w^*,b^*_1),(w^*,b^*_2)$ 使得问题的不等式等号成立的点，则有:
+可以将两个最优解分别写为$$(w^*,b^*_1),(w^*,b^*_2)$$,然后证$$b^*_1=b^*_2$$.设 $x_1',x_2'$ 是 $y_i=+1$ 集合中分别对应$$(w^*,b^*_1),(w^*,b^*_2)$$使得问题的不等式等号成立的点， $x_1'',x_2''$ 是 $y_i=-1$ 集合中分别对应$$(w^*,b^*_1),(w^*,b^*_2)$$使得问题的不等式等号成立的点，则有:
 
 $$b^*_1=-\frac{1}{2}((w^*)^T x_1'+(w^*)^T x_1''),b^*_2=-\frac{1}{2}((w^*)^T x_2'+(w^*)^T x_2'')$$
 
@@ -366,13 +366,13 @@ $$b^*_1=-\frac{1}{2}((w^*)^T x_1'+(w^*)^T x_1''),b^*_2=-\frac{1}{2}((w^*)^T x_2'
 
 $$b^*_1-b^*_2 = -\frac{1}{2}[(w^*)^T (x_1'-x_2')+(w^*)^T (x_1''-x_2'')]$$
 
-又因为 
+又因为
 
 $$(w^*)^T x_2'+b_1^*\geq 1= (w^*)^T x_1'+b_1^*$$
 
 $$(w^*)^T x_1'+b_2^*\geq 1= (w^*)^T x_2'+b_2^*$$
 
-所以， $(w^*)^T (x_1'-x_2')=0$ ,同理有 $(w^*)^T (x_1''-x_2'')=0$ ,因此
+所以，$$(w^*)^T (x_1'-x_2')=0$$,同理有$$(w^*)^T (x_1''-x_2'')=0$$,因此
 
 $$b_1^*-b_2^*=0$$
 
@@ -409,7 +409,7 @@ $$\max_{\alpha}\min_{w,b} L(w,b,\alpha)$$
 
 $$
 \begin{aligned}  
-\nabla_w L(w,b,\alpha) &= w- \sum_{i=1}^N\alpha_iy_ix_i=0\\ 
+\nabla_w L(w,b,\alpha) &= w- \sum_{i=1}^N\alpha_iy_ix_i=0\\
 \nabla_b L(w,b,\alpha) &=  -\sum_{i=1}^N\alpha_iy_i=0
 \end{aligned}
 $$
@@ -445,7 +445,7 @@ $$\begin{aligned}
 & \ \ \ \ \ \ \ \ \ \alpha_i\geq 0  , i=1,2,\cdots,N
 \end{aligned}$$
 
-可以通过求解上述对偶问题的解，进而确定分离超平面。即，设 $\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$ 为上述对偶问题的一个解，若存在一个 $\alpha_j^*$ 使得 $0<\alpha_j^*$ ，则原始问题的解 $w^*,b^*$ 为:
+可以通过求解上述对偶问题的解，进而确定分离超平面。即，设$$\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$$为上述对偶问题的一个解，若存在一个$$\alpha_j^*$$使得$$0<\alpha_j^*$$，则原始问题的解 $w^*$ , $b^*$ 为:
 
 $$w^*=\sum_{i=1}^N\alpha_i^*y_ix_i$$
 
@@ -525,8 +525,8 @@ $$\max_{\alpha,\mu}\min_{w,b,\xi} L(w,b,\xi,\alpha,\mu)$$
 
 $$
 \begin{aligned}  
-\nabla_w L(w,b,\xi,\alpha,\mu) &= w- \sum_{i=1}^N\alpha_iy_ix_i=0\\ 
-\nabla_b L(w,b,\xi,\alpha,\mu) &=  -\sum_{i=1}^N\alpha_iy_i=0\\ 
+\nabla_w L(w,b,\xi,\alpha,\mu) &= w- \sum_{i=1}^N\alpha_iy_ix_i=0\\
+\nabla_b L(w,b,\xi,\alpha,\mu) &=  -\sum_{i=1}^N\alpha_iy_i=0\\
 \nabla_{\xi_i} L(w,b,\xi,\alpha,\mu) &=  C-\alpha_i-\mu_i =0
 \end{aligned}
 $$
@@ -567,7 +567,7 @@ $$\begin{aligned}
 & \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
 \end{aligned}$$
 
-可以通过求解上述对偶问题的解，进而确定分离超平面。即，设 $\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$ 为上述对偶问题的一个解，若存在一个 $\alpha_j^*$ 使得 $0<\alpha_j^*<C$ ，则原始问题的解 $w^*,b^*$ 为:
+可以通过求解上述对偶问题的解，进而确定分离超平面。即，设$$\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$$为上述对偶问题的一个解，若存在一个$$\alpha_j^*$$使得$$0<\alpha_j^*<C$$，则原始问题的解 $w^*$ , $b^*$ 为:
 
 $$w^*=\sum_{i=1}^N\alpha_i^*y_ix_i$$
 
@@ -575,11 +575,11 @@ $$b^* = y_j-\sum_{i=1}^N\alpha_i^*y_i(x_i^Tx_j)$$
 
 ### 2.2.3 支持向量
 
-在线性不可分情况，对偶问题的解 $\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$ 中对应于 $\alpha^*_i>0$ 的样本点 $(x_i,y_i)$ 的实例 $x_i$ 称为软间隔的支持向量。如下图所示，图中分离超平面由实线表示，间隔边界由虚线表示，正离由圈表示，负例由叉表示。 $x_i$ 到间隔边界的距离 $\frac{\xi_i}{\|w\|}$ .
+在线性不可分情况，对偶问题的解$$\alpha^*=(\alpha^*_1,\alpha^*_2,\cdots,\alpha^*_N)^T$$中对应于$$\alpha^*_i>0$$的样本点 $(x_i,y_i)$ 的实例 $x_i$ 称为软间隔的支持向量。如下图所示，图中分离超平面由实线表示，间隔边界由虚线表示，正离由圈表示，负例由叉表示。 $x_i$ 到间隔边界的距离 $\frac{\xi_i}{\|w\|}$ .
 
 ![](https://darknessbeforedawn.github.io/test-book/images/SVM8.png)
 
-软间隔的支持向量 $x_i$ 或者在间隔边界上，或者在间隔边界与分离超平面之间，或者在分离超平面误分的一侧。若 $\alpha_i^*<C$, 则 $\xi_i=0$,支持向量 $x_i$ 恰好落在间隔边界上；若 $\alpha_i^*=C,0<$\xi_i<1$ ,则 $x_i$ 间隔边界与分离超平面之间；若 $\alpha_i^*=C,$\xi_i=1$ ,则 $x_i$ 在分离超平面上；若 $\alpha_i^*=C,$\xi_i>1$ ,则 $x_i$ 在分离超平面误分一侧。
+软间隔的支持向量 $x_i$ 或者在间隔边界上，或者在间隔边界与分离超平面之间，或者在分离超平面误分的一侧。若$$\alpha_i^*<C$$, 则 $\xi_i=0$,支持向量 $x_i$ 恰好落在间隔边界上；若$$\alpha_i^*=C,0<$\xi_i<1$$,则 $x_i$ 间隔边界与分离超平面之间；若$$\alpha_i^*=C,$\xi_i=1$$,则 $x_i$ 在分离超平面上；若$$\alpha_i^*=C,$\xi_i>1$$,则 $x_i$ 在分离超平面误分一侧。
 
 ### 2.2.4 合页损失函数
 
@@ -606,12 +606,12 @@ L(y(w^Tx+b)) =[1-y(w^Tx+b)]
 
 称为合页损失函数(hinge loss function). 下标“+”表示以下取正直的函数:
 
-$$[z]_+=\left 
-\{ 
+$$[z]_+=\left
+\{
 \begin{aligned}  
-z, z> 0  \\ 
-0, z\leq 0 
-\end{aligned} 
+z, z> 0  \\
+0, z\leq 0
+\end{aligned}
 \right.$$
 
 以上说明，当样本点 $(x_i,y_i)$ 被正确分类且函数间隔(确信度) $y_i(w^Tx_i+b)$ 大于1时，损失是0，否则损失是 $1-y_i(w^Tx_i+b)$ .目标函数第二项是系数为 $\lambda$ 的 $w$ 的 $L_2$ 范数，是正则化项。
@@ -656,7 +656,7 @@ $$\min_{w,b}\frac{1}{2}\biggr(\frac{1}{2}\|w\|^2+C\sum_{i=1}^N\xi_i\biggl)$$
 
 $$z=\phi(x)=((x^{(1)})^2,(x^{(2)})^2)^T$$
 
-经过变换 $z=\phi(x)$ ,原空间 $\mathcal{X}\subset\mathbf{R^2} $ ,变换为新空间 $\mathcal{Z}\subset\mathbf{R^2} $ ,原空间中的点相应地变换为新空间中的点，原空间中的椭圆 
+经过变换 $z=\phi(x)$ ,原空间 $\mathcal{X}\subset\mathbf{R^2} $ ,变换为新空间 $\mathcal{Z}\subset\mathbf{R^2} $ ,原空间中的点相应地变换为新空间中的点，原空间中的椭圆
 
 $$w_1(x^{(1)})^2+w_2(x^{(2)})^2+b =0$$
 
@@ -712,7 +712,7 @@ $$W(\alpha) = \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jk(x_i,x_j
 
 在已知映射函数 $\phi$ ，可以通过 $\phi(x)$ 和 $\phi(z)$ 的内积求得核函数 $K(x,z)$ .在不用构造映射 $\phi(x)$ 能否判断一个给定的函数是不是 $K(x,z)$ 是不是核函数？接下来就来说明这个问题。
 
-给定 $m$ 个训练样本 
+给定 $m$ 个训练样本
 
 $$\{x^{(1)},x^{(2)},\cdots,x^{(m)}\}$$
 
@@ -726,11 +726,11 @@ $$K_{ij}=K(x^{(i)},\phi(x^{(j)}) = \langle \phi(x^{(i)},\phi(x^{(j)})\rangle = \
 
 $$
 \begin{align}
-z^TKz &= \sum_i\sum_jz_iK_{ij}z_j   \\ 
-&= \sum_i\sum_jz_i\langle \phi(x^{(i)}),\phi(x^{(j)})\rangle z_j\\ 
-&= \sum_i\sum_jz_i\sum_k \phi_k(x^{(i)})\phi_k(x^{(j)})z_j \\ 
-&=\sum_k\sum_i\sum_jz_i\phi_k(x^{(i)})\phi_k(x^{(j)})z_j \\ 
-&=\sum_k\biggl(\sum_iz_i\phi_k(x^{(i)})\biggr)^2 \\ 
+z^TKz &= \sum_i\sum_jz_iK_{ij}z_j   \\
+&= \sum_i\sum_jz_i\langle \phi(x^{(i)}),\phi(x^{(j)})\rangle z_j\\
+&= \sum_i\sum_jz_i\sum_k \phi_k(x^{(i)})\phi_k(x^{(j)})z_j \\
+&=\sum_k\sum_i\sum_jz_i\phi_k(x^{(i)})\phi_k(x^{(j)})z_j \\
+&=\sum_k\biggl(\sum_iz_i\phi_k(x^{(i)})\biggr)^2 \\
 &\geq 0
 \end{align}
 $$
@@ -748,7 +748,7 @@ $$
 
 1.定义映射，构成向量空间 $S$
 
-定义映射为: $\phi :x\rightarrow K(\cdot,x)$ 
+定义映射为: $\phi :x\rightarrow K(\cdot,x)$
 
 根据映射，对任意 $x_i\in\mathcal{X}, \alpha_i\in \mathbf{R},i=1,2,\cdots,m$ ,定义线性组合
 
@@ -758,23 +758,23 @@ $$f(\cdot) = \sum_{i=1}^m\alpha_iK(\cdot,x_i)$$
 
 2.在 $S$ 上定义内积，使其成为内积空间
 
-在 $S$ 上定义一个运算 $*$ : 对任意 $f,g\in S$ 
+在 $S$ 上定义一个运算 $*$ : 对任意 $f,g\in S$
 
 $$f(\cdot) =\sum_{i=1}^m\alpha_iK(\cdot,x_i),g(\cdot) =\sum_{j=1}^l\beta_jK(\cdot,z_j)$$
 
-定义运算 $*$ 
+定义运算 $*$
 
 $$f*g=\sum_{i=1}^m\sum_{j=1}^l\alpha_i\beta_jK(x_i,z_j)$$
 
 证明运算 $*$ 是空间 $S$ 的内积，需要证:
 
-(1) $(cf)*g=c(f*g),c\in\mathbf{R}$
+(1)$$(cf)*g=c(f*g),c\in\mathbf{R}$$
 
-(2) $(f+g)*h = f*h+g*h, h\in S$
+(2)$$(f+g)*h = f*h+g*h, h\in S$$
 
-(3) $f*g=g*f$
+(3)$$f*g=g*f$$
 
-(4) $f*f\geq 0, f*f=0\Leftrightarrow f=0$
+(4)$$f*f\geq 0, f*f=0\Leftrightarrow f=0$$
 
 其中1-3有上述假设和 $K(x,z)$ 的对称性容易得到，现在只需证4
 
@@ -782,7 +782,7 @@ $$f*f = \sum_{i,j=1}^m\alpha_i\alpha_jK(x_i,x_j)$$
 
 由核矩阵 $K$ 的半正定性可知上式非负，即 $f*f\geq 0$ .
 
-接着证 $f*f=0\Leftrightarrow f=0$ 
+接着证 $f*f=0\Leftrightarrow f=0$
 
 充分性：当 $f=0$ 时，显然有 $f*f=0$ .
 
@@ -800,7 +800,7 @@ $$f*f +2\lambda (f*g) + \lambda^2(g*g) \geq 0$$
 
 $$(f*g)^2-(f*f)(g*g) \leq 0$$
 
-设 
+设
 
 $$f(\cdot)=\sum_{i=1}^m\alpha_iK(\cdot,x_i)$$
 
@@ -816,7 +816,7 @@ $$|f(x)|^2=|K(\cdot, x)*f|^2$$
 
 $$|K(\cdot, x)*f|^2 \leq (K(\cdot,x)*K(\cdot,x))(f*f)=K(x,x)(f*f)$$
 
-上式表明，当 $f*f=0$ 时，对任意 $x$ 都有 
+上式表明，当 $f*f=0$ 时，对任意 $x$ 都有
 
 $$|f(x)|=0$$
 
@@ -882,7 +882,7 @@ $$\begin{aligned}
 & \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
 \end{aligned}$$
 
-求最优解 $\alpha^* =(\alpha_1^*,\alpha_2^*,\cdots,\alpha_N^*)^T$
+求最优解$$\alpha^* =(\alpha_1^*,\alpha_2^*,\cdots,\alpha_N^*)^T$$.
 
 (2) 选择 $\alpha^*$ 的一个正分量 $0<\alpha_i< C$ ,计算
 
@@ -924,7 +924,179 @@ $$\alpha_1=-y\sum_{i=2}^N\alpha_iy_i$$
 $$\begin{aligned}  
 &\min_{\alpha_1,\alpha_2}W(\alpha_1,\alpha_2)=\frac{1}{2}K_{11}\alpha_1^2+\frac{1}{2}K_{22}\alpha_2^2+y_1y_2K_{12}\alpha_1\alpha_2-(\alpha_1+\alpha_2)+y_1\alpha_1\sum_{i=3}^Ny_i\alpha_iK_{i1}+y_2\alpha_2\sum_{i=3}^Ny_i\alpha_iK_{i2}\\  
 &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ s.t.  \ \ \ \ \alpha_1y_1+\alpha_2y_2=-\sum_{i=3}^N\alpha_iy_i=\varsigma \\
-&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2,\cdots,N
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\leq\alpha_i\leq C  , i=1,2
 \end{aligned}$$
 
 其中， $K_{ij}=K(x_i,x_j),i,j=1,2,\cdots,N$ , $\varsigma$ 是常数，目标函数省略了不含 $\alpha_1,\alpha_2$ 的常数项。
+
+不等式约束 $0\leq\alpha_i\leq C$ 使得( $\alpha_1,\alpha_2$ )在 $[0,C]\times[0,C]$ 内；等式约束 $\alpha_1y_1+\alpha_2y_2=\varsigma$ 其中 $y_1,y_2$ 取值为1或-1，因此有，
+
+$$y_1\neq y_2\Rightarrow \alpha_1-\alpha_2 = k$$
+
+$$y_1= y_2\Rightarrow\alpha_1+\alpha_2 = k$$
+
+因此要求的目标函数其实是在一条平行于对角线段上的最优值，如下图。这使得两个变量的最优化问题成为实质上的单变量的最优化问题，不妨考虑为变量 $\alpha_2$ 的最优化问题。
+
+![](https://darknessbeforedawn.github.io/test-book/images/SVM12.png)
+
+设 $\alpha_1^{old},\alpha_2^{old}$ 为初始可行解，最优解为 $\alpha_1^{new},\alpha_2^{new}$ ，并假设在沿着约束方向未经剪辑是 $\alpha_2$ 的最优解为 $\alpha_2^{new,unc}$ .
+
+ $\alpha_2^{new}$ 必须满足约束条件，则 $\alpha_2^{new}$ 的取值范围为
+
+$$L \leq\alpha_2^{new}\leq H$$
+
+其中， $L$ 与 $H$ 是 $\alpha_2^{new}$ 所在对角线端点的界，由上图可得：
+
+$$\left
+\{
+\begin{aligned}  
+L=\max(0,\alpha_2^{old}-\alpha_1^{old}),H=\min(C,C+\alpha_2^{old}-\alpha_1^{old}) \ \ \ if \ y_1\neq y_2  \\
+L=\max(0,\alpha_2^{old}+\alpha_1^{old}-C),H=\min(C,\alpha_2^{old}
++\alpha_1^{old}) \ \ \ if \ y_1= y_2   
+\end{aligned}
+\right.$$
+
+令
+
+$$g(x) = \sum_{i=1}^N\alpha_iy_iK(x_i,x) +b$$
+
+$$E_i = g(x_i) - y_i=\biggl(\sum_{j=1}^N\alpha_jy_jK(x_j,x_i) +b\biggr)-y_i,i=1,2$$
+
+当 $i=1,2$ 时， $E_i$ 为函数 $g(x)$ 对输入 $x_i$ 的预测值与真实输出 $y_i$ 之差。
+
+##### 定理
+
+最优化问研着约束方向未经剪辑时(不考虑不等式约束)的解是
+
+$$\alpha_2^{new,unc} =\alpha_2^{old}+\frac{y_2(E_1-E_2)}{\eta}$$
+
+其中，
+
+$$\eta=K_{11}+K_{22}-2K_{12}=\|\Phi(x_1)-\Phi(x_2)\|^2$$
+
+ $\Phi(x)$ 是输入空间到特征空间的映射。
+
+经剪辑后 $\alpha_2$ 的解是
+
+$$\alpha_2^{new}=\left
+\{
+\begin{aligned}  
+&H, \ \ \ \ \ \ \ \ \ \ \ \alpha_2^{new,unc} >H  \\
+&\alpha_2^{new,unc}, \ \ L \leq\alpha_2^{new,unc}\leq H \\
+&L, \ \ \ \ \ \ \ \ \ \ \ \alpha_2^{new,unc} <L
+\end{aligned}
+\right.$$
+
+由 $\alpha_2^{new}$ 求得 $\alpha_1^{new}$
+
+$$\alpha_1^{new}=\alpha_1^{old}+y_1y_2(\alpha_2^{old}-\alpha_2^{new})$$
+
+##### 证明
+
+引进记号
+
+$$v_i=\sum_{j=3}^N\alpha_jy_jK(x_i,x_j)=g(x_i)-\sum_{j=1}^2\alpha_jy_jK(x_i,x_j)-b, \ \ i=1,2$$
+
+目标函数可写成
+
+$$W(\alpha_1,\alpha_2)=\frac{1}{2}K_{11}\alpha_1^2+\frac{1}{2}K_{22}\alpha_2^2+y_1y_2K_{12}\alpha_1\alpha_2-(\alpha_1+\alpha_2)+y_1\alpha_1v_1+y_2\alpha_2v_2$$
+
+由 $\alpha_1y_1=\varsigma-\alpha_2y_2$ ,及 $y_i^2=1$ ,可得
+
+$$\alpha_1 = (\varsigma-\alpha_2y_2)y_1$$
+
+代入目标函数得
+
+$$W(\alpha_2)=\frac{1}{2}K_{11}(\varsigma-\alpha_2y_2)^2+\frac{1}{2}K_{22}\alpha_2^2+y_2K_{12}(\varsigma-\alpha_2y_2)\alpha_2-(\varsigma-\alpha_2y_2)y_1-\alpha_2+(\varsigma-\alpha_2y_2)v_1+y_2\alpha_2v_2$$
+
+对 $\alpha_2$ 求导
+
+$$\frac{\partial W}{\partial \alpha_2} =K_{11}\alpha_2+K_{22}\alpha_2-2K_{12}\alpha_2-K_{11}\varsigma y_2 + K_{12}\varsigma y_2+y_1y_2-1-v_1y_2+v_2y_2$$
+
+令其为0，得到
+
+$$
+\begin{align}
+(K_{11}+K_{22}-2K_{12})\alpha_2 &= y_2(y_2-y-1+K_{11}\varsigma-K_{12}\varsigma+v_1-v_2)   \\
+&= y_2\biggl[y_2-y-1+K_{11}\varsigma-K_{12}\varsigma+\biggl(g(x_1)-\sum_{j=1}^2y_j\alpha_jK_{1j}-b\biggr)\\
+&-\biggl(g(x_2)-\sum_{j=1}^2y_j\alpha_jK_{2j}-b\biggr)\biggr]
+\end{align}
+$$
+
+将 $\alpha_1y_1+\alpha_2y_2=\varsigma$ 代入，得到
+
+$$
+\begin{align}
+(K_{11}+K_{22}-2K_{12})\alpha_2^{new,unc}&= y_2((K_{11}+K_{22}-2K_{12})\alpha_2^{old}y_2+y_2-y-1+g(x_1)+g(x_2)   )\\
+&= (K_{11}+K_{22}-2K_{12})\alpha_2^{old}+y_2(E_1-E_2)
+\end{align}
+$$
+
+将 $\eta=K_{11}+K_{22}-2K_{12}$ 代入，得
+
+$$\alpha_2^{new,unc} =\alpha_2^{old}+\frac{y_2(E_1-E_2)}{\eta}$$
+
+要使其满足不等式约束必须将其限制在区间 $[L,H]$ ,从而得到 $\alpha_2^{new}$ 的表达式，继而得到 $\alpha_1^{new}$ .
+
+## 2.4.2 变量的选择方法
+
+SMO算法在每个子问题中选择两个变量优化，其中至少一个变量是违反 KKT 条件的。
+
+
+### 1. 第一个变量的选择
+
+SMO称第一个变量的选择过程为外层循环，外层循环在训练样本中选取违背 KKT 条件的样本点，并将其对应的变量作为第一个变量。检验训练样本点 $(x_i,y_i)$ 是否满足 KKT 条件，即
+
+$$\alpha_i=0\Leftrightarrow y_ig(x_i)\geq 1$$
+
+$$0<\alpha_i< C\Leftrightarrow y_ig(x_i)=1$$
+
+$$\alpha_i=C\Leftrightarrow y_ig(x_i)\leq 1$$
+
+其中， $g(x_i)=\sum\limits_{j=1}^N\alpha_iy_iK(x_i,x_j)+b$ .
+
+该检验是在 $\varepsilon$ 范围内进行的。在检验过程中外层循环先遍历所有满足条件 $0<\alpha_i< C$ 的样本点，即在间隔边界上的支持向量点，检验它们是否满足 KKT 条件。如果这些样本点都满足 KKT 条件，那么遍历整个训练集，检验它们是否满足 KKT 条件。
+
+### 2. 第二个变量的选择
+
+SMO称第二个变量的选择过程为内层循环。假设在外层循环中已经找到第一个变量 $\alpha_1$ ，现在要在内层循环找第二个变量 $\alpha_2$ .第二个变量的选择标准是希望能使 $\alpha_2$ 有足够大变化。
+
+ $\alpha_2^{new}$ 是依赖于$$|E_1-E_2|$$的，为了加快计算速度，一种简单的做法是选择 $\alpha_2$ ，使其对应的$$|E_1-E_2|$$最大。因为 $\alpha_1$ 已定， $E_1$ 也确定了，如果 $E_1$ 是正的，那么选择最小的 $E_i$ 作为 $E_2$ ;如果 $E_1$ 是负的，那么选择最大的 $E_i$ 作为 $E_2$ 。为了节省计算时间，将所有 $E_i$ 值保存在一个列表中。
+
+在特殊情况下，如果内层循环通过以上方法选择的 $\alpha_2$ 不能使目标函数有足够的下降，那么采用以下启发式规则继续选择 $\alpha_2$ .遍历在将边界上的支持向量点，依次将其对应的变量最为 $\alpha_2$ 试用，知道目标函数有足够的下降。若找不到合适的 $\alpha_2$ ，那么遍历训练数据集；若仍找不到合适的 $\alpha_2$ ,则放弃第一个 $\alpha_1$ ,再通过外层循环寻求另外的 $\alpha_1$ .
+
+### 2. 计算阈值 $b$ 和差值 $E_i$
+
+在每次完成两个变量优化后，都要重新计算阈值 $b$ 。当 $0<\alpha_1^{new}< C$ 时，由 KKT 条件可知:
+
+$$\sum_{i=1}^N\alpha_1y_iK_{i1}+b=y_i$$
+
+于是，
+
+$$b_1^{new}=y_1-\sum_{i=3}^N\alpha_iy_iK_{i1}-\alpha_1^{new}y_1K_{11}-\alpha_2^{new}y_2K_{21}$$
+
+由 $E_1$ 定义式，有
+
+$$E_1=\sum_{i=3}^N\alpha_iy_iK_{i1}+\alpha_1^{old}y_1K_{11}+\alpha_2^{old}y_2K_{21}+b^{old}-y_1$$
+
+于是 $b_1^{new}$ 的前两项可写成
+
+$$y_1-\sum_{i=3}^N\alpha_iy_iK_{i1}=-E_1+\alpha_1^{old}y_1K_{11}+\alpha_2^{old}y_2K_{21}+b^{old}$$
+
+可得
+
+$$b_1^{new}=-E_1-y_1K_{11}(\alpha_1^{new}-\alpha_1^{old})-y_2K_{21}(\alpha_2^{new}-\alpha_2^{old})+b^{old}$$
+
+同样，如果 $0<\alpha_2^{new}< C$ ,那么，
+
+$$b_2^{new}=-E_2-y_1K_{12}(\alpha_1^{new}-\alpha_1^{old})-y_2K_{22}(\alpha_2^{new}-\alpha_2^{old})+b^{old}$$
+
+如果 $\alpha_1^{new}$ , $\alpha_2^{new}$ 同时满足条件 $0<\alpha_i^{new}< C,i=1,2$ ,那么 $b_1^{new}=b_2^{new}$ .如果 $\alpha_1^{new}$ , $\alpha_2^{new}$ 是0 或 $C$ .那么 $b_1^{new},b_2^{new}$ 以及它们之间的数都是符合 KKT 条件的阈值，这是选择它们的中间点作为 $b^{new}$ .
+
+在每次完成两个变量的优化之后，还必须更新对应的 $E_i$ 值，并将它们保存在列表中。 $E_i$ 值得更新要用到 $b^{new}$ 值，以及所有支持向量对应的 $\alpha_j$ :
+
+$$E_i^{new} = \sum_Sy_j\alpha_jK(x_i,x_j)+b^{new}-y_i$$
+
+其中， $S$ 是所有支持向量 $x_j$ 的集合。
+
+## 2.4.2 SMO算法流程
