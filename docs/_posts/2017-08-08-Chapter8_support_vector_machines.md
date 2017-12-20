@@ -583,7 +583,7 @@ $$b^* = y_j-\sum_{i=1}^N\alpha_i^*y_i(x_i^Tx_j)$$
 
 ![](https://darknessbeforedawn.github.io/test-book/images/SVM8.png)
 
-软间隔的支持向量 $x_i$ 或者在间隔边界上，或者在间隔边界与分离超平面之间，或者在分离超平面误分的一侧。若$$\alpha_i^*<C$$, 则 $\xi_i=0$,支持向量 $x_i$ 恰好落在间隔边界上；若$$\alpha_i^*=C,0<$\xi_i<1$$,则 $x_i$ 间隔边界与分离超平面之间；若$$\alpha_i^*=C,$\xi_i=1$$,则 $x_i$ 在分离超平面上；若$$\alpha_i^*=C,\xi_i>1$$,则 $x_i$ 在分离超平面误分一侧。
+软间隔的支持向量 $x_i$ 或者在间隔边界上，或者在间隔边界与分离超平面之间，或者在分离超平面误分的一侧。若$$\alpha_i^*<C$$, 则 $\xi_i=0$,支持向量 $x_i$ 恰好落在间隔边界上；若$$\alpha_i^*=C,0<\xi_i<1$$,则 $x_i$ 间隔边界与分离超平面之间；若$$\alpha_i^*=C,\xi_i=1$$,则 $x_i$ 在分离超平面上；若$$\alpha_i^*=C,\xi_i>1$$,则 $x_i$ 在分离超平面误分一侧。
 
 ### 2.2.4 合页损失函数
 
@@ -724,7 +724,7 @@ $$\{x^{(1)},x^{(2)},\cdots,x^{(m)}\}$$
 
 由以上可知，矩阵 $K$ 为对称矩阵。即
 
-$$K_{ij}=K(x^{(i)},\phi(x^{(j)}) = \langle \phi(x^{(i)},\phi(x^{(j)})\rangle = \langle \phi(x^{(j)},\phi(x^{(i)})\rangle = k_{ji}$$
+$$K_{ij}=K(x^{(i)},x^{(j)}) = \langle \phi(x^{(i)}),\phi(x^{(j)})\rangle = \langle \phi(x^{(j)}),\phi(x^{(i)})\rangle = k_{ji}$$
 
 首先使用 $\phi_k(x)$ 表示映射函数 $\phi(x)$ 的第 $k$ 维属性值。那么对任意向量 $z$, 有
 
