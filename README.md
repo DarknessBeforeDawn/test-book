@@ -85,3 +85,17 @@ Hibert Space
 SVM
 
 36. http://blog.csdn.net/v_july_v/article/details/7624837
+
+37. http://www.cnblogs.com/vivounicorn/archive/2010/12/13/1904720.html
+
+38. https://www.cnblogs.com/liqizhou/archive/2012/05/11/2495788.html
+
+39. http://blog.pluskid.org/?page_id=683
+
+40. http://blog.csdn.net/haolexiao/article/details/72171523?utm_source=itdadao&utm_medium=referral
+
+41. http://songcy.net/posts/story-of-basis-and-kernel-part-2/
+
+42. https://www.cnblogs.com/jerrylead/archive/2011/03/18/1988406.html
+
+43. http://blog.csdn.net/luoshixian099/article/details/51227754
