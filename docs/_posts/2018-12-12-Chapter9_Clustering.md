@@ -5,7 +5,7 @@ share: false
 ---
 # 1.有监督学习与无监督学习
 
-首先，看一下有监督学习(Supervised Learning)和无监督学(Unsupervised Learning)习的区别，给定一组数据(input，target)为 $Z=(X，Y)$ 。
+首先，看一下有监督学习(Supervised Learning)和无监督学(Unsupervised Learning)习的区别，给定一组数据(input，target)为 $Z=(X,Y)$ 。
 
 有监督学习: 最常见的是回归(regression)和分类(classification)。
 
@@ -105,10 +105,36 @@ $$\mathbf{\mu}=\frac{1}{|C|}\sum_{1\leq i\leq |C|}\mathbf{x}_i$$
 
 $\bullet$ DB指数(Davies_Bouldin Index,简称DBI)
 
-$$DBI=\frac{1}{k}\sum_{i=1}^k\max_{j\neq i}\biggl(\frac{avg(C_i)+avg(C_j)}{$d_{cen}(C_i,C_j)}\biggr)$$
+$$DBI=\frac{1}{k}\sum_{i=1}^k\max_{j\neq i}\biggl(\frac{avg(C_i)+avg(C_j)}{d_{cen}(C_i,C_j)}\biggr)$$
 
 $\bullet$ Dunn指数(Dunn Index,简称DI)
 
 $$DI=\min_{1\leq i\leq k}\biggl\{\min_{j\neq i}\biggl(\frac{d_{min}(C_i,C_j)}{\max_{1\leq l\leq k}diam(C)}\biggr)\biggr\}$$
 
 # 3.距离计算
+
+$dist(\cdot,\cdot)$ 是距离度量，它有一些基本性质:
+
+$\bullet$ 非负性： $dist(\mathbf{x_i},\mathbf{x_j})\geq 0$ ;
+
+$\bullet$ 同一性： $dist(\mathbf{x_i},\mathbf{x_j})= 0$ 当且仅当 $\mathbf{x_i}=\mathbf{x_j}$ ;
+
+$\bullet$ 对称性： $dist(\mathbf{x_i},\mathbf{x_j})=dist(\mathbf{x_i},\mathbf{x_j})$ ;
+
+$\bullet$ 直递性： $dist(\mathbf{x_i},\mathbf{x_j})\leq dist(\mathbf{x_i},\mathbf{x_k})+dist(\mathbf{x_k},\mathbf{x_j})$ .
+
+给定样本 $\mathbf{x_i}=(x_{i1};x_{i2};\cdots;x_{in})$ 与 $\mathbf{x_j}=(x_{j1};x_{j2};\cdots;x_{jn})$ ,则闵可夫斯基距离(Minkowski distance)为
+
+$$dist_{mk}(\mathbf{x_i},\mathbf{x_j})=\biggl(\sum_{u=1}^n|x_{iu}-x_{ju}|^p\biggr)^{\frac{1}{p}}$$
+
+对于 $p\geq 1$ 上式满足距离度量的基本性质。
+
+$p=2$ 时该距离称为欧氏距离(Euclidean distance) 
+
+$$dist_{ed}(\mathbf{x_i},\mathbf{x_j})=\|\mathbf{x_i}-\mathbf{x_j}\|_2=\sqrt{\sum_{u=1}^n|x_{iu}-x_{ju}|^2}$$
+
+$p=2$ 时为曼哈顿距离(Manhattan distance)
+
+$$dist_{ed}(\mathbf{x_i},\mathbf{x_j})=\|\mathbf{x_i}-\mathbf{x_j}\|_1=\sum_{u=1}^n|x_{iu}-x_{ju}|$$
+
+
