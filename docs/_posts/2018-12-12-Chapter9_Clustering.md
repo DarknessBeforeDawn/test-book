@@ -137,4 +137,88 @@ $p=2$ 时为曼哈顿距离(Manhattan distance)
 
 $$dist_{ed}(\mathbf{x_i},\mathbf{x_j})=\|\mathbf{x_i}-\mathbf{x_j}\|_1=\sum_{u=1}^n|x_{iu}-x_{ju}|$$
 
+对于1,2,3这类数字型之间的距离，可以直接算出1与2的距离比较近、与3的距离比较远，这样的属性称为有序属性(ordinal attribute);而对于与飞机，火车，轮船这样的离散属性则不能直接在属性值上计算距离，称为无序属性(non-ordinal attribute)。无属性距离不可用闵可夫斯基距离计算。
 
+对无序属性可采用VDM(Value Difference Metric).令 $m_{u,a}$ 表示在属性 $u$ 上取值为 $a$ 的样本个数， $m_{u,a,i}$ 表示在第 $i$ 个样本簇中在属性 $u$ 上取值为 $a$ 的样本数， $k$ 为样本簇数，则属性 $u$ 上两个离散值 $a$ 与 $b$ 之间的VDM为
+
+$$VDM_p(a,b)=\sum_{i=1}^k\biggl |\frac{m_{u,a,i}}{m_{u,a}}-\frac{m_{u,b,i}}{m_{u,b}}\biggr |$$
+
+将闵可夫斯基距离和VDM结合即可处理混合属性。假定有 $n_c$ 个有序属性， $n-n_c$ 个无序属性，令有序属性排列在无序属性之前，则
+
+$$MinkovDM_p(\mathbf{x_i},\mathbf{x_j})=\biggl(\sum_{u=1}^{n_c}|x_{iu}-x_{ju}|^p+\sum_{u=n_c+1}^nVDM_p(x_{iu},x_{ju})\biggr)^{\frac{1}{p}}$$
+
+当样本空间中不同属性的重要性不同时，可使用加权距离(weihted distance),以加权闵可夫斯基距离为例
+
+$$dist_{wmk}(\mathbf{x_i},\mathbf{x_j})=\biggl(\sum_{u=1}^nw_i|x_{iu}-x_{ju}|^p\biggr)^{\frac{1}{p}}$$
+
+其中权重 $w_i\geq 0(i=1,2,\cdots,n)$ 表征不同属性的重要性，一般 $\sum\limits_{i=1}^n=1$ .
+
+通常相似度度量是基于某种形式的距离来定义的，距离越大，相似度越小。用于相似度度量的距离未必一定要满足距离度量的所有基本性质，尤其是直递性。不满足直递性的距离称为非度量距离(non-metric-distance).
+
+# 4.原型聚类
+
+原型聚类亦称基于原型的聚类(protorype-based clustering),此类算法假设聚类结构能通过一组原型刻画，算法先对原型进行初始化，然后对原型进行迭代更新。
+
+## 4.1 k-means算法
+
+给定样本集
+
+$$D=\{\mathbf{x_1},\mathbf{x_2},\cdots,\mathbf{x_m}\}$$
+
+k-means算法针对聚类所得簇划分
+
+$$C=\{C_1,C_2,\cdots,C_k\}$$
+
+最小化平方误差
+
+$$E=\sum_{i=1}^k\sum_{\mathbf{x} \in C_i}\|\mathbf{x}-\mathbf{\mu_i}\|_2^2, \ \ \mathbf{\mu_i}=\frac{1}{|C_i|}\sum_{\mathbf{x} \in C_i}\mathbf{x}$$
+
+其中 $\mu_i$ 是簇 $C_i$ 的均值向量。在一定程度上上式刻画了簇内样本围绕均值向量的紧密程度, $E$ 值越小则簇内样本相似度越高。
+
+最小化上述平方误差并不简单，找到最优解需要考察样本集 $D$ 所有可能的簇划分，这是一个NP-Hard问题。因此，k-means算法采用了贪心策略，通过迭代优化近似解。
+
+k-means算法流程：
+
+———————————————————————————————
+
+输入:聚类簇数 $k$ ,样本集$$D=\{\mathbf{x_1},\mathbf{x_2},\cdots,\mathbf{x_m}\}$$
+
+过程：
+
+1:从 $D$ 中随机选择 $k$ 个样本作为初始均值向量$$\{\mathbf{\mu_1},\mathbf{\mu_2},\cdots,\mathbf{\mu_k}\}$$
+
+2:repeat
+
+3: $~~~~$ 令 $C_i=\emptyset(1\leq i \leq k)$
+
+4: $~~~~~~~~$ for $j=1,2,\cdots,m$ do
+
+5: $~~~~~~~~~~~~$ 计算样本 $\mathbf{x_j}$ 与各均值向量 $\mathbf{\mu_i}(1\leq i \leq k)$ 的距离： $d_{ji}=\|\mathbf{x_j}-\mathbf{\mu_i}\|_2$ ;
+
+6: $~~~~~~~~~~~~$ 根据距离最近的均值向量确定 $\mathbf{x_j}$ 的簇标记: $\lambda_j=\arg\min_id_{ji}$ ;
+
+7: $~~~~~~~~~~~~$ 将样本 $\mathbf{x_j}$ 划入相应的簇: $C_{\lambda_j} = C_{\lambda_j}\bigcup\{\mathbf{x_j}\}$ ;
+
+8: $~~~~~~~~$ end for
+
+9: $~~~~~~~~$ for $i=1,2,\cdots,k$ do
+
+10: $~~~~~~~~~~~~$ 计算新均值向量 $\mathbf{\mu_i}'$ ;
+
+11: $~~~~~~~~~~~~$ if $\mathbf{\mu_i}'\neq \mathbf{\mu_i}$  then
+
+12: $~~~~~~~~~~~~~~~~$ 将当前均值向量 $\mathbf{\mu_i}$ 更新为 $\mathbf{\mu_i}'$
+
+13: $~~~~~~~~~~~~$ else
+
+14: $~~~~~~~~~~~~~~~~$ 保持当前均值向量不变
+
+15: $~~~~~~~~~~~~$ end if
+
+16: $~~~~~~~~$ end for
+
+17: until 当前均值向量均未更新
+
+输出：簇划分$$C=\{C_1,C_2,\cdots,C_k\}$$
+
+———————————————————————————————
