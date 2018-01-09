@@ -228,3 +228,92 @@ K-Means 优缺点：
 当结果簇是密集的，而且簇和簇之间的区别比较明显时，K-Means 的效果较好。对于大数据集，K-Means 是相对可伸缩的和高效的，它的复杂度是 $O(nkt)$ ，n 是对象的个数，k 是簇的数目，t 是迭代的次数，通常  $k \ll n$ ，且 $t \ll n$ ，所以算法经常以局部最优结束。
 
 K-Means 的最大问题是要求先给出 k 的个数。k 的选择一般基于经验值和多次实验结果，对于不同的数据集，k 的取值没有可借鉴性。另外，K-Means 对孤立点数据是敏感的，少量噪声数据就能对平均值造成极大的影响。
+
+### 4.1.1 The Lloyd's Method
+
+**Input:** n个数据点的集合 $\mathbf{x^1},\mathbf{x^2},\cdots,\mathbf{x^n} \in \mathbf{R^d}$
+
+**Initialize:** 初始化簇中心 $\mathbf{c_1},\mathbf{c_2},\cdots,\mathbf{c_k} \in \mathbf{R^d}$ 和簇 $\mathbf{C_1},\mathbf{C_2},\cdots,\mathbf{C_k}$
+
+**Repeat:** 直到满足停止条件
+
+* For each j:$$C_j\leftarrow\{x\in S ,dist(x,c_j)<dist(x,c_i), i\neq j,i=1,2,\cdots,k\}$$,保持 $\mathbf{c_1},\mathbf{c_2},\cdots,\mathbf{c_k}$ 不变，找出最优的簇 $\mathbf{C_1},\mathbf{C_2},\cdots,\mathbf{C_k}$
+
+* For each j: $c_j\leftarrow mean \ \ \ of \ \ \ C_j$ 保持簇不变 $\mathbf{C_1},\mathbf{C_2},\cdots,\mathbf{C_k}$ 算出最优中心点 $\mathbf{c_1},\mathbf{c_2},\cdots,\mathbf{c_k}$
+
+每次迭代损失函数均在下降，并有下界，因此收敛。
+
+Lloyd方法初始化有多种方式，最常用的有以下几种:
+
+* 从数据集中随机选取k个中心点
+* Furthest Traversal
+* k-means++
+
+#### 随机初始化
+随机初始化过程如下图：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster1.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster2.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster3.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster4.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster5.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster6.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster7.PNG" width="300"/>
+</center>
+
+但随机初始化，会存在如下问题：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster9.PNG"/>
+</center>
+
+#### Furthest Traversal
+
+首先任意选择一个簇的中心 $c_1$
+
+For j = 1,2, $\cdots$ , k :
+
+* 选择一个离已选择的中心点 $c_1,c_2,\cdots,c_{j-1}$ 都远的点 $c_j$ 作为新的中心点
+
+过程如下：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster9.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster10.PNG" width="300"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster11.PNG" width="300"/>
+</center>
+
+但是这种方法容易受到噪点的影响，如下：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster12.PNG"/>
+</center>
+
+#### k-means++
+
+假设 $D(x)$ 为点 $x$ 到它最近中心点的距离
+
+首先，随机选择 $c_1$ 
+
+For j=2,...,k
+
+* 在数据集中选择 $c_j$ ，根据以下分布 
+
+$$Pr(c_j=x^i)\varpropto \min_{j'<j}\|x^i-c_{j'}\|^2$$ 
+
+将上述距离平方算出后进行归一化，便是 $x^i$ 被选为下一个中心点的概率，这样，离现有中心点越远则这个点被选择为下一个中心点的概率越高。
+
+上述方法虽然噪点被选的概率很高，但是噪点的个数较少；而和现有中心点是不同簇的点同样离中心点较远，并且这样点的个数较多，因此这些点其中之一被选的概率应该比噪点被选中的概率高；这样可降低噪点对聚类结果的影响。
+
+可以将上述方法进行推广
+
+$$Pr(c_j=x^i)\varpropto \min_{j'<j}\|x^i-c_{j'}\|^{\alpha}$$
+
+当 $\alpha=0$ 时就是随机初始化
+
+当 $\alpha=\infty$ 时就是 Furthest Traversal
+
+当 $\alpha=2$ 时就是k-means++
+
+当 $\alpha=1$ 时就是k-median
