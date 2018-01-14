@@ -229,7 +229,7 @@ K-Means 优缺点：
 
 K-Means 的最大问题是要求先给出 k 的个数。k 的选择一般基于经验值和多次实验结果，对于不同的数据集，k 的取值没有可借鉴性。另外，K-Means 对孤立点数据是敏感的，少量噪声数据就能对平均值造成极大的影响。
 
-### 4.1.1 The Lloyd's Method
+### The Lloyd's Method
 
 **Input:** n个数据点的集合 $\mathbf{x^1},\mathbf{x^2},\cdots,\mathbf{x^n} \in \mathbf{R^d}$
 
@@ -241,7 +241,7 @@ K-Means 的最大问题是要求先给出 k 的个数。k 的选择一般基于�
 
 * For each j: $c_j\leftarrow mean \ \ \ of \ \ \ C_j$ 保持簇不变 $\mathbf{C_1},\mathbf{C_2},\cdots,\mathbf{C_k}$ 算出最优中心点 $\mathbf{c_1},\mathbf{c_2},\cdots,\mathbf{c_k}$
 
-每次迭代损失函数均在下降，并有下界，因此收敛。
+每次迭代损失函数均在下降，并有下界，因此收敛。每次迭代 $O(ndk)$ .
 
 Lloyd方法初始化有多种方式，最常用的有以下几种:
 
@@ -290,7 +290,7 @@ For j = 1,2, $\cdots$ , k :
     <img src="https://darknessbeforedawn.github.io/test-book/images/cluster12.PNG"/>
 </center>
 
-#### k-means++
+### k-means++
 
 假设 $D(x)$ 为点 $x$ 到它最近中心点的距离
 
@@ -306,6 +306,28 @@ $$Pr(c_j=x^i)\varpropto \min_{j'<j}\|x^i-c_{j'}\|^2$$
 
 上述方法虽然噪点被选的概率很高，但是噪点的个数较少；而和现有中心点是不同簇的点同样离中心点较远，并且这样点的个数较多，因此这些点其中之一被选的概率应该比噪点被选中的概率高；这样可降低噪点对聚类结果的影响。
 
+**k-means++步骤**
+
+* 1.先从我们的数据库随机挑个随机点当“种子点”。
+
+* 2.对于每个点，我们都计算其和最近的一个“种子点”的距离 $D(x)$ 并保存在一个数组里，然后把这些距离加起来得到 $Sum(D(x))$ 。
+
+* 3.然后，再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在 $Sum(D(x))$ 中的随机值 $Random$ ，然后用 $Random -= D(x)$ ，直到 $Random<=0$ ，此时的点就是下一个“种子点”。
+
+* 4.重复第（2）和第（3）步直到所有的K个种子点都被选出来。
+
+* 5.进行K-Means算法。
+
+k-means++ 每次需要计算点到中心的距离，复杂度为 $O(ndk)$ , d维。 
+
+可以看到算法的第三步选取新中心的方法，这样就能保证距离 $D(x)$ 较大的点，会被选出来作为聚类中心了。至于为什么原因很简单，如下图 所示： 
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster13.png"/>
+</center> 
+
+假设A、B、C、D的 $D(x)$ 如上图所示，当算法取值 $Sum(D(x))*Random$ 时，该值会以较大的概率落入 $D(x)$ 较大的区间内，所以对应的点会以较大的概率被选中作为新的聚类中心。
+
 可以将上述方法进行推广
 
 $$Pr(c_j=x^i)\varpropto \min_{j'<j}\|x^i-c_{j'}\|^{\alpha}$$
@@ -314,6 +336,76 @@ $$Pr(c_j=x^i)\varpropto \min_{j'<j}\|x^i-c_{j'}\|^{\alpha}$$
 
 当 $\alpha=\infty$ 时就是 Furthest Traversal
 
-当 $\alpha=2$ 时就是k-means++
+当 $\alpha=2$ 时就是k-means++ 
 
 当 $\alpha=1$ 时就是k-median
+
+## 4.2 学习向量化
+
+与 $k$ 均值算法类似，学习向量化(Learning Vector Quantization, LVQ)也是试图找到一组原型向量来刻画聚类结构，但与一般聚类算法不同的是，LVQ假设数据样本带有类别标记，学习过程利用样本的这些监督信息来辅助聚类。
+
+给定样本集
+
+$$D=\{(\mathbf{x_1},y_1),(\mathbf{x_2},y_2),\cdots,(\mathbf{x_m},y_m)\}$$
+
+每个样本 $\mathbf{x_j}$ 是由 $n$ 个属性描述的特征向量 $(x_{j1};x_{j2},\cdots,x_{jn}),y_j\in \mathcal{Y}$ 是样本 $\mathbf{x_j}$ 的类别标记。LVQ的目标是学得一组 $n$ 维原型向量 
+
+$$\{\mathbf{p_1},\mathbf{p_2},\cdots,\mathbf{p_q}\}$$
+
+每个原型向量代表一个聚类簇，簇标记 $t_i \in \mathcal{Y}$ ,学习率参数 $\eta \in (0,1)$
+
+算法主要步骤包括：初始化原型向量；迭代优化，更新原型向量。 
+
+具体来说，主要是： 
+
+* 1.对原型向量初始化，对第 $q$ 个簇可从类别标记为 $t_q$ 的样本中随机选取一个作为原型向量，这样初始化一组原型向量
+
+$$\{\mathbf{p_1},\mathbf{p_2},\cdots,\mathbf{p_q}\}$$ 
+
+* 2.从样本中随机选择样本 $(\mathbf{x_j},y_j)$ ,计算样本 $\mathbf{x_j}$ 与 $\mathbf{p_i}(0\leq i \leq q)$ 的距离：$$d_{ji}=\|\mathbf{x_j}-\mathbf{p_i}\|_2$$;找出与 $\mathbf{x_j}$ 距离最近的原型向量$$\mathbf{p_{i^*}}, i^*=\arg\min_{i\in\{1,2,\cdots,q\}}d_{ji}$$
+
+* 3.如果$$y_j=t_{i^*}$$则令$$\mathbf{p_{i'}}=\mathbf{p_{i^*}}+\eta\cdot(\mathbf{x_j}-\mathbf{p_{i^*}})$$,否则令$$\mathbf{p_{i'}}=\mathbf{p_{i^*}}-\eta\cdot(\mathbf{x_j}-\mathbf{p_{i^*}})$$
+
+* 4.更新原型向量,$$\mathbf{p_{i^*}}=\mathbf{p_{i'}}$$
+
+* 5.判断是否达到最大迭代次数或者原型向量更新幅度小于某个阈值。如果是，则停止迭代，输出原型向量；否则，转至步骤2。
+
+LVQ的关键是第3-4步，即如何更新原型向量。对样本 $\mathbf{x_j}$ ,若原型向量$$\mathbf{p_{i^*}}$$与 $\mathbf{x_j}$ 的标记相同，则令$$\mathbf{p_{i^*}}$$向 $\mathbf{x_j}$ 的方向靠拢，此时新的原型向量为
+
+$$\mathbf{p_{i'}}=\mathbf{p_{i^*}}+\eta\cdot(\mathbf{x_j}-\mathbf{p_{i^*}})$$
+
+ $\mathbf{p_{i'}}$ 与 $\mathbf{x_j}$ 之间的距离为
+
+$$\|\mathbf{p_{i'}}-\mathbf{x_j}\|_2=\|\mathbf{p_{i^*}}+\eta\cdot(\mathbf{x_j}-\mathbf{p_{i^*}})-\mathbf{x_j}\|_2=(1-\eta)\cdot\|\mathbf{p_{i^*}}-\mathbf{x_j}\|_2$$
+
+则原型向量$$\mathbf{p_{i^*}}$$在更新为 $\mathbf{p_{i'}}$ 之后将更接近 $\mathbf{x_j}$ .
+
+类似的，若$$\mathbf{p_{i^*}}$$与 $\mathbf{x_j}$ 的标记不同，则更新后的原型向量与 $\mathbf{x_j}$ 之间的距离将增大为$$(1+\eta)\cdot\|\mathbf{p_{i^*}}-\mathbf{x_j}\|_2$$,从而更远离 $\mathbf{x_j}$ .
+
+在学得一组原型向量$$\{\mathbf{p_1},\mathbf{p_2},\cdots,\mathbf{p_q}\}$$后，即可实现对样本空间 $\mathcal{X}$ 的簇划分。每个原型向量 $\mathbf{p_{i}}$ 定义了与之相关的一个区域 $R_i$ ,该区域中每个样本与 $\mathbf{p_i}$ 的距离不大于它与其他原型向量 $\mathbf{p_{i'}}(i'\neq i)$ 的距离，即
+
+$$R_i=\{\mathbf{x}|\|\mathbf{x}-\mathbf{p_i}\|_2\leq\|\mathbf{x}-\mathbf{p_i'}\|_2,i'\neq i\}$$
+
+由此形成了对样本空间 $\mathcal{X}$ 的簇划分$$\{R_1,R_2,\cdots,R_q\}$$,该划分通常称为Voronoi剖分（Voronoi tessellation）.
+
+## 4.3 高斯混合聚类
+
+与 $k$ 均值，LVQ用原型向量来刻画聚类结构不同，高斯混合(Mixture-of-Gaussian)聚类采用概率模型来表达聚类原型，
+
+对 $n$ 维样本空间 $\mathcal{X}$ 中的随机向量 $\mathbf{x}$ ,若 $\mathbf{x}$ 服从高斯分布，其概率密度为
+
+$$p(\mathbf{x})=\frac{1}{(2\pi)^{\frac{\pi}{2}}|\mathbf{\Sigma}|^{\frac{1}{2}}}e^{-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}-\mathbf{\mu})}$$
+
+其中 $\mathbf{\mu}$ 是 $n$ 维均值向量， $\mathbf{\Sigma}$ 是 $n\times n$ 的协方差矩阵。 高斯分布完全由均值向量 $\mathbf{\mu}$ 和协方差矩阵 $\mathbf{\Sigma}$ 这两个参数确定。为了显示高斯分布与相应参数的依赖关系，将概率密度函数记为 
+
+$$p(\mathbf{x}|\mathbf{\mu},\mathbf{\Sigma})$$
+
+定义高斯混合分布
+
+$$p_{\mathcal{M}}(\mathbf{x})=\sum_{i=1}^k\alpha_i\cdot p(\mathbf{x}|\mathbf{\mu_i},\mathbf{\Sigma_i}) $$
+
+该分布共由 $k$ 个混合成分组成，每个混合成分对应一个高斯分布，其中 $\mathbf{\mu_i},\mathbf{\Sigma_i}$ 是第 $i$ 个高斯混合成分的参数，而 $\alpha_i>0$ 为相应的混合系数(mixture coefficient), $\sum_{i=1}^k \alpha_i =1$ .
+
+假设样本的生成过程由高斯混合分布给出：首先，根据 $\alpha_1,\alpha_2,\cdots,\alpha_k$ 定义的先验分布选择高斯混合成分，其中 $\alpha_i$ 为选择第$i$ 个混合成分的概率；然后，根据被选择的混合成分的概率进行采样，从而生成相应的样本。
+
+常用EM算法对上述分布进行迭代优化求解，之前已详细讨论过[EM算法]()，此处不再进行讨论。
