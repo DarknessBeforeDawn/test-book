@@ -409,3 +409,56 @@ $$p_{\mathcal{M}}(\mathbf{x})=\sum_{i=1}^k\alpha_i\cdot p(\mathbf{x}|\mathbf{\mu
 假设样本的生成过程由高斯混合分布给出：首先，根据 $\alpha_1,\alpha_2,\cdots,\alpha_k$ 定义的先验分布选择高斯混合成分，其中 $\alpha_i$ 为选择第$i$ 个混合成分的概率；然后，根据被选择的混合成分的概率进行采样，从而生成相应的样本。
 
 常用EM算法对上述分布进行迭代优化求解，之前已详细讨论过[EM算法]()，此处不再进行讨论。
+
+# 5.密度聚类
+
+密度聚类亦称基于密度的聚类(density-based clustering),此类算法假设聚类结构能通过样本分布的紧密程度确定。通常情形下，密度聚类算法从样本密度的角度来考察样本之间的可连接性，并基于可连接样本不断扩展聚类簇以获得最终的聚类结果。
+
+DBSCAN是一种著名的密度聚类算法，它基于一组邻域(neighborhood)参数 $(\epsilon,MinPts)$ 来刻画样本分布的紧密程度。给定数据集$$D=\{\mathbf{x_1},\mathbf{x_2},\cdots,\mathbf{x_m}\}$$,定义下面这几个概念：
+
+* $\epsilon-$ 邻域：对 $\mathbf{x_j}\in D$ ，其 $\epsilon-$ 邻域包含样本集 $D$ 中与 $\mathbf{x_j}$ 的距离不大于 $\epsilon$ 的样本，即 $$N_{\epsilon}(\mathbf{x_j})=\{\mathbf{x_i}in D | dist(\mathbf{x_i},\mathbf{x_j})\leq\epsilon\}$$
+
+* 核心对象(core object): 若 $\mathbf{x_j}$ 的 $\epsilon-$ 邻域至少包含 $MinPts$ 个样本，即 $$|N_{\epsilon}(\mathbf{x_j})|\geq MinPts$$,则 $\mathbf{x_j}$ 是一个核心对象；
+
+* 密度直达(directly density-reachable)：若 $\mathbf{x_j}$ 位于 $\mathbf{x_i}$ 的 $\epsilon-$ 邻域中，且 $\mathbf{x_i}$ 是核心对象，则称 $\mathbf{x_j}$ 由 $\mathbf{x_i}$ 密度直达；
+
+* 密度可达(density-reachable)：对 $\mathbf{x_i}$ 与 $\mathbf{x_j}$ ,若存在样本序列 $\mathbf{p_1},\mathbf{p_2},\cdots,\mathbf{p_n}$ ,其中 $\mathbf{p_1}=\mathbf{x_i},\mathbf{p_n}=\mathbf{x_j}$ 且 $\mathbf{p_{i+1}}$ 由 $\mathbf{p_i}$ 密度直达，则称 $\mathbf{x_j}$ 由 $\mathbf{x_i}$ 密度可达；
+
+* 密度相连(density-connected)：对 $\mathbf{x_i}$ 与 $\mathbf{x_j}$ ,若存在 $\mathbf{x_k}$ 使得 $\mathbf{x_i}$ 与 $\mathbf{x_j}$ 均由 $\mathbf{x_k}$ 密度可达，则称 $\mathbf{x_i}$ 与 $\mathbf{x_j}$ 密度相连。
+
+下图给出上述概念的直观概念
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster13.png"/>
+</center> 
+
+上图中 $MinPts=3$ ，虚线显示出 $\epsilon-$ 邻域, $\mathbf{x_1}$ 是核心对象， $\mathbf{x_2}$ 由 $\mathbf{x_1}$ 密度直达， $\mathbf{x_3}$ 由 $\mathbf{x_1}$ 密度可达，$\mathbf{x_3}$ 与 $\mathbf{x_4}$ 密度相连。
+
+基于这些概念，DBSCAN将簇定义为：由密度可达关系导出的最大的密度相连样本集合。形式化地说，给定邻域参数 $(\epsilon,MinPts)$ ，簇 $C\subseteq D$ 是满足以下性质的非空样本子集:
+
+* 连接性(connectivity)： $\mathbf{x_i}\in C,\mathbf{x_j}\in C\Rightarrow \mathbf{x_i}$ 与 $\mathbf{x_j}$ 密度相连
+
+* 最大性(maximality): $\mathbf{x_i}\in C,\mathbf{x_j}$ 由 $mathbf{x_i}$ 密度可达 $\Rightarrow \mathbf{x_j} \in C$
+
+若 $\mathbf{x}$ 为核心对象，由 $\mathbf{x}$ 密度可达的所有样本组成的集合记为$$X=\{\mathbf{x'}\in D| \mathbf{x'} \ \ \ density-reachable \ \ \ by \ \ \ \mathbf{x}\}$$,则不难证明 $X$ 即为满足连接性与最大性的簇。
+
+于是，DBSCAN算法先任选数据集中的一个核心对象为种子(seed),再由此出发确定相应的聚类簇，算法描述如下。在第1-7行中，算法先根据给定的邻域参数 $(\epsilon,MinPts)$ 找出核心对象；然后以任一核心对象为出发点，找出其密度可达的样本生成聚类簇，直到所有核心对象均被访问为止。
+
+算法：
+
+
+# 5.层次聚类
+
+层次聚类(hierarchical clustering)试图在不同层次对数据集进行划分，从而形成树形的聚类结构。数据集的划分可采用“自底向上”的聚合策略，也可采用“自顶向下”的分拆策略。
+
+AGNES是一种采用自底向上聚合策略的层次聚类算法。它将数据集中的每个样本看做一个初始聚类簇，然后在孙发运行的每一步中找出距离最近的两个聚类簇进行合并，该过程不断重复，直到达到预设的聚类个数。这里的关键是如何计算聚类簇之间的距离。实际上，每一个簇是一个样本集合，因此，值需要采用关于集合的某种距离即可。例如，给定聚类簇 $C_i$ 与 $C_j$ ，可通过下面的式子来计算距离：
+
+* 最小距离：$$d_{min}(C_i,C_j)=\min_{x\in C_i,z\in C_j}dist(x,z)$$
+
+* 最大距离：$$d_{max}(C_i,C_j)=\max_{x\in C_i,z\in C_j}dist(x,z)$$
+
+* 平均距离：$$d_avg(C_i,C_j)=\frac{1}{|C_i||C_j|}\sum_{x\in C_i}\sum_{z\in C_j}dist(x,z)$$
+
+显然，最小距离由两个簇的最近样本决定，最大距离由两个簇的最远样本决定，而平均距离则由两个簇的所有样本共同决定。当聚类簇聚类由 $d_{min},d_{max},d_{avg}$  计算时，AGNES算法相应地称为单链接(Single-linekage),全链接(Complete-linkage),均链接(Average-linkage)算法。
+
+AGNES算法描述如下，在1-9行，算法先对仅含一个样本的初始聚类簇和相应的距离矩阵进行初始化；然后在第11-23行，AGNES不断合并距离最近的聚类簇，并对合并得到的聚类簇的距离矩阵进行更新；上述过程不断重复，直至达到预设的聚类簇数。 
