@@ -9,21 +9,21 @@ share: false
 
 有监督学习: 最常见的是回归(regression)和分类(classification)。
 
-$\bullet$ Regression: $Y$ 是实数向量。回归问题，就是拟合 $(X,Y)$ 的一条曲线，使得下式损失函数 $L$ 最小。
+* Regression: $Y$ 是实数向量。回归问题，就是拟合 $(X,Y)$ 的一条曲线，使得下式损失函数 $L$ 最小。
 
 $$L(f,(X,Y))=\|f(X)-Y\|^2$$
 
-$\bullet$ Classification: $Y$ 是一个finite number，可以看做类标号。分类问题需要首先给定有label的数据训练分类器，故属于有监督学习过程。分类问题中，cost function $L(X,Y)$ 是 $X$ 属于类 $Y$ 的概率的负对数。
+* Classification: $Y$ 是一个finite number，可以看做类标号。分类问题需要首先给定有label的数据训练分类器，故属于有监督学习过程。分类问题中，cost function $L(X,Y)$ 是 $X$ 属于类 $Y$ 的概率的负对数。
 
 $$L(f,(X,Y))=-logf_Y(X),\ \ f_i(X)=P(Y=i|X);\ \ f_Y(X)\geq 0, \ \ \sum_if_i(X)=1$$
 
 无监督学习：无监督学习的目的是学习一个function $f$ ，使它可以描述给定数据的位置分布 $P(Z)$ 。 包括两种：密度估计(density estimation)和聚类(clustering).
 
-$\bullet$ density estimation就是密度估计，估计该数据在任意位置的分布密度
+* density estimation就是密度估计，估计该数据在任意位置的分布密度
 
-$\bullet$ clustering就是聚类，将 $Z$ 聚集几类（如K-Means），或者给出一个样本属于每一类的概率。由于不需要事先根据训练数据去训练聚类器，故属于无监督学习。
+* clustering就是聚类，将 $Z$ 聚集几类（如K-Means），或者给出一个样本属于每一类的概率。由于不需要事先根据训练数据去训练聚类器，故属于无监督学习。
 
-$\bullet$ PCA和很多deep learning算法都属于无监督学习。
+* PCA和很多deep learning算法都属于无监督学习。
 
 #### 聚类
 
@@ -39,7 +39,7 @@ $$\{C_l|l=1,2,\cdots,k\}, \ \ C_{l`}\bigcap_{l`\neq l}C_l=\emptyset, \ \ \ D=\bi
 
 $$\lambda_j\in\{1,2,\cdots,k\}$$
 
-表示样本 $\mathbf{x}_j$ 的“簇标记”(cluster label),即 $\mathbf{x}_j\in C_{\lambda_j}$ .于是，聚类的结果可以用包含 $m$ 个元素的簇标记向量 $\mathbf{\lambda}=(\lambda_1;\lambda_2;\cdots;\lambda_m)$ 表示。
+表示样本$$\mathbf{x_j}$$的簇标记(cluster label),即$$\mathbf{x_j}\in C_{\lambda_j}$$.于是，聚类的结果可以用包含 $m$ 个元素的簇标记向量$$\mathbf{\lambda}=(\lambda_1;\lambda_2;\cdots;\lambda_m)$$表示。
 
 基于不同的学习策略有很多种类型的聚类学习算法，这里先讨论两个基本问题，性能度量和距离计算。
 
@@ -67,19 +67,19 @@ $$c=|DS|, \ \ \ DS=\{(\mathbf{x}_i,\mathbf{x}_j)|\lambda_i\neq lambda_j,\lambda_
 
 $$d=|DD|, \ \ \ DD=\{(\mathbf{x}_i,\mathbf{x}_j)|\lambda_i\neq lambda_j,\lambda_i^*\neq lambda_j^*,i<j\}$$
 
-其中集合 $SS$ 包含了在 $C$ 中隶属于相同簇且在$$C^*$$中也隶属于相同簇的样本对；集合 $SD$ 包含了在 $C$ 中隶属于相同簇但在$$C^*$$中隶属于不同簇的样本对；……由于每个样本对 $(\mathbf{x}_i,\mathbf{x}_j)(i<j)$ 仅能出现在一个集合中，因此有 $a+b+c+d=m(m-1)/2$ 成立。
+其中集合 $SS$ 包含了在 $C$ 中隶属于相同簇且在$$C^*$$中也隶属于相同簇的样本对；集合 $SD$ 包含了在 $C$ 中隶属于相同簇但在$$C^*$$中隶属于不同簇的样本对；……由于每个样本对 $(\mathbf{x_i},\mathbf{x_j})(i<j)$ 仅能出现在一个集合中，因此有 $a+b+c+d=m(m-1)/2$ 成立。
 
 基于上述式子可导出以下常用的聚类性能度量外部指标：
 
-$\bullet$ Jaccard系数(Jaccard Coefficient,简称JC)
+* Jaccard系数(Jaccard Coefficient,简称JC)
 
 $$JC=\frac{a}{a+b+c}$$
 
-$\bullet$ FM指数(Fowlkes and Makkows Index,简称FMI)
+* FM指数(Fowlkes and Makkows Index,简称FMI)
 
 $$FMI=\sqrt{\frac{a}{a+b}\cdot \frac{a}{a+c}}$$
 
-$\bullet$ Rand指数(Rand Index,简称RI)
+* Rand指数(Rand Index,简称RI)
 
 $$RI=\frac{2(a+d)}{m(m-1)}$$
 
@@ -103,11 +103,11 @@ $$\mathbf{\mu}=\frac{1}{|C|}\sum_{1\leq i\leq |C|}\mathbf{x}_i$$
 
 由上述各种距离的定义可以导出以下常用的聚类性能度量内部指标:
 
-$\bullet$ DB指数(Davies_Bouldin Index,简称DBI)
+* DB指数(Davies_Bouldin Index,简称DBI)
 
 $$DBI=\frac{1}{k}\sum_{i=1}^k\max_{j\neq i}\biggl(\frac{avg(C_i)+avg(C_j)}{d_{cen}(C_i,C_j)}\biggr)$$
 
-$\bullet$ Dunn指数(Dunn Index,简称DI)
+* Dunn指数(Dunn Index,简称DI)
 
 $$DI=\min_{1\leq i\leq k}\biggl\{\min_{j\neq i}\biggl(\frac{d_{min}(C_i,C_j)}{\max_{1\leq l\leq k}diam(C)}\biggr)\biggr\}$$
 
@@ -115,13 +115,13 @@ $$DI=\min_{1\leq i\leq k}\biggl\{\min_{j\neq i}\biggl(\frac{d_{min}(C_i,C_j)}{\m
 
 $dist(\cdot,\cdot)$ 是距离度量，它有一些基本性质:
 
-$\bullet$ 非负性： $dist(\mathbf{x_i},\mathbf{x_j})\geq 0$ ;
+* 非负性： $dist(\mathbf{x_i},\mathbf{x_j})\geq 0$ ;
 
-$\bullet$ 同一性： $dist(\mathbf{x_i},\mathbf{x_j})= 0$ 当且仅当 $\mathbf{x_i}=\mathbf{x_j}$ ;
+* 同一性： $dist(\mathbf{x_i},\mathbf{x_j})= 0$ 当且仅当 $\mathbf{x_i}=\mathbf{x_j}$ ;
 
-$\bullet$ 对称性： $dist(\mathbf{x_i},\mathbf{x_j})=dist(\mathbf{x_i},\mathbf{x_j})$ ;
+* 对称性： $dist(\mathbf{x_i},\mathbf{x_j})=dist(\mathbf{x_i},\mathbf{x_j})$ ;
 
-$\bullet$ 直递性： $dist(\mathbf{x_i},\mathbf{x_j})\leq dist(\mathbf{x_i},\mathbf{x_k})+dist(\mathbf{x_k},\mathbf{x_j})$ .
+* 直递性： $dist(\mathbf{x_i},\mathbf{x_j})\leq dist(\mathbf{x_i},\mathbf{x_k})+dist(\mathbf{x_k},\mathbf{x_j})$ .
 
 给定样本 $\mathbf{x_i}=(x_{i1};x_{i2};\cdots;x_{in})$ 与 $\mathbf{x_j}=(x_{j1};x_{j2};\cdots;x_{jn})$ ,则闵可夫斯基距离(Minkowski distance)为
 
@@ -188,7 +188,11 @@ k-means算法流程：
 
 2) 令 $C_i=\emptyset(1\leq i \leq k)$
 
-3) 对于 $j=1,2,\cdots,m$ 计算样本 $\mathbf{x_j}$ 与各均值向量 $\mathbf{\mu_i}(1\leq i \leq k)$ 的距离： $d_{ji}=\|\mathbf{x_j}-\mathbf{\mu_i}\|_2$ ;根据距离最近的均值向量确定 $\mathbf{x_j}$ 的簇标记: $\lambda_j=\arg\min_id_{ji}$ ; 将样本 $\mathbf{x_j}$ 划入相应的簇: $C_{\lambda_j} = C_{\lambda_j}\bigcup\{\mathbf{x_j}\}$ ;
+3) 对于 $j=1,2,\cdots,m$ 计算样本 $\mathbf{x_j}$ 与各均值向量 $\mathbf{\mu_i}(1\leq i \leq k)$ 的距离:
+
+$$d_{ji}=\|\mathbf{x_j}-\mathbf{\mu_i}\|_2$$
+
+根据距离最近的均值向量确定 $\mathbf{x_j}$ 的簇标记: $\lambda_j=\arg\min_id_{ji}$ ; 将样本 $\mathbf{x_j}$ 划入相应的簇:$$C_{\lambda_j} = C_{\lambda_j}\bigcup\{\mathbf{x_j}\}$$;
 
 4) 对于 $i=1,2,\cdots,k$ 计算新均值向量 $\mathbf{\mu_i}'$ ;如果 $\mathbf{\mu_i}'\neq \mathbf{\mu_i}$ 则将当前均值向量 $\mathbf{\mu_i}$ 更新为 $\mathbf{\mu_i}'$ ；否则保持当前均值向量不变
 
@@ -238,7 +242,7 @@ Lloyd方法初始化有多种方式，最常用的有以下几种:
 但随机初始化，会存在如下问题：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster9.PNG"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster8.PNG"/>
 </center>
 
 #### Furthest Traversal
@@ -381,7 +385,7 @@ $$p_{\mathcal{M}}(\mathbf{x})=\sum_{i=1}^k\alpha_i\cdot p(\mathbf{x}|\mathbf{\mu
 
 假设样本的生成过程由高斯混合分布给出：首先，根据 $\alpha_1,\alpha_2,\cdots,\alpha_k$ 定义的先验分布选择高斯混合成分，其中 $\alpha_i$ 为选择第$i$ 个混合成分的概率；然后，根据被选择的混合成分的概率进行采样，从而生成相应的样本。
 
-常用EM算法对上述分布进行迭代优化求解，之前已详细讨论过[EM算法]()，此处不再进行讨论。
+常用EM算法对上述分布进行迭代优化求解，之前已详细讨论过[EM算法](https://darknessbeforedawn.github.io/test-book/Chapter7_Expectation_Maximization/)，此处不再进行讨论。
 
 # 5.密度聚类
 
@@ -389,9 +393,9 @@ $$p_{\mathcal{M}}(\mathbf{x})=\sum_{i=1}^k\alpha_i\cdot p(\mathbf{x}|\mathbf{\mu
 
 DBSCAN是一种著名的密度聚类算法，它基于一组邻域(neighborhood)参数 $(\epsilon,MinPts)$ 来刻画样本分布的紧密程度。给定数据集$$D=\{\mathbf{x_1},\mathbf{x_2},\cdots,\mathbf{x_m}\}$$,定义下面这几个概念：
 
-* $\epsilon-$ 邻域：对 $\mathbf{x_j}\in D$ ，其 $\epsilon-$ 邻域包含样本集 $D$ 中与 $\mathbf{x_j}$ 的距离不大于 $\epsilon$ 的样本，即 $$N_{\epsilon}(\mathbf{x_j})=\{\mathbf{x_i}in D | dist(\mathbf{x_i},\mathbf{x_j})\leq\epsilon\}$$
+* $\epsilon-$ 邻域：对 $\mathbf{x_j}\in D$ ，其 $\epsilon-$ 邻域包含样本集 $D$ 中与 $\mathbf{x_j}$ 的距离不大于 $\epsilon$ 的样本，即$$N_{\epsilon}(\mathbf{x_j})=\{\mathbf{x_i}in D$$\| $$dist(\mathbf{x_i},\mathbf{x_j})\leq\epsilon\}$$。
 
-* 核心对象(core object): 若 $\mathbf{x_j}$ 的 $\epsilon-$ 邻域至少包含 $MinPts$ 个样本，即 $$|N_{\epsilon}(\mathbf{x_j})|\geq MinPts$$,则 $\mathbf{x_j}$ 是一个核心对象；
+* 核心对象(core object): 若 $\mathbf{x_j}$ 的 $\epsilon-$ 邻域至少包含 $MinPts$ 个样本，即\|$$N_{\epsilon}(\mathbf{x_j})$$\|$$\geq MinPts$$,则 $\mathbf{x_j}$ 是一个核心对象；
 
 * 密度直达(directly density-reachable)：若 $\mathbf{x_j}$ 位于 $\mathbf{x_i}$ 的 $\epsilon-$ 邻域中，且 $\mathbf{x_i}$ 是核心对象，则称 $\mathbf{x_j}$ 由 $\mathbf{x_i}$ 密度直达；
 
@@ -413,7 +417,7 @@ DBSCAN是一种著名的密度聚类算法，它基于一组邻域(neighborhood)
 
 * 最大性(maximality): $\mathbf{x_i}\in C,\mathbf{x_j}$ 由 $mathbf{x_i}$ 密度可达 $\Rightarrow \mathbf{x_j} \in C$
 
-若 $\mathbf{x}$ 为核心对象，由 $\mathbf{x}$ 密度可达的所有样本组成的集合记为$$X=\{\mathbf{x'}\in D| \mathbf{x'} \ \ \ density-reachable \ \ \ by \ \ \ \mathbf{x}\}$$,则不难证明 $X$ 即为满足连接性与最大性的簇。
+若 $\mathbf{x}$ 为核心对象，由 $\mathbf{x}$ 密度可达的所有样本组成的集合记为$$X=\{\mathbf{x'}\in D$$\|$$\mathbf{x'} \ \ \ density-reachable \ \ \ by \ \ \ \mathbf{x}\}$$,则不难证明 $X$ 即为满足连接性与最大性的簇。
 
 于是，DBSCAN算法先任选数据集中的一个核心对象为种子(seed),再由此出发确定相应的聚类簇，算法描述如下。算法先根据给定的邻域参数 $(\epsilon,MinPts)$ 找出核心对象；然后以任一核心对象为出发点，找出其密度可达的样本生成聚类簇，直到所有核心对象均被访问为止。
 
@@ -427,7 +431,7 @@ DBSCAN是一种著名的密度聚类算法，它基于一组邻域(neighborhood)
 
 * a) 通过距离度量方式，找到样本 $\mathbf{x_j}$ 的 $\epsilon-$ 邻域子样本集 $N_{\epsilon}(\mathbf{x_j})$ 
 
-* b) 如果子样本集样本个数满足$$|N_{\epsilon}(\mathbf{x_j})|\geq MinPts$$,将样本 $\mathbf{x_j}$ 加入核心对象样本集合:$$\Omega=\Omega\cup\{\mathbf{x_j}\}$$
+* b) 如果子样本集样本个数满足\|$$N_{\epsilon}(\mathbf{x_j})$$\|$$\geq MinPts$$,将样本 $\mathbf{x_j}$ 加入核心对象样本集合:$$\Omega=\Omega\cup\{\mathbf{x_j}\}$$
 
 3) 如果核心对象集合 $\Omega=\emptyset$ ，则算法结束，否则转入步骤4
 
@@ -471,20 +475,22 @@ AGNES是一种采用自底向上聚合策略的层次聚类算法。它将数据
 
 * 最大距离：$$d_{max}(C_i,C_j)=\max_{x\in C_i,z\in C_j}dist(x,z)$$
 
-* 平均距离：$$d_{avg}(C_i,C_j)=\frac{1}{|C_i||C_j|}\sum_{x\in C_i}\sum_{z\in C_j}dist(x,z)$$
+* 平均距离：
+
+$$d_{avg}(C_i,C_j)=\frac{1}{|C_i||C_j|}\sum_{x\in C_i}\sum_{z\in C_j}dist(x,z)$$
 
 显然，最小距离由两个簇的最近样本决定，最大距离由两个簇的最远样本决定，而平均距离则由两个簇的所有样本共同决定。当聚类簇聚类由 $d_{min},d_{max},d_{avg}$  计算时，AGNES算法相应地称为单链接(Single-linekage),全链接(Complete-linkage),均链接(Average-linkage)算法。
 
 单链接步骤如下图（1-5）
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster14.png"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster15.PNG"/>
 </center> 
 
 全链接步骤如下图（1-5）
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster14.png"/>
+    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster16.PNG"/>
 </center> 
 
 AGNES算法描述如下：
