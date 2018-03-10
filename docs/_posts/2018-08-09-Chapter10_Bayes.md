@@ -155,6 +155,141 @@ $$P_\lambda(Y=c_k)=\frac{\sum\limits_{i=1}^NI(y_i=c_k)+\lambda}{N+K\lambda},k=1,
 
 # 3.贝叶斯网路
 
+## 3.1 定义
+
 贝叶斯网络(Bayesian network)，又称信念网络(Belief Network)，或有向无环图模型(directed acyclic graphical model)，是一种概率图模型，于1985年由Judea Pearl首先提出。它是一种模拟人类推理过程中因果关系的不确定性处理模型，其网络拓朴结构是一个有向无环图(DAG)。 
 
-贝叶斯网络的有向无环图中的节点表示随机变量$$\{X_1,X_2,\cdots,X_n\}$$，它们可以是可观察到的变量，或隐变量、未知参数等。将认为有因果关系（或非条件独立）的变量或命题则用箭头来连接。若两个节点间以一个单箭头连接在一起，表示其中一个节点是“因(parents)”，另一个是“果(children)”，两节点就会产生一个条件概率值。
+贝叶斯网络的有向无环图中的节点表示随机变量$$\{X_1,X_2,\cdots,X_n\}$$，它们可以是可观察到的变量，或隐变量、未知参数等。将有因果关系（或非条件独立）的变量或命题用箭头来连接。若两个节点间以一个单箭头连接在一起，表示其中一个节点是“因(parents)”，另一个是“果(children)”，两节点就会产生一个条件概率值。连接两个节点的箭头代表此两个随机变量是具有因果关系，或非条件独立。
+
+假设节点 $E$ 直接影响到节点 $H$ ，即 $E\rightarrow H$ ，则用从 $E$ 指向 $H$ 的箭头建立结点 $E$ 到结点 $H$ 的有向弧 $(E,H)$ ，权值(即连接强度)用条件概率 $P(H$ \| $E)$ 来表示，如下图所示：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes1.png"/>
+</center>
+
+把某个研究系统中涉及的随机变量，根据是否条件独立绘制在一个有向图中，就形成了贝叶斯网络。其主要用来描述随机变量之间的条件依赖，用圈表示随机变量(random variables)，用箭头表示条件依赖(conditional dependencies)。
+
+令 $G = (I,E)$ 表示一个有向无环图(DAG)，其中 $I$ 代表图形中所有的节点的集合，而 $E$ 代表有向连接线段的集合，且令 $x = (x_i),i \in I$ 为其有向无环图中的某一节点 $i$ 所代表的随机变量，若节点 $x$ 的联合概率可以表示成：
+
+$$P(x)=\prod_{i\in }P(x_i|\pi_i)$$
+
+则称 $x$ 为相对于一有向无环图 $G$ 的贝叶斯网络，其中， $\pi_i$ 表示节点 $i$ 之“因”，或称 $\pi_i$ 是 $i$ 的父节点集。
+
+于任意的随机变量，其联合概率可由各自的局部条件概率分布相乘而得出：
+
+$$P(x_1,\cdots,x_K) = P(x_K|x_1,\cdots,x_{K-1})\cdots P(x_2|x_1)P(x_1)$$
+
+## 3.2 结构
+
+给定如下图所示的一个贝叶斯网络：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes2.png"/>
+</center>
+
+则其联合分布为:
+
+$$P(x_1)P(x_2)P(x_3)P(x_4|x_1,x_2,x_3)P(x_5|x_1,x_3)P(x_6|x_4)P(x_7|x_4,x_5)$$
+
+贝叶斯网络中三个变量之间的典型依赖关系有：同父结构(tail-to-tail),V型结构(head-to-head),顺序结构(head-to-tail).
+
+#### tail-to-tail
+
+如下图为tail-to-tail类型:
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes3.png"/>
+</center>
+
+考虑 $c$ 未知，跟 $c$ 已知这两种情况：
+
+在 $c$ 未知的时候，有：
+
+$$P(a,b,c)=P(c)P(a|c)P(b|c)$$
+
+此时，没法得出 $P(a,b) = P(a)P(b)$ ，即 $c$ 未知时，$a,b$ 不独立。
+
+在 $c$ 已知的时候，有：
+
+$$P(a,b|c)=\frac{P(a,b,c)}{P(c)}=\frac{P(c)P(a|c)P(b|c)}{P(c)}=P(a|c)P(b|c)$$
+
+ $c$ 已知时，$a,b$ 独立。
+
+所以，在 $c$ 给定的条件下，$a,b$ 被阻断(blocked)，是独立的，称之为tail-to-tail条件独立，对应本节中最开始那张图中的“ $x_6$ 和 $x_7$ 在 $x_4$ 给定的条件下独立”。
+
+#### head-to-head
+
+如下图为head-to-head类型:
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes4.png"/>
+</center>
+
+联合分布为:
+
+$$P(a,b,c) = P(a)P(b)P(c|a,b)$$
+
+有:
+
+$$\sum_cP(a,b,c)=\sum_cP(a)P(b)P(c|a,b)\Rightarrow P(a,b) = P(a)P(b)$$
+
+即在 $c$ 未知的条件下， $a,b$ 被阻断(blocked)，是独立的，称之为head-to-head条件独立，对应本节中最开始那张图中的“ $x_1,x_2$ 独立”。
+
+#### head-to-tail
+
+如下图为head-to-tail类型:
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes5.png"/>
+</center>
+
+ $c$ 未知时，有：
+
+$$P(a,b,c)=P(a)P(c|a)P(b|c)\nRightarrow P(a,b) = P(a)P(b)$$
+
+即 $c$ 未知时，$a,b$ 不独立。
+
+ $c$ 已知时，有：
+
+$$P(a,b|c)=\frac{P(a,b,c)}{P(c)}$$
+
+$$P(a,c) = P(a)P(c|a) = P(c)P(a|c)$$
+
+则有：
+
+$$P(a,b|c) = \frac{P(a)P(c|a)P(b|c)}{P(c)}=\frac{P(a,c)P(b|c)}{P(c)}= P(a|c)P(b|c)$$
+
+所以，在 $c$ 给定的条件下，$a,b$ 被阻断(blocked)，是独立的，称之为head-to-tail条件独立。
+
+这个head-to-tail其实就是一个链式网络，如下图所示：
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes6.png"/>
+</center>
+
+在 $x_i $给定的条件下， $x_{i+1}$ 的分布和 $x_1,x_2,\cdots,x_{i-1}$ 条件独立.也就是说 $x_{i+1}$ 的分布状态只和 $x_i$ 有关，和其他变量条件独立。当前状态只跟上一状态有关，跟上一个状态之前的所有状态无关。这种顺次演变的随机过程，就叫做马尔科夫链（Markov chain）。即：
+
+$$P(X_{n+1}|X_0,X_1,\cdots,X_n)=P(X_{n+1}|X_n)$$
+
+广义的讲，对于任意的结点集 $A,B,C$ ，考察所有通过 $A$ 中任意结点到 $B$ 中任意结点的路径，若要求 $A,B$ 条件独立，则需要所有的路径都被阻断(blocked)，即满足下列两个前提之一：
+
+1. $A$ 和 $B$ 的“head-to-tail型”和“tail-to-tail型”路径都通过 $C$ ；
+
+2. $A$ 和 $B$ 的“head-to-head型”路径不通过 $C$ 以及 $C$ 的子孙；
+
+# 3.3 因子图
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes7.png"/>
+</center>
+
+ 对于上图，在一个人已经呼吸困难（dyspnoea）的情况下，其抽烟（smoking）的概率是:
+
+$$P(Smoking|Dyspnoea=yes)=?$$
+
+$$\begin{align}
+P(s|d=1) &= \frac{P(s,d=1)}{P(d=1)}\propto P(s,d=1)=\sum_{d=1,b,x,c}P(s)P(c|s)P(b|s)P(x|c,s)P(d|c,b)   \\
+&= P(s)\sum_{d=1}\sum_bP(b|s)\sum_x\underbrace{\sum_cP(c|s)P(x|c,s)P(d|c,b)} _{f(s,d,b,x)}\\
+\end{align} $$
+
+上式首先对联合概率关于 $b,x,c$ 求和（在 $d=1$ 的条件下），从而消去 $b,x,c$ ，得到 $s$ 和 $d=1$ 的联合概率。由于 $P(s)$ 和 $d=1,b,x,c$ 都没关系，所以，可以提到式子的最前面。而且 $P(b|s)$ 和 $x,c$ 没关系，所以，也可以把它提出来，放到 $\sum_b$ 的后面，从而式子的右边剩下 $\sum_x$ 和 $\sum_c$ 。
