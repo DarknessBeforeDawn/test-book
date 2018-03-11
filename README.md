@@ -99,3 +99,11 @@ SVM
 42. https://www.cnblogs.com/jerrylead/archive/2011/03/18/1988406.html
 
 43. http://blog.csdn.net/luoshixian099/article/details/51227754
+
+Bayes
+
+44. 理解全概率公式与贝叶斯公式 http://blog.csdn.net/luc9910/article/details/54377626
+
+45. 全概率公式、贝叶斯公式推导过程 https://www.cnblogs.com/ohshit/p/5629581.html
+
+46. 从贝叶斯方法谈到贝叶斯网络 http://blog.csdn.net/v_july_v/article/details/40984699
