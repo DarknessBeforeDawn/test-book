@@ -218,3 +218,155 @@ $$P(O|\lambda)=\sum_{i=1}^N\pi_ib_i(o_1)\beta_1(i)$$
 $$P(O|\lambda)=\sum_{i=1}^N\sum_{j=1}^N\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j), ~~~t=1,2,\cdots,T-1$$
 
 此式当 $t=1$ 和 $t=T-1$ 时分别代表前向概率和后向概率所求的观测序列概率。
+
+## 2.4 概率与期望的计算
+
+利用前向概率和后向概率，可以得到关于单个状态和两个状态概率的计算公式。
+
+1.给定模型 $\lambda$ 和观测 $O$ ，在时刻 $t$ 处于状态 $q_i$ 的概率， 记
+
+$$\gamma_t(i) = P(i_t=q_i|O,\lambda)$$
+
+可以通过前向后向概率计算，
+
+$$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O,\lambda)}{P(O,\lambda)}=\frac{P(i_t=q_i,O,\lambda)}{P(\lambda)P(O|\lambda)}=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}$$
+
+由前向概率 $\alpha_t(i)$ 和后向概率 $\beta_t(i)$ 定义可知：
+
+$$\alpha_t(i)\beta_t(i)=P(i_t=q_i,O|\lambda)$$
+
+于是有
+
+$$\gamma_t(i)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N\alpha_t(j)\beta_t(j)}$$
+
+2.给定模型 $\lambda$ 和观测 $O$ ,在时刻 $t$ 处于状态 $q_i$ 且在时刻 $t+1$ 处于状态 $q_j$ 的概率：
+
+$$\xi_t(i,j)=P(i_t=q_i,i_{t+1} = q_j|O,\lambda)$$
+
+通过前向后向概率计算:
+
+$$\xi_t(i,j)=\frac{P(i_t=q_i,i_{t+1} = q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1} = q_j,O|\lambda)}{\sum\limits_{i=1}^N\sum\limits_{j=1}^NP(i_t=q_i,i_{t+1} = q_j,O|\lambda)}$$
+
+而
+
+$$P(i_t=q_i,i_{t+1} = q_j,O|\lambda)=\alpha_t(i)a_{ij}b_j(O_{t+1})\beta_{t+1}(j)$$
+
+所以 
+
+$$\xi_t(i,j)=\frac{\alpha_t(i)a_{ij}b_j(O_{t+1})\beta_{t+1}(j)}{\sum\limits_{i=1}^N\sum\limits_{j=1}^N\alpha_t(i)a_{ij}b_j(O_{t+1})\beta_{t+1}(j)}$$
+
+3.将 $\gamma_t(i)$ 和 $\xi_t(i,j)$ 对各个时刻 $t$ 求和,可以得到一些有用的期望值:
+
+(1)在观测 $O$ 下状态 $i$ 出现的期望
+
+$$\sum_{t=1}^T=\gamma_t(i)$$
+
+(2)在观测 $O$ 下由状态 $i$ 转移的期望
+
+$$\sum_{t=1}^{T-1}=\gamma_t(i)$$
+
+(3)在观测 $O$ 下由状态 $i$ 转移到状态 $j$ 的期望值
+
+$$\sum_{t=1}^{T-1}=\xi_t(i,j)$$
+
+# 3. 学习算法
+
+## 3.1 监督学习算法
+
+假设已给训练数据包含 $S$ 个长度相同的观测序列和对应的状态序列
+
+$$\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$$ 
+
+那么可以利用极大似然估计法来估计 $HMM$ 的参数:
+
+1.转移概率 $a_{ij}$ 的估计
+
+设样本中时刻 $t$ 处于状态 $i$ 时刻 $t+1$ 转移到状态 $j$ 的频数为 $A_{ij}$ ,那么状态转移概率 $a_{ij}$ 的估计是
+
+$$\hat{a}_{ij} =\frac{A_{ij}}{\sum\limits_{j=1}^NA_{ij}},~~~~i,j=1,2,\cdots,N$$ 
+
+2.观测概率 $b_j(k)$ 的估计
+
+设样本中状态为 $j$ 并观测为 $k$ 的频数是 $B_{jk}$ ,那么状态为 $j$ 观测为 $k$ 的概率 $b_j(k)$ 的估计是
+
+$$\hat{b}_j(k)=\frac{B_{jk}}{\sum\limits_{k=1}^MB_{jk}},~~~~~j=1,2,\cdots,N;k=1,2,\cdots,M$$
+
+3.初始状态概率 $\pi_i$ 的估计 $\hat{\pi}_i$ 为 $S$ 个样本中初始化状态为 $q_i$ 的频率
+
+由于监督学习需要使用训练数据，而人工标注训练数据代价很高，有时就会用非监督学习的方法。
+
+## 3.2 Baum-Welch算法
+
+假设给定训练数据只包含 $S$ 个长度为 $T$ 的观测序列
+
+$$\{O_1,O_2,\cdots,O_S\}$$ 
+
+而没有对应的状态序列，目标是学习隐马尔科夫模型 $\lambda=(A,B,\pi)$ 的参数。将观测序列数据看作观测数据 $O$ ，状态序列数据看作不可观测的隐数据 $I$ ，那么 $HMM$ 事实上是一个含有隐变量的概率模型
+
+$$P(O|\lambda)=\sum_IP(O|I,\lambda)P(I|\lambda)$$
+
+它的参数学习可以由 $EM$ 算法实现。
+
+1.确定完全数据的对数似然函数
+
+所有观测数据写成 $O=(o_1,o_2,\cdots,o_T)$ ，所有隐数据写成 $I=(i_1,i_2,\cdots,i_T)$ ，完全数据是 $(O,I)=$(o_1,o_2,\cdots,o_T,i_1,i_2,\cdots,i_T)$ 。完全数据的对数似然函数是 
+
+$$\log P(O,I|\lambda)$$
+
+2. $EM$ 算法的 $E$ 步: 求 $Q$ 函数 $Q(\lambda,\overline{\lambda})$
+
+$$Q(\lambda,\overline{\lambda}) = E_I[\log P(O,I|\lambda)|O,\overline{\lambda}]=\sum_IP(I|O,\overline{\lambda})\log P(O,I|\lambda)=\sum_I\frac{P(O,I|\overline{\lambda})}{P(O|\overline{\lambda})}\log P(O,I|\lambda)$$
+
+其中， $\overline{\lambda}$ 是 $HMM$ 参数的当前估计值， $\lambda$ 是要极大化的 $HMM$ 参数，对于 $\lambda$ 来说 $frac{1}{P(O|\overline{\lambda})}$ 为常数因子，可省略。
+
+$$P(O,I|\lambda)=\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)\cdots a_{i_{T-1}i_T}b_{i_T}(o_T)$$
+
+于是有:
+
+$$Q(\lambda,\overline{\lambda})=\sum_I\log \pi_{i_1} P(O,I|\overline{\lambda})+\sum_I\biggl(\sum_{t=1}^{T-1}\log a_{i_ti_{t+1}}\biggr)P(O,I|\overline{\lambda}) +\sum_I\biggl(\sum_{t=1}^{T}\log b_{i_t}(o_t)\biggr)P(O,I|\overline{\lambda})$$ 
+
+式中求和都是对所有训练数据的序列总长度 $T$ 进行的。
+
+3. $EM$ 算法的 $M$ 步：极大化 $Q$ 函数求模型参数 $A,B,\pi$
+
+由于要极大化的参数在 $Q$ 函数中单独地出现在3个项中，所以只需对各项分别极大化
+
+(1)推导出的 $Q$ 函数中的第一项可写成
+
+$$\sum_I\log \pi_{i_1} P(O,I|\overline{\lambda})=\sum_{i=1}^N\log \pi_{i} P(O,i_1=i|\overline{\lambda})$$
+
+注意到 $\pi_i$ 满足约束条件 $\sum\limits_{i=1}^N\pi_i=1$ ，利用拉格朗日乘子法，写出拉格朗日函数:
+
+$$\sum_{i=1}^N\log \pi_{i} P(O,i_1=i|\overline{\lambda}) + \gamma \biggl(\sum_{i=1}^N\pi-1\biggr)$$
+
+对其求偏导，并令结果为 0
+
+$$\frac{\partial}{\partial\pi_i}\biggl[\sum_{i=1}^N\log \pi_{i} P(O,i_1=i|\overline{\lambda}) + \gamma \biggl(\sum_{i=1}^N\pi-1\biggr)\biggr]=0$$
+
+得
+
+$$P(O,i_1=i|\overline{\lambda})+\gamma\pi_i = 0$$
+
+对 $i$ 求和得到 $\gamma$
+
+$$\gamma = -P(O|\overline{\lambda})$$
+
+则 $\pi_i$ 为
+
+$$\pi_i=\frac{P(O,i_1=i|\overline{\lambda})}{P(O|\overline{\lambda})}$$
+
+(2)推导出的 $Q$ 函数的第二项可以写成
+
+$$\sum_I\biggl(\sum_{t=1}^{T-1}\log a_{i_ti_{t+1}}\biggr)P(O,I|\overline{\lambda}) = \sum_{i=1}^N\sum_{j=1}^N\sum_{t=1}^{T-1}\log a_{ij} P(O,i_t=i,i_{t+1}=j|\overline{\lambda})$$
+
+类似第一项，应用具有约束条件 $\sum\limits_{i=1}^Na_{ij}=1$ 的拉格朗日乘子法可以求出
+
+$$a_{ij}=\frac{\sum\limits_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\overline{\lambda})}{\sum\limits_{t=1}^{T-1}P(O,i_t=i|\overline{\lambda})}$$
+
+(3)推导出的 $Q$ 函数的第三项为：
+
+$$\sum_I\biggl(\sum_{t=1}^{T}\log b_{i_t}(o_t)\biggr)P(O,I|\overline{\lambda})=\sum_{j=1}^N\sum_{t=1}^{T}\log b_j(o_t)P(O,i_t=j|\overline{\lambda})$$
+
+同样用拉格朗日乘子法，约束条件是 $\sum\limits_{k=1}^Mb_j(k)=1$ .注意只有在 $o_t=v_k$ 时 $b_j(o_t)$ 对 $b_j(k)$ 的偏导树才不为 0 ，以 $I(o_t=v_k)$ 表示，求得
+
+$$b_j(k)=\frac{\sum\limits_{t=1}^TP(O,i_t=j|\overline{\lambda})I(o_t=v_k)}{\sum\limits_{t=1}^TP(O,i_t=j|\overline{\lambda})}$$
