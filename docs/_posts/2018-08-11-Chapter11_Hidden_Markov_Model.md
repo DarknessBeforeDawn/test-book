@@ -370,3 +370,111 @@ $$\sum_I\biggl(\sum_{t=1}^{T}\log b_{i_t}(o_t)\biggr)P(O,I|\overline{\lambda})=\
 同样用拉格朗日乘子法，约束条件是 $\sum\limits_{k=1}^Mb_j(k)=1$ .注意只有在 $o_t=v_k$ 时 $b_j(o_t)$ 对 $b_j(k)$ 的偏导树才不为 0 ，以 $I(o_t=v_k)$ 表示，求得
 
 $$b_j(k)=\frac{\sum\limits_{t=1}^TP(O,i_t=j|\overline{\lambda})I(o_t=v_k)}{\sum\limits_{t=1}^TP(O,i_t=j|\overline{\lambda})}$$
+
+## 3.3 Baum-Welch模型参数估计公式
+
+由
+
+$$\gamma_t(i)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}$$
+
+$$\xi_t(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)$$
+
+可将上节估计出的参数写成:
+
+$$a_{ij}=\frac{\sum\limits_{t=1}^{T-1}\xi_t(i,j)}{\sum\limits_{t=1}^{T-1}\gamma_t(i)}$$
+
+$$b_j(k)=\frac{\sum\limits_{t=1,o_t=v_k}^T\gamma_t(j)}{\sum\limits_{t=1}^T\gamma_t(j)}$$
+
+$$\pi_i=\gamma_1(i)$$
+
+以上三个结果就是 Baum-Welch 算法，它是 $EM$ 算法在 $HMM$ 学习中的具体实现，由 Baum 和 Welch 提出。
+
+**Baum-Welch 算法流程**
+
+输入: 观测数据 $O=(o_1,o_2,\cdots,o_T)$ ;
+
+输出: $HMM$ 参数
+
+(1)初始化
+
+对 $n=0$ ,选取 $a_{ij}^{(0)},b_j(k)^{(0)},\pi_i^{(0)}$ ，得到模型 $\lambda^{(0)}=(A^{(0)},B^{(0)},\pi^{(0)})$ .
+
+(2)递推。 对 $n=1,2,\cdots,$
+
+$$a_{ij}^{(n+1)}=\frac{\sum\limits_{t=1}^{T-1}\xi_t(i,j)}{\sum\limits_{t=1}^{T-1}\gamma_t(i)}$$
+
+$$b_j(k)^{(n+1)}=\frac{\sum\limits_{t=1,o_t=v_k}^T\gamma_t(j)}{\sum\limits_{t=1}^T\gamma_t(j)}$$
+
+$$\pi_i^{(n+1)}=\gamma_1(i)$$
+
+右端各值按观测 $O=(o_1,o_2,\cdots,o_T)$ 和模型 $\lambda^{(n)}=(A^{(n)},B^{(n)},\pi^{(n)})$ 计算。
+
+(3) 终止，得到模型参数 $\lambda^{(n+1)}=(A^{(n+1)},B^{(n+1)},\pi^{(n+1)})$
+
+# 4. 预测算法
+
+## 4.1 近似算法
+
+近似算法思想是，在每个时刻 $t$ 选择在该时刻最优肯出现的状态$$i_t^*$$,从而得到一个状态序列$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$,将它作为预测的结果。
+
+给定 $HMM~~~\lambda$ 和观测序列 $O$ ，在时刻 $t$ 处于状态 $q_i$ 的概率 $\gamma_t(i)$ 是
+
+$$\gamma_t(i)=\frac{\alpha_t(i)\beta_t(i)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum\limits_{j=1}^N\alpha_t(j)\beta_t(j)}$$
+
+在每一时刻 $t$ 最有可能的状态$$i_t^*$$是
+
+$$i_t^*=\arg\max_{1\leqslant i\leqslant N}[\gamma_t(i)],t=1,2,\cdots,T$$
+
+而得到状态序列$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$.
+
+近似算法的有点是计算简单，其确定是不能保证预测的状态序列整体是最有可能的状态序列，因为预测的状态序列可能有实际不发生的部分。事实上，上述方法得到的状态序列中有可能存在转移概率为 0 的相邻状态，即对某些 $i,j,a_{ij}=0$ 时，尽管如此，近似算法仍然是有用的。
+
+## 4.2 维特比算法
+
+维特比算法是用动态规划解 $HMM$ 的预测问题，用动态规划(Dynamic Programming)求概率最大路径。这时一条路径对应一个状态序列。
+
+根据动态规划原理，最优路径具有如下特性:如果最优路径在时刻 $t$ 通过结点$$i_t^*$$,那么这一路径从结点$$i_t^*$$到终点$$i_T^*$$的部分路径，对于从$$i_t^*$$到$$i_T^*$$的所有可能的部分路径来说，必须是最优的。因为如果从$$i_t^*$$到$$i_T^*$$有另一条更好的部分路径存在，那么把它和从$$i_1^*$$到$$i_t^*$$的部分路径连接起来，就会形成一条比原来更优的路径，这是矛盾的。依据这一原理，我们只需从时刻 $t=1$ 开始，递推地计算在时刻 $t$ 状态为 $i$ 的各条部分路径的最大概率，直至得到时刻 $t=T$ 状态为 $i$ 的各条路径的最大概率。时刻 $t=T$ 的最大概率即为最优路径的概率$$P^*$$,最优路径的终结点$$i_T^*$$也同时得到。之后，为了找出最优路径的各个结点，从终结点$$i_T^*$$开始，由后向前逐步求得结点$$i_{T-1}^*,\cdots,i_{1}^*$$，得到最优路径$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$.以上即为维特比算法。
+
+首先导入两个变量 $\delta$ 和 $\psi$ .定义在时刻 $t$ 状态为 $i$ 的所有单个路径 $(i_1,i_2,\cdots,i_t)$ 中概率最大值为
+
+$$\delta_t(i)=\max_{i_1,i_2,\cdots,i_{t-1}}P(i_t=i,i_{t-1},\cdots,i_1,o_t,\cdots,o_1|\lambda),~~~i=1,2,\cdots,N$$
+
+由定义可得变量 $\delta$ 的递推公式:
+
+$$\delta_{t+1}(i)=\max_{i_1,i_2,\cdots,i_{t}}P(i_{t+1}=i,i_{t},\cdots,i_1,o_{t+1},\cdots,o_1|\lambda)=\max_{1\leqslant j\leqslant N}[\delta_t(j)a_{ji}]b_i(o_{t+1}),~~~t=1,2,\cdots,T-1$$
+
+定义在时刻 $t$ 状态为 $i$ 的所有单个路径 $(i_1,i_2,\cdots,i_{t-1},i)$ 中概率最大的路径的第 $t-1$ 个结点为
+
+$$\psi_t(i)=\arg \max_{1\leqslant j\leqslant N}[\delta_{t-1}(j)a_{ji}],~~~i=1,2,\cdots,N$$
+
+**维特比算法流程**
+
+输入：模型 $\lambda=(A,B,\pi)$ 和观测 $O=(o_1,o_2,\cdots,o_T)$ ;
+
+输出：最优路径
+
+$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$
+
+(1)初始化
+
+$$\delta_1(i)=\pi_ib_i(o_1),~~~\psi_1(i)=0,~~~i=1,2,\cdots,N$$
+
+(2)递推。对 $t=2,3,\cdots,T$ 
+
+$$\delta_{t}(i)=\max_{1\leqslant j\leqslant N}[\delta_{t-1}(j)a_{ji}]b_i(o_{t}),~~~i=1,2,\cdots,N$$
+
+$$\psi_t(i)=\arg \max_{1\leqslant j\leqslant N}[\delta_{t-1}(j)a_{ji}],~~~i=1,2,\cdots,N$$
+
+(3)终止
+
+$$P^*=\max_{1\leqslant i\leqslant N}\delta_T(i)$$
+
+$$i^*_T=\arg \max_{1\leqslant i\leqslant N}[\delta_T(i)]$$
+
+(4)最优路径回溯。对 $t=T-2,T-2,\cdots,1$ 
+
+$$i_t^*\psi_{t+1}(i^*_{t+1})$$
+
+求得最优路径
+
+$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$
