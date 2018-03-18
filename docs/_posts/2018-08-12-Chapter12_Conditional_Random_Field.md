@@ -144,3 +144,180 @@ $$Z(x)=\sum_y\exp\biggl(\sum_{i,k}\lambda_kt_k(y_{i-1},y_i,x,i)+\sum_{i,l}\mu_ls
 线性链条件随机场也是对数线性模型(Log Linear Model).
 
 ## 2.3条件随机场的简化形式
+
+条件随机场可以由简化形式表示。条件随机场的参数化形式中同一特征在各个位置都有定义，可以对同一个特征在各个位置求和，将局部特征函数转化为一个全局特征函数，这样就可以将条件随机场写成权值向量和特征向量的内积形式，即条件随机场的简化形式。
+
+为简便起见，首先将转移特征和状态特征及其权值用统一的符号表示。设有 $K_1$ 个转移特征， $K_2$ 个状态特征， $K=K_1+K_2$ ,记
+
+$$f_k(y_{i-1},y_i,x,i)=\left
+\{
+\begin{aligned}  
+&t_k(y_{i-1},y_i,x,i),~~~~~k=1,2,\cdots,K_1  \\
+&s_l(y_i,x,i),~~~~~k=K_1+l;~~l=1,2,\cdots,K_2
+\end{aligned}
+\right.$$
+
+然后，对转移与状态特征在各个位置 $i$ 求和，记作
+
+$$f_k(y,x)=\sum_{i=1}^nf_k(y_{i-1},y_i,x,i),~~~~~k=1,2,\cdots,K$$
+
+用 $w_k$ 表示特征 $f_k(y,x)$ 的权值，即
+
+ $$w_k=\left
+\{
+\begin{aligned}  
+&lambda_k,~~~~~k=1,2,\cdots,K_1  \\
+&\mu_l,~~~~~k=K_1+l;~~l=1,2,\cdots,K_2
+\end{aligned}
+\right.$$
+
+于是有
+
+$$P(y|x) = \frac{1}{Z(x)}\exp\sum_{k=1}^Kw_kf_k(y,x)$$
+
+$$Z(x)=\sum_y\exp\sum_{k=1}^Kw_kf_k(y,x)$$
+
+若以 $w$ 表示权值向量，即
+
+$$w=(w_1,w_2,\cdots,W_K)^T$$
+
+以 $F(y,x)$ 表示全局特征向量，即
+
+$$F(y,x)=(f_1(y,x),f_2(y,x),\cdots,f_K(y,x))^T$$
+
+则条件随机场可以写成向量 $w$ 与 $F(y,x)$ 的内积形式:
+
+$$P_w(y|x)=\frac{\exp(w\cdot F(y,x))}{Z_w(x)}$$
+
+其中，
+
+$$Z_w(x)=\sum_y\exp(w\cdot F(y,x))$$
+
+## 2.4 条件随机场的矩阵形式
+
+条件随机场还可以由矩阵表示。假设
+
+$$P_w(y|x) = \frac{1}{Z_w(x)}\exp\sum_{k=1}^Kw_kf_k(y,x)$$
+
+$$Z_w(x)=\sum_y\exp\sum_{k=1}^Kw_kf_k(y,x)$$
+
+表示对给定观测序列 $x$ ,相应的标记序列 $y$ 的条件概率，引进特殊的起点和终点状态标记 $y_0=start,,y_{n-1}=stop$ ,这时 $P_w(y$ \| $x)$ 可以通过矩阵形式表示。
+
+对观测序列 $x$ 的每一个位置 $i=1,2,\cdots,n+1$ ，定义一个 $m$ 阶矩阵( $m$ 是标记 $y_i$ 的取值个数)
+
+
+$$M_i(x)=[M_i(y_{i-1},y_i|x)]$$
+
+$$M_i(y_{i-1},y_i|x)=\exp(W_i(y_{i-1},y_i|x))$$
+
+$$W_i(y_{i-1},y_i|x)=\sum_{k=1}^Kw_kf_k(y_{i-1},y_i,x,i)$$
+
+这样，给定观测序列 $x$ ,相应标记序列 $y$ 的非规范化概率可以通过该序列 $n+1$ 个矩阵适当元素的乘积 $\prod_{i=1}^{n+1}M_i(y_{i-1},y_i$ \| $x)$ 表示，条件概率是:
+
+$$P_w(y|x)\frac{1}{Z_w(x)}\prod_{i=1}^{n+1}M_i(y_{i-1},y_i|x)$$
+
+其中 $Z_w(x)$ 是规范化因子，是 $n+1$ 个矩阵的乘积的 $(start,stop)$ 元素：
+
+$$Z_w(x)=(M_1(x)M_2(x)\cdots M_{n+1}(x))_{start,stop}$$
+
+注意， $y_0=start,y_{n+1}=stop$ 表示开始状态与终止状态，规范化因子 $Z_w(x)$ 是以 $start$ 为起点 $stop$ 为终点通过状态的所有路径 $y_1y_2\cdots y_n$ 的非规范化概率 $\prod_{i=1}^{n+1}M_i(y_{i-1},y_i$ \| $x)$ 之和。
+
+# 3. 条件随机场的概率计算问题
+
+条件随机场的概率计算问题是给定条件随机场 $P(Y$ \| $X)$ ，输入序列 $x$ 和输出序列 $y$ ,计算条件概率 $P(Y_i=y_i$ \| $x),P(Y_{i-1}=y_{i-1},Y_i=y_i$ \| $x)$ 以及相应的数学期望的问题。为了方便，像 $HMM$ 那样，引进前向-后向向量，递归地计算以上概率记期望。这样的算法称为前向-后向算法。
+
+## 3.1 前向-后向算法
+
+对每个指标 $i=0,1,\cdots,n+1$ ,定义前向向量 $\alpha_i(x)$
+
+$$\alpha_0(y|x)=\left
+\{
+\begin{aligned}  
+&1,~~~~~y=start  \\
+&0,~~~~~else
+\end{aligned}
+\right.$$
+
+递推公式为
+
+$$\alpha_i^T(y_i|x)=\alpha_{i-1}^T(y_{i-1}|x)[M_i(y_{i-1},y_i|x)],~~~~~~i=1,2,\cdots,n+1$$
+
+又可表示为
+
+$$\alpha_i^T(x)=\alpha_{i-1}^T(x)M_i(x)$$
+
+ $\alpha_i(y_i$ \| $x)$ 表示在位置 $i$ 的标记是 $y_i$ 并且到位置 $i$ 的前部分标记序列的非规范化概率， $y_i$ 可取的值有 $m$ 个，所以 $\alpha_i(x)$ 是 $m$ 维列向量。
+
+同样，对每个指标 $i=0,1,\cdots,n+1$ ,定义后向向量 $\beta_i(x)$ :
+
+$$\beta_{n+1}(y_{n+1}|x)=\left
+\{
+\begin{aligned}  
+&1,~~~~~y_{n+1}=stop  \\
+&0,~~~~~else
+\end{aligned}
+\right.$$
+
+$$\beta_i(y_i|x)=[M_i(y_{i},y_{i+1}|x)]\beta_{i+1}(y_{i+1}|x)$$
+
+又可表示为
+
+$$\beta_i(x)=M_{i+1}(x)\beta_{i+1}(x)$$
+
+ $\beta_i(y_i$ \| $x)$ 表示在位置 $i$ 的标记是 $y_i$ 并且从 $i+1$ 到 $n$ 的后半部分标记序列的非规范化概率。
+
+由前向-后向向量定义可得:
+
+$$Z(x)=\alpha_n^T(x)\cdot \mathbf{1}=\mathbf{1}^T\cdot \beta_1(x)$$
+
+这里， $\mathbf{1}$ 是元素均为 1 的 $m$ 维列向量。
+
+## 3.2 概率计算
+
+按照前向-后向向量的定义，很容易计算标记序列在位置 $i$ 是标记 $y_i$ 的条件概率和在位置 $i-1$ 与 $i$ 是标记 $y_{i-1}$ 和 $y_i$ 的条件概率:
+
+$$P(Y_i=y_i|x)=\frac{\alpha_i^T(y_i|x)\beta_i(y_i|x)}{Z(x)}$$
+
+$$P(Y_{i-1},Y_i=y_i|x)=\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}$$
+
+其中，
+
+$$Z(x)=\alpha_n^T(x)\cdot \mathbf{1}$$
+
+## 3.3 期望计算
+
+利用前向-后向向量，可以计算特征函数关于联合分布 $P(X,Y)$ 和条件分布 $P(Y$ \| $X)$ 的数学期望。
+
+特征函数 $f_k$ 关于条件分布 $P(Y$ \| $X)$ 的数学期望是
+
+$$
+\begin{aligned} 
+E_{P(Y|X)}[f_k]&=\sum_yP(y|x)f_k(y,x) \\
+&=\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  \\
+&k =1,2,\cdots,K
+\end{aligned}$$
+
+其中，
+
+$$Z(x)=\alpha_n^T(x)\cdot \mathbf{1}$$
+
+假设经验分布为 $\tilde{P}(X)$ ,特征函数 $f_k$ 关于联合分布 $P(X,Y)$ 的数学期望是
+
+$$
+\begin{aligned} 
+E_{P(X,Y)}[f_k]&=\sum_{x,y}P(x,y)\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i) \\
+&=\sum_x\tilde{P}(X)\sum_yP(y|x)f_k(y,x) \\
+&=\sum_x\tilde{P}(X)\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  \\
+&k =1,2,\cdots,K
+\end{aligned}$$
+
+其中，
+
+$$Z(x)=\alpha_n^T(x)\cdot \mathbf{1}$$
+
+上述两式是特征函数数学期望的一般计算公式。对于转移特征 $t_k(y_{i-1},y_i,x,i),~~~k=1,2,\cdots,K_1$ ，可以将式中的 $f_k$ 换成 $t_k$ ;对于状态特征，可以将式中的 $f_k$ 换成 $s_i$ ，表示为 $s_l(y_i,x,i), ~~~k=K_1+l,~~~l=1,2,\cdots,K_2$ .
+
+有了概率和期望计算的公式，对给定的观测序列 $x$ 与标记序列 $y$ ,可以通过一次前向扫描计算 $\alpha_i$ 及 $Z(x)$ ，通过一次后向扫描计算 $\beta_i$ ,从而计算所有的概率和期望特征。
+
+# 4. 条件随机场的学习算法
+
