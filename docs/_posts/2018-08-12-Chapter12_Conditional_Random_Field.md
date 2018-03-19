@@ -321,3 +321,85 @@ $$Z(x)=\alpha_n^T(x)\cdot \mathbf{1}$$
 
 # 4. 条件随机场的学习算法
 
+条件随机场模型实际上是定义在时序数据上的对数线形模型，其学习方法包括极大似然估计和正则化的极大似然估计。具体地算法有改进的迭代尺度法 $IIS$ ，梯度下降法以及拟牛顿法。
+
+## 4.1 改进的迭代尺度法
+
+已知训练数据集，由此可知经验概率分布 $\tilde{P}(X,Y)$ 可以通过极大训练数据的对数似然函数来求模型参数。
+
+训练书的对数似然函数为:
+
+$$L(w)=L_{\tilde{P}}(P_w)=\log \prod_{x,y}P_w(y|x)^{\tilde{P}(X,Y)}=\sum_{x,y}\tilde{P}(X,Y)\log P_w(y|x)$$
+
+当 $P_w$ 是
+
+$$P_w(y|x) = \frac{1}{Z_w(x)}\exp\sum_{k=1}^Kw_kf_k(y,x)$$
+
+时，对数似然函数为
+
+$$
+\begin{aligned} 
+L(w)&=\sum_{x,y}\tilde{P}(x,y)\log P_w(y|x) \\
+&=\sum_{x,y}\biggl[\tilde{P}(x,y)\sum_{k=1}^Kw_kf_k(y,x)-\tilde{P}(x,y)\log Z_w(x)\biggr] \\
+&=\sum_{j=1}^N\sum_{k=1}^{k}w_kf_k(y_{j},x_j)-\sum_{j=1}^N \log Z_w(x_j) \\
+\end{aligned}$$
+
+改进的迭代尺度算法通过迭代的方法不断优化对数似然函数改变量的下界，达到极大化对数似然函数的目的。假设模型的当前参数向量为 $w=(w_1,w_2,\cdots,w_K)^T$ ，向量的增量为 $\delta = (\delta_1,\delta_2,\cdots,delta_K)^T$ ,更新参数向量为 $w+\delta=(w_1+\delta_1,w_2+\delta_2,\cdots,w_K+\delta_K)^T$ 。在每一步迭代过程中，改进的迭代尺度法依次通过求解 $E_{\tilde{P}}[t_k]$ 和 $E_{\tilde{P}}[s_l]$ ，得到 $\delta = (\delta_1,\delta_2,\cdots,delta_K)^T$。
+
+关于转移特征 $t_k$ 的更新方程为 
+
+$$
+\begin{aligned} 
+E_{\tilde{P}}[t_k]&=\sum_{x,y}\tilde{P}(x,y)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i) \\
+&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp (\delta_kT(x,y))\\
+&~~~~~~~~~~~~~~ k=1,2,\cdots,K_1\\
+\end{aligned}$$
+
+关于状态特征 $s_l$ 的更新方程为
+
+$$
+\begin{aligned} 
+E_{\tilde{P}}[s_l]&=\sum_{x,y}\sum_{i=1}^{n+1}s_l(,y_i,x,i) \\
+&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{k_1+l}T(x,y))\\
+&~~~~~~~~~~~~~~ l=1,2,\cdots,K_2\\
+\end{aligned}$$
+
+这里， $T(x,y)$ 是在数据 $(x,y)$ 中出现所有特征数的总和:
+
+$$T(x,y)=\sum_kf_k(y,x)=\sum_{k=1}^K\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i)$$
+
+**条件随机场模型学习的改进的迭代尺度法**
+
+输入: 特征函数 $t_1,t_2,\cdots,t_{K_1},~~~s_1,s_2,\cdots,s_{K_2}$ ; 经验分布 $\tilde{P}(x,y)$ ;
+
+输出：参数估计值 $\hat{w}$ ; 模型 $P_{\hat{w}}$ .
+
+(1)对所有
+
+$$k\in\{1,2,\cdots,K\}$$
+
+取初值 $w_k=0$
+
+(2)对每一个
+
+$$k\in\{1,2,\cdots,K\}$$
+
+有：
+
+(a)当 $k=1,2,\cdots,K_1$ 时，令 $\delta_k$ 是方程
+
+$$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp (\delta_kT(x,y))=E_{\tilde{P}}[t_k]$$
+
+的解；当 $k=k_1+l,~~l=1,2,\cdotsK_2$ 时，令 $\delta_{K_1+l}$ 是方程
+
+$$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{k_1+l}T(x,y))=E_{\tilde{P}}[s_l]$$
+
+的解。
+
+(b)更新 $w_k$ 值： $w_k\leftarrow w_k+\delta_k$
+
+(3)如果不是所有 $w_k$ 都收敛，重复步骤(2).
+
+
+
+
