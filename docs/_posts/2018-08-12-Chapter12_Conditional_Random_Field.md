@@ -293,7 +293,7 @@ $$Z(x)=\alpha_n^T(x)\cdot \mathbf{1}$$
 $$
 \begin{aligned} 
 E_{P(Y|X)}[f_k]&=\sum_yP(y|x)f_k(y,x) \\
-&=\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  \\
+&=\sum_{i=1}^{n+1}\sum_{y_{i-1},y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  \\
 &k =1,2,\cdots,K
 \end{aligned}$$
 
@@ -307,7 +307,7 @@ $$
 \begin{aligned} 
 E_{P(X,Y)}[f_k]&=\sum_{x,y}P(x,y)\sum_{i=1}^{n+1}f_k(y_{i-1},y_i,x,i) \\
 &=\sum_x\tilde{P}(X)\sum_yP(y|x)f_k(y,x) \\
-&=\sum_x\tilde{P}(X)\sum_{i=1}^{n+1}\sum_{y_{i-1}y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  \\
+&=\sum_x\tilde{P}(X)\sum_{i=1}^{n+1}\sum_{y_{i-1},y_i}f_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  \\
 &k =1,2,\cdots,K
 \end{aligned}$$
 
@@ -360,7 +360,7 @@ E_{\tilde{P}}[t_k]&=\sum_{x,y}\tilde{P}(x,y)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)
 $$
 \begin{aligned} 
 E_{\tilde{P}}[s_l]&=\sum_{x,y}\sum_{i=1}^{n+1}s_l(,y_i,x,i) \\
-&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{k_1+l}T(x,y))\\
+&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{K_1+l}T(x,y))\\
 &~~~~~~~~~~~~~~ l=1,2,\cdots,K_2\\
 \end{aligned}$$
 
@@ -390,9 +390,9 @@ $$k\in\{1,2,\cdots,K\}$$
 
 $$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp (\delta_kT(x,y))=E_{\tilde{P}}[t_k]$$
 
-的解；当 $k=k_1+l,~~l=1,2,\cdotsK_2$ 时，令 $\delta_{K_1+l}$ 是方程
+的解；当 $k=k_1+l,~~l=1,2,\cdots,K_2$ 时，令 $\delta_{K_1+l}$ 是方程
 
-$$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{k_1+l}T(x,y))=E_{\tilde{P}}[s_l]$$
+$$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{K_1+l}T(x,y))=E_{\tilde{P}}[s_l]$$
 
 的解。
 
@@ -400,6 +400,192 @@ $$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{k_1+l}T(x
 
 (3)如果不是所有 $w_k$ 都收敛，重复步骤(2).
 
+ $E_{\tilde{P}}[t_k]$ 和 $E_{\tilde{P}}[s_l]$ 公式中， $T(x,y)$ 表示数据 $(x,y)$ 中的特征总数，对不同的数据 $(x,y)$ 取值可能不同。为了处理这个问题，定义松弛特征
 
+$$s(x,y)=S-\sum_{i=1}^{n+1}\sum_{k=1}^Kf_k(y_{i-1},y_i,x,i)$$
 
+式中 $S$ 是一个常数，选择足够大的常数 $S$ 使得对训练数据集的所有数据 $(x,y),s(x,y)\geqslant 0$ 成立。这时特征总数可取 $S$ .
 
+由 $E_{\tilde{P}}[t_k]$ 可得，对于转移特征 $t_k,\delta_k$ 的更新方程是
+
+$$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp (\delta_kS)=E_{\tilde{P}}[t_k]$$
+
+$$\delta_k=\frac{1}{S}\log\frac{E_{\tilde{P}}[t_k]}{E_{P}[t_k]}$$
+
+其中，
+
+$$E_{P}[t_k]=\sum_x\tilde{P}(X)\sum_{i=1}^{n+1}\sum_{y_{i-1},y_i}t_k(y_{i-1},y_i,x,i)\frac{\alpha_{i-1}^T(y_{i-1}|x)M_i(y_{i-1},y_i|x)\beta_i(y_i|x)}{Z(x)}  $$
+
+同样由 $E_{\tilde{P}}[s_l]$ 可得，对于状态特征 $s_l,\delta_k$ 的更新方程是
+
+$$\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{K_1+l}S)=E_{\tilde{P}}[s_l]$$
+
+$$\delta_k=\frac{1}{S}\log\frac{E_{\tilde{P}}[s_l]}{E_{P}[s_l]}$$
+
+其中，
+
+$$E_{P}[s_l]=\sum_x\tilde{P}(X)\sum_{i=1}^{n}\sum_{y_i}s_l(y_i,x,i)\frac{\alpha_{i}^T(y_{i}|x)\beta_i(y_i|x)}{Z(x)} $$
+
+以上算法称为算法 **S** ,在算法 **S** 中需要使常数 $\mathbf{S}$ 取足够大，这样，每步迭代的增量向量会变大，算法收敛会变慢。算法 **T** 试图解决这个问题。算法 **T** 对每个观测序列 $x$ 计算特征总数最大值 $T(x)$ :
+
+$$T(x)=\max_{y}T(x,y)$$
+
+利用前向-后向递推公式，可以很容易地计算 $T(x)=t$ .
+
+这时，关于转移特征参数的更新方程可以写成:
+
+$$
+\begin{aligned} 
+E_{\tilde{P}}[t_k]&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp (\delta_kT(x))\\
+&=\sum_{x}\tilde{P}(x)\sum_yP(y|x)\sum_{i=1}^{n+1}t_k(y_{i-1},y_i,x,i)\exp (\delta_kT(x))\\
+&=\sum_{x}\tilde{P}(x)a_{k,t}\exp(\delta_k\cdot t) \\
+&=\sum_{t=0}^{T_{\max}}a_{k,t}\beta_k^t \\
+\end{aligned}$$
+
+这里， $a_{k,t}$ 是特征 $t_k$ 的期待值， $\delta_k=\log\beta_k$ . $\beta_k$ 是上式唯一的实根，可以用牛顿法求得。从而求得相关 $\delta_k$ .
+
+同样，关于状态特征的参数更新方程可以写成：
+
+$$
+\begin{aligned} 
+E_{\tilde{P}}[s_l]&=\sum_{x,y}\tilde{P}(x)P(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{K_1+l}T(x))\\
+&=\sum_{x}\tilde{P}(x)\sum_yP(y|x)\sum_{i=1}^{n}s_l(,y_i,x,i)\exp (\delta_{K_1+l}T(x))\\
+&=\sum_{x}\tilde{P}(x)b_{l,t}\exp(\delta_k\cdot t) \\
+&=\sum_{t=0}^{T_{\max}}b_{l,t}\gamma_l^t
+\end{aligned}$$
+
+这里， $b_{l,t}$ 是特征 $s_l$ 的期望值， $\delta_l=\log\gamma_l,\gamma_l$ 是上式得唯一实根，也可以用牛顿法求得。
+
+## 4.2 拟牛顿法
+
+条件随机场模型学习还可以应用牛顿法或拟牛顿法。对于条件随机场模型
+
+$$P_w(y|x)=\frac{\exp\biggl(\sum\limits_{i=1}^nw_if_i(x,y)\biggr)}{\sum\limits_y\exp\biggl(\sum\limits_{i=1}^nw_if_i(x,y)\biggr)}$$
+
+学习的优化目标函数是
+
+$$\min_{w\in\mathbf{R}^n}f(w)=\sum_x\tilde{P}(x)\log\sum_y\exp\biggl(\sum\limits_{i=1}^nw_if_i(x,y)\biggr)-\sum_{x,y}\tilde{P}(x,y)\sum_{i=1}^nw_if_i(x,y)$$
+
+其梯度函数是
+
+$$g(w)=\sum_x\tilde{P}(x)P_w(y|x)f(x,y)-E_{\tilde{P}}(f)$$
+
+**条件随机场模型学习的BFGS算法**
+
+输入：特征函数 $f_1,f_2,\cdots,f_n$ ;经验分布 $\tilde{P}(X,Y)$ ;
+
+输出：最优参数值 $\hat{w}$ ; 最优模型 $P_{\hat{w}}(y$ \| $x)$ .
+
+(1)选定初始点 $w^{(0)}$ ,取 $\mathbf{B}_0$ 为正定对称矩阵，置 $k=0$
+
+(2)计算 $g_k=g(w^{(k)})$ .若 $g_k=0$ ,则停止计算；否则转(3)
+
+(3)由 $B_kp_k=-g_k$ 求出 $p_k$
+
+(4)一维搜索：求 $\lambda_k$ 使得
+
+$$f(w^{(k)}+\lambda_kp_k)=\min_{\lambda\geqslant 0}f(w^{(k)}+\lambda p_k)$$
+
+(5)置 $w^{(k+1)}=w^{(k)}+\lambda_k p_k$
+
+(6)计算 $g_{k+1}=g(w^{(k+1)})$ ,若 $g_{k+1}=0$ ，则停止计算；否则，按下士求出 $B_{k+1}$ :
+
+$$B_{k+1}=B_k+\frac{y_ky_k^T}{y_k^T\delta_k}-\frac{B_k\delta_k\delta_k^TB_k}{\delta_kB_k\delta_k}$$
+
+其中，
+
+$$y_k=g_{k+1}-g_k,~~~~~\delta_k=w^{(k+1)}-w^{(k)}$$
+
+(7)置 $k=k+1$ ,转(3).
+
+# 5. 条件随机场的预测算法
+
+条件随机场的预测问题是给定条件随机场 $P(Y$ \| $X)$ 和输入序列(观测序列) $x$ ，求条件概率最大的输出序列(标记序列) $y^*$ ,即对观测序列进行标注。条件随机场的观测算法是著名的维比特算法。
+
+由
+
+$$P_w(y|x)=\frac{\exp(w\cdot F(y,x))}{Z_w(x)}$$
+
+可得:
+
+$$
+\begin{aligned} 
+y^*&=\arg\max_yP_w(y|x) \\
+&=\arg\max_y\frac{\exp(w\cdot F(y,x))}{Z_w(x)}\\
+&=\arg\max_y\exp(w\cdot F(y,x))\\
+&=\arg\max_y(w\cdot F(y,x))\\
+\end{aligned}$$
+
+于是，条件随机场的预测问题成为求非规范化概率最大的最优路径问题
+
+$$\max_y(w\cdot F(y,x))$$
+
+这里，路径表示标记序列。其中，
+
+$$w=(w_1,w_2,\cdots,w_K)^T$$
+
+$$F(y,x)=(f_1(y,x),f_2(y,x),\cdots,f_K(y,x))^T$$
+
+$$f_k(y,x)=\sum_{i=1}^nf_k(y_{i-1},y_i,x,i)~~~~~~k=1,2,\cdots,K$$
+
+注意，这时只需计算非规范化概率，可以大大提高效率，为了求解最优路径，将目标函数写成:
+
+$$\max_y~~~~\sum_{i=1}^nw\cdot F_i(y_{i-1},y_i,x)$$
+
+其中，
+
+$$F_i(y_{i-1},y_i,x)=(f_1(y_{i-1},y_i,x,i)f_2(y_{i-1},y_i,x,i),\cdots,f_K(y_{i-1},y_i,x,i))^T$$
+
+是局部特征向量。
+
+下面描述维特比算法，首先求出位置 1 的各个标记 $j=1,2,\cdots,m$ 的非规范化概率:
+
+$$\delta_1(j)=w\cdot F_1(y_0=start,y_1=j,x), ~~~~j=1,2,\cdots,m$$
+
+由递推公式，求出到位置 $i$ 的各个标记 $l=1,2,\cdots,m$ 的非规范化概率的最大值，同时记录非规范化概率最大值的路径
+
+$$\delta_i(l)=\max_{1\leqslant j\leqslant m}\{\delta_{i-1}(j)+w\cdot F_i(y_{i-1}=j,y_i=l,x)\}$$
+
+$$\Psi_i(l)=\arg \max_{1\leqslant j\leqslant m}\{\delta_{i-1}(j)+w\cdot F_i(y_{i-1}=j,y_i=l,x)\}$$
+
+直到 $i=n$ 终止。这时求得非规范化概率的最大值为
+
+$$\max_y(w\cdot F(y,x))=\max_{1\leqslant j\leqslant m}\delta_{n}(j)$$
+
+及最优路径的终点
+
+$$y_n^*=\arg \max_{1\leqslant j\leqslant m}\delta_{n}(j)$$
+
+由此最优路径终点返回，
+
+$$y_i^*=\Psi_{i+1}(y^*_{i+1}), i=n-1,n-2,\cdots,1$$
+
+求得最优路径 $y^*=(y_1^*,y_2^*,\cdots,y_n^*)^T$ .
+
+**条件随机场预测的维特比算法**
+
+输入：模型特征向量 $F(y,x)$ 和权值向量 $w$ ，观测序列 $x=(x_1,x_2,\cdots,x_n)$ ;
+
+输出：最优路径 $y^*=(y_1^*,y_2^*,\cdots,y_n^*)^T$ .
+
+(1)初始化
+
+$$\delta_1(j)=w\cdot F_1(y_0=start,y_1=j,x), ~~~~j=1,2,\cdots,m$$
+
+(2)递推，对 $i=2,3,\cdots,n$ 
+
+$$\delta_i(l)=\max_{1\leqslant j\leqslant m}\{\delta_{i-1}(j)+w\cdot F_i(y_{i-1}=j,y_i=l,x)\}$$
+
+$$\Psi_i(l)=\arg \max_{1\leqslant j\leqslant m}\{\delta_{i-1}(j)+w\cdot F_i(y_{i-1}=j,y_i=l,x)\}$$
+
+(3)终止
+
+$$\max_y(w\cdot F(y,x))=\max_{1\leqslant j\leqslant m}\delta_{n}(j)$$
+
+$$y_n^*=\arg \max_{1\leqslant j\leqslant m}\delta_{n}(j)$$
+
+(4)返回路径
+
+$$y_i^*=\Psi_{i+1}(y^*_{i+1}), i=n-1,n-2,\cdots,1$$
+
+求得最优路径 $y^*=(y_1^*,y_2^*,\cdots,y_n^*)^T$ .
