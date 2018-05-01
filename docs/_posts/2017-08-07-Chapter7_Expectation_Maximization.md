@@ -183,7 +183,7 @@ $$
 \ln P(X|\theta^{(i+1)})-\ln P(X|\theta^{(i)})=[Q(\theta|\theta^{(i+1)})-Q(\theta|\theta^{(i)})]-[H(\theta|\theta^{(i+1)})-H(\theta|\theta^{(i)})]
 $$
 
-由于 $\theta^{(i+1)}$ 使 $Q(\theta|\theta^{(i)})$ 达到极大，所以有
+由于 $\theta^{(i+1)}$ 使 $Q(\theta$ \| $\theta^{(i)})$ 达到极大，所以有
 
 $$
 Q(\theta|\theta^{(i+1)})-Q(\theta|\theta^{(i)}) \geqslant 0
@@ -238,7 +238,7 @@ $$
 M-步
 
 $$
-\theta^{(t+1)}=\arg\max_theta Q(\theta|\theta^{(t)})
+\theta^{(t+1)}=\arg\max_\theta Q(\theta|\theta^{(t)})
 $$
 
 $$

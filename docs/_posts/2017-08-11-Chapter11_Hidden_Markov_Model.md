@@ -74,6 +74,55 @@ $$P(o_t|i_T,o_T,i_{T-1},o_{T-1},\cdots,i_{t+1},o_{t+1},i_t,i_{t-1},o_{t-1},\cdot
 
  $HMM$ 可用于标注，这时状态对应着标记。标注问题是给定观测的序列预测去对应的标记序列。可以假设标注问题的数据是由 $HMM$ 生成的。这样就可以利用 $HMM$ 的学习与预测算法进行标注。
 
+**例(盒子和球模型)**
+
+假设有4个盒子，每个盒子里都装有红白两种颜色的球，盒子里的红白球数如下表:
+
+| 盒子 | 1号 | 2号 | 3号 | 4号 |
+|:---:|:---:|:---:|:---:|:---:|
+| 红球数| 5 | 3 | 6 | 8 |
+| 白球数| 5 | 7 | 4 | 2 |
+
+抽球方法:开始，以等概率随机从4个盒子里选取1个盒子，从盒子里随机抽出1个球，记录颜色后放回；然后从当前盒子转移到下一个盒子，规则:如果当前盒子是1号，那么 下一个盒子一定是2号，如果当前盒子是2号或3号，那么分别以概率0.4和0.6转移到左边或右边的盒子，如果当前盒子是4号，那么各以0.5的概率停留在盒子4或转移到盒子3；确定转移的盒子后，再从这个盒子里随机抽出1个求，记录其颜色并放回；如此下去重复5次，得到 一个球的颜色的观测序列:
+
+$$O=\{Red,Red,White,White,Red\}$$
+
+在这个过程中，只能观测到求颜色的序列，不能观测到球是从哪个盒子取出的，即观测不到盒子的序列。
+
+这个例子中有两个随机序列，一个是盒子的序列(状态序列)，一个是球颜色的观测序列(观测序列)。前者是隐藏的，只有后者是可观测的。这是 $HMM$ 的例子:
+
+盒子对应状态，状态的集合:
+
+$$Q=\{Box1,Box2,Box3,Box4\}, ~~~~~~N=4$$
+
+球的颜色对应观测。观测序列集合:
+
+$$V=\{Red,White\},~~~~~M=2$$
+
+状态序列和观测序列长度 $T=5$ .
+
+初始概率分布:
+
+$$\pi = (0.25,0.25,0.25,0.25)^T$$
+
+状态转移概率分布
+
+$$A=\begin{bmatrix}
+0 & 1 & 0 & 0\\
+0.4 & 0 & 0.6 & 0\\
+0 & 0.4 & 0 & 0.6\\
+0 & 0 & 0.5 & 0.5
+\end{bmatrix}$$
+
+观测概率分布
+
+$$B=\begin{bmatrix}
+0.5 & 0.5\\
+0.3 &0.7\\
+0.6 & 0.4\\
+0.8 & 0.2
+\end{bmatrix}$$
+
 ## 1.2 观测序列的生成过程
 
 根据 $HMM$ 的定义，可以将一个长度为 $T$ 的观测序列 $O=(o_1,o_2,\cdots,o_T)$ 的生成过程描述如下:
@@ -96,7 +145,7 @@ $~~~~~~~~$产生状态 $i_{t+1}, ~~ i_{t+1}=1,2,\cdots,N$
 
 (5) 令 $t=t+1$ ；如果 $t<T$ ，转(3);否则，终止
 
-## 1.2 $HMM$ 的三个基本问题
+## 1.3 $HMM$ 的三个基本问题
 
 (1)概率计算问题，给定模型 $\lambda =(A,B,\pi)$ 和观测序列 $O=(o_1,o_2,\cdots,o_T)$ ，计算在模型 $\lambda$ 下观测序列 $O$ 出现的概率 $P(O$ \| $\lambda)$
 
@@ -177,7 +226,55 @@ $$P(O|\lambda)=\sum_{i=1}^N\alpha_T(i)$$
     <img src="https://darknessbeforedawn.github.io/test-book/images/HMM2.jpg"/>
 </center>
 
-如上图，前向算法实际是基于状态序列的路径结构递推计算 $P(O$ \| $\lambda)$ 的算法。前向算法高兴的关键是其具备计算前向概率，然后利用路径结构将前向概率递推到全局，得到 $P(O$ \| $\lambda)$ .具体地，在时刻 $t=1$ ，计算 $\alpha_1(i)$ 的 $N$ 个值 $(i=1,2,\cdots,N)$ ；在各个时刻 $i=1,2,\cdots,T-1$ ，计算 $\alpha_{t+1}(i)$ 的 $N$ 个值, 而且每个 $\alpha_{t+1}(i)$ 的计算利用前一时刻 $N$ 个 $\alpha_t(j)$ .减少计算量的原因在于每一次计算直接引用前一时刻的计算结果，避免重复计算。这样利用前向概率计算 $P(O$ \| $\lambda)$ 的计算量是 $O(N^2T)$ 阶的。
+如上图，前向算法实际是基于状态序列的路径结构递推计算 $P(O$ \| $\lambda)$ 的算法。前向算法高效的关键是其具备计算前向概率，然后利用路径结构将前向概率递推到全局，得到 $P(O$ \| $\lambda)$ .具体地，在时刻 $t=1$ ，计算 $\alpha_1(i)$ 的 $N$ 个值 $(i=1,2,\cdots,N)$ ；在各个时刻 $i=1,2,\cdots,T-1$ ，计算 $\alpha_{t+1}(i)$ 的 $N$ 个值, 而且每个 $\alpha_{t+1}(i)$ 的计算利用前一时刻 $N$ 个 $\alpha_t(j)$ .减少计算量的原因在于每一次计算直接引用前一时刻的计算结果，避免重复计算。这样利用前向概率计算 $P(O$ \| $\lambda)$ 的计算量是 $O(N^2T)$ 阶的。
+
+**例**
+
+考虑盒子和球模型 $\lambda=(A,B,\pi)$ ，状态集合 
+
+$$Q=\{1,2,3\}$$
+
+观测集合
+
+$$V=\{Red,White\}$$
+
+$$A=\begin{bmatrix}
+0.5 & 0.2 & 0.3\\
+0.3 & 0.5 & 0.2\\
+0.2 & 0.3 & 0.5
+\end{bmatrix},B=\begin{bmatrix}
+0.5 & 0.5\\
+0.6 & 0.4\\
+0.7 & 0.3
+\end{bmatrix},\pi = (0.2,0.4,0.4)^T$$
+
+设 $T=3,O=(Red,White,Red)$ ,用前向算法计算 $P(O$ \| $\lambda)$ 
+
+**解**  
+
+(1)计算初值
+
+$$\begin{align}
+\alpha_1(1)&=\pi_1b_1(o_1)=0.10 \\
+\alpha_1(2)&=\pi_2b_2(o_1)=0.16 \\
+\alpha_1(3)&=\pi_3b_3(o_1)=0.28
+\end{align}$$
+
+(2)递推计算
+
+$$\begin{align}
+\alpha_2(1)&=\biggl[\sum_{i=1}^3\alpha_1(i)a_{i1}\biggr]b_1(o_2)=0.154\times 0.5=0.077 \\
+\alpha_2(2)&=\biggl[\sum_{i=1}^3\alpha_1(i)a_{i2}\biggr]b_2(o_2)=0.184\times 0.6=0.1104 \\
+\alpha_2(3)&=\biggl[\sum_{i=1}^3\alpha_1(i)a_{i3}\biggr]b_3(o_2)=0.202\times 0.3=0.0606 \\
+\alpha_3(1)&=\biggl[\sum_{i=1}^3\alpha_2(i)a_{i1}\biggr]b_1(o_3)=0.04187 \\
+\alpha_3(2)&=\biggl[\sum_{i=1}^3\alpha_2(i)a_{i2}\biggr]b_2(o_3)=0.03551 \\
+\alpha_3(3)&=\biggl[\sum_{i=1}^3\alpha_2(i)a_{i3}\biggr]b_3(o_3)=0.05284 \\
+\end{align}$$
+
+(3)终止
+
+$$P(O|\lambda)=\sum_{i=1}^3\alpha_3(i)=0.13022$$
+
 
 ## 2.3 后向算法
 
@@ -217,7 +314,35 @@ $$P(O|\lambda)=\sum_{i=1}^N\pi_ib_i(o_1)\beta_1(i)$$
 
 $$P(O|\lambda)=\sum_{i=1}^N\sum_{j=1}^N\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j), ~~~t=1,2,\cdots,T-1$$
 
-此式当 $t=1$ 和 $t=T-1$ 时分别代表前向概率和后向概率所求的观测序列概率。
+此式当 $t=1$ 和 $t=T-1$ 时分别代表前向概率和后向概率所求的观测序列概率。从 $t=1$ 时刻不断向前递推，将得到前向算法的计算公式，从 $t=T-1$ 时刻不断向后递推，将得到后向算法的计算公式。
+
+把 $t=T-1$ 代入，得
+
+$$P(O|\lambda)=\sum_{i=1}^N\sum_{j=1}^N\alpha_{T-1}(i)a_{ij}b_j(o_{T})\beta_{T}(j)$$
+
+由于 $\alpha$ 是对 $i$ 的累加，与 $j$ 无关，于是上式可变化为：
+
+$$P(O|\lambda)=\sum_{i=1}^N\alpha_{T-1}(i)\sum_{j=1}^Na_{ij}b_j(o_{T})\beta_{T}(j)$$
+
+由 $\beta_t(i)$ 的递推公式:
+
+$$\beta_t(i)=\sum_{j=1}^Na_{ij}b_j(o_{t+1})\beta_{t+1}(j)$$
+
+得
+
+$$P(O|\lambda)=\sum_{i=1}^N\alpha_{T-1}(i)\beta_{T-1}(i)$$
+
+由 $\alpha_{T-1}(i)$ 的递推公式得
+
+$$\begin{align}
+P(O|\lambda)&=\sum_{i=1}^N\beta_{T-1}(i)\sum_{j=1}^N\alpha_{T-2}(j)a_{ji}b_i(O_{t-1}) \\
+&=\sum_{i=1}^N\sum_{j=1}^N\alpha_{T-2}(j)a_{ji}b_i(O_{t-1})\beta_{T-1}(i) \\
+&=\sum_{i=1}^N\alpha_{T-2}(i)\beta_{T-2}(i) \\
+&=\cdots \\
+&=\sum_{i=1}^N\alpha_1(i)\beta_1(i)
+\end{align}$$
+
+在前向算法和后向算法中，给每一个 $t$ 时刻的隐含状态结点定义了实际的物理含义，即 $\alpha_t(i),\beta_t(i)$ 两个中间变量分别从两边进行有向加权和有向边汇聚，形成一种递归结构，并且不断传播至两端，对任意 $t=1,t=T-1$ 时刻，分别进行累加就能求得 $P(O$ \| $\lambda)$  
 
 ## 2.4 概率与期望的计算
 
@@ -231,9 +356,11 @@ $$\gamma_t(i) = P(i_t=q_i|O,\lambda)$$
 
 $$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O,\lambda)}{P(O,\lambda)}=\frac{P(i_t=q_i,O,\lambda)}{P(\lambda)P(O|\lambda)}=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}$$
 
-由前向概率 $\alpha_t(i)$ 和后向概率 $\beta_t(i)$ 定义可知：
+由前向概率 $\alpha_t(i)$ 和后向概率 $\beta_t(i)$ 定义可知, $\alpha_t(i)\beta_t(i)$ 为在 $HMM~~~\lambda$ 下，由前向和后向算法导出同一个中间节点 $S$ ， 且 $t$ 时刻状态为 $q_i$ 的概率。
 
 $$\alpha_t(i)\beta_t(i)=P(i_t=q_i,O|\lambda)$$
+
+
 
 于是有
 
@@ -247,7 +374,11 @@ $$\xi_t(i,j)=P(i_t=q_i,i_{t+1} = q_j|O,\lambda)$$
 
 $$\xi_t(i,j)=\frac{P(i_t=q_i,i_{t+1} = q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t=q_i,i_{t+1} = q_j,O|\lambda)}{\sum\limits_{i=1}^N\sum\limits_{j=1}^NP(i_t=q_i,i_{t+1} = q_j,O|\lambda)}$$
 
-而
+而 $\xi_t(i,j)$ ,其物理含义：从 $t$ 时刻出发由前向算法导出的中间节点 $S_i$ 和从 $t+1$ 时刻出发，由后向算法导出的中间节点 $S_j$ ,且节点 $S_i,S_j$ 中间还有一条加权有向边的关系 $a_{ij}b_j(O_{t+1})$ ，如下图:
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM4.png"/>
+</center>
 
 $$P(i_t=q_i,i_{t+1} = q_j,O|\lambda)=\alpha_t(i)a_{ij}b_j(O_{t+1})\beta_{t+1}(j)$$
 
