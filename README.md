@@ -107,3 +107,17 @@ Bayes
 45. 全概率公式、贝叶斯公式推导过程 https://www.cnblogs.com/ohshit/p/5629581.html
 
 46. 从贝叶斯方法谈到贝叶斯网络 http://blog.csdn.net/v_july_v/article/details/40984699
+
+HMM
+
+47. 隐马尔可夫模型 http://www.hankcs.com/ml/hidden-markov-model.html
+
+48. 隐马尔可夫模型之Baum-Welch算法详解 https://blog.csdn.net/u014688145/article/details/53046765?locationNum=7&fps=1
+
+49. 隐马尔可夫模型（HMM）攻略 https://blog.csdn.net/likelet/article/details/7056068
+
+CRF
+
+50. 条件随机场（CRF） https://blog.csdn.net/a819825294/article/details/53893231
+
+51. 条件随机场 http://www.hankcs.com/ml/conditional-random-field.html

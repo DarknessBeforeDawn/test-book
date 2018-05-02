@@ -440,7 +440,7 @@ $$P(O|\lambda)=\sum_IP(O|I,\lambda)P(I|\lambda)$$
 
 1.确定完全数据的对数似然函数
 
-所有观测数据写成 $O=(o_1,o_2,\cdots,o_T)$ ，所有隐数据写成 $I=(i_1,i_2,\cdots,i_T)$ ，完全数据是 $(O,I)=$(o_1,o_2,\cdots,o_T,i_1,i_2,\cdots,i_T)$ 。完全数据的对数似然函数是 
+所有观测数据写成 $O=(o_1,o_2,\cdots,o_T)$ ，所有隐数据写成 $I=(i_1,i_2,\cdots,i_T)$ ，完全数据是 $(O,I)=(o_1,o_2,\cdots,o_T,i_1,i_2,\cdots,i_T)$ 。完全数据的对数似然函数是 
 
 $$\log P(O,I|\lambda)$$
 
@@ -448,7 +448,11 @@ $$\log P(O,I|\lambda)$$
 
 $$Q(\lambda,\overline{\lambda}) = E_I[\log P(O,I|\lambda)|O,\overline{\lambda}]=\sum_IP(I|O,\overline{\lambda})\log P(O,I|\lambda)=\sum_I\frac{P(O,I|\overline{\lambda})}{P(O|\overline{\lambda})}\log P(O,I|\lambda)$$
 
-其中， $\overline{\lambda}$ 是 $HMM$ 参数的当前估计值， $\lambda$ 是要极大化的 $HMM$ 参数，对于 $\lambda$ 来说 $frac{1}{P(O|\overline{\lambda})}$ 为常数因子，可省略。
+其中， $\overline{\lambda}$ 是 $HMM$ 参数的当前估计值， $\lambda$ 是要极大化的 $HMM$ 参数，对于 $\lambda$ 来说
+
+$$\frac{1}{P(O|\overline{\lambda})}$$ 
+
+为常数因子，可省略。
 
 $$P(O,I|\lambda)=\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)\cdots a_{i_{T-1}i_T}b_{i_T}(o_T)$$
 
@@ -498,7 +502,7 @@ $$a_{ij}=\frac{\sum\limits_{t=1}^{T-1}P(O,i_t=i,i_{t+1}=j|\overline{\lambda})}{\
 
 $$\sum_I\biggl(\sum_{t=1}^{T}\log b_{i_t}(o_t)\biggr)P(O,I|\overline{\lambda})=\sum_{j=1}^N\sum_{t=1}^{T}\log b_j(o_t)P(O,i_t=j|\overline{\lambda})$$
 
-同样用拉格朗日乘子法，约束条件是 $\sum\limits_{k=1}^Mb_j(k)=1$ .注意只有在 $o_t=v_k$ 时 $b_j(o_t)$ 对 $b_j(k)$ 的偏导树才不为 0 ，以 $I(o_t=v_k)$ 表示，求得
+同样用拉格朗日乘子法，约束条件是 $\sum\limits_{k=1}^Mb_j(k)=1$ .注意只有在 $o_t=v_k$ 时 $b_j(o_t)$ 对 $b_j(k)$ 的偏导数才不为 0 ，以 $I(o_t=v_k)$ 表示，求得
 
 $$b_j(k)=\frac{\sum\limits_{t=1}^TP(O,i_t=j|\overline{\lambda})I(o_t=v_k)}{\sum\limits_{t=1}^TP(O,i_t=j|\overline{\lambda})}$$
 
@@ -546,7 +550,7 @@ $$\pi_i^{(n+1)}=\gamma_1(i)$$
 
 ## 4.1 近似算法
 
-近似算法思想是，在每个时刻 $t$ 选择在该时刻最优肯出现的状态$$i_t^*$$,从而得到一个状态序列$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$,将它作为预测的结果。
+近似算法思想是，在每个时刻 $t$ 选择在该时刻最有可能出现的状态$$i_t^*$$,从而得到一个状态序列$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$,将它作为预测的结果。
 
 给定 $HMM~~~\lambda$ 和观测序列 $O$ ，在时刻 $t$ 处于状态 $q_i$ 的概率 $\gamma_t(i)$ 是
 
@@ -558,7 +562,7 @@ $$i_t^*=\arg\max_{1\leqslant i\leqslant N}[\gamma_t(i)],t=1,2,\cdots,T$$
 
 而得到状态序列$$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$.
 
-近似算法的有点是计算简单，其确定是不能保证预测的状态序列整体是最有可能的状态序列，因为预测的状态序列可能有实际不发生的部分。事实上，上述方法得到的状态序列中有可能存在转移概率为 0 的相邻状态，即对某些 $i,j,a_{ij}=0$ 时，尽管如此，近似算法仍然是有用的。
+近似算法的优点是计算简单，其缺点是不能保证预测的状态序列整体是最有可能的状态序列，因为预测的状态序列可能有实际不发生的部分。事实上，上述方法得到的状态序列中有可能存在转移概率为 0 的相邻状态，即对某些 $i,j,a_{ij}=0$ 时，尽管如此，近似算法仍然是有用的。
 
 ## 4.2 维特比算法
 
@@ -609,3 +613,92 @@ $$i_t^*\psi_{t+1}(i^*_{t+1})$$
 求得最优路径
 
 $$I^*=(i_1^*,i_2^*,\cdots,i_T^*)$$
+
+**例**
+
+考虑盒子和球模型 $\lambda=(A,B,\pi)$ ，状态集合 
+
+$$Q=\{1,2,3\}$$
+
+观测集合
+
+$$V=\{Red,White\}$$
+
+$$A=\begin{bmatrix}
+0.5 & 0.2 & 0.3\\
+0.3 & 0.5 & 0.2\\
+0.2 & 0.3 & 0.5
+\end{bmatrix},B=\begin{bmatrix}
+0.5 & 0.5\\
+0.6 & 0.4\\
+0.7 & 0.3
+\end{bmatrix},\pi = (0.2,0.4,0.4)^T$$
+
+设 $T=3,O=(Red,White,Red)$ ,试求最优状态序列，即最优路径 
+
+$$I^*=(i_1^*,i_2^*,i_3^*)$$
+
+**解**  如下图，
+
+<center class="half">
+    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM5.png"/>
+</center>
+
+要在所有可能路径中选择一个最优路径，按以下处理:
+
+(1)初始化。在 $t=1$ 时，对每一个状态 $i,i=1,2,3$ ，求状态为 $i$ 观测 $o_1$ 为红的概率，记为 $\delta_1(i)$ ,则
+
+$$\delta_1(i)=\pi_ib_i(o_1)=\pi_ib_i(Red)$$
+
+代入实际数据
+
+$$\delta_1(1)=0.10,~~~~~\delta_1(2)=0.16,~~~~~\delta_1(3)=0.28$$
+
+记 $\psi_1(i)=0$
+
+(2)在 $t=2$ 时，对每一个状态 $i,i=1,2,3$ ，求在 $t=1$ 时状态为 $j$ 观测为红并且在 $t=2$ 时状态为 $i$ 观测为 $o_2$ 为白的路径最大概率，记为 $\delta_2(i)$ ,则
+
+$$\delta_2(i)=\max_{1\leqslant j\leqslant 3}[\delta(j)a_{ji}]b_i(o_2)$$
+
+同时，对每个状态 $i$ ，记录概率最大路径的前一个状态 $j$ :
+
+$$\psi_2(i)=\arg \max_{1\leqslant j\leqslant 3}[\delta_{1}(j)a_{ji}]$$
+
+计算：
+
+$$\begin{align}
+\delta_2(1)&=\max_{1\leqslant j\leqslant 3}[\delta_1(j)a_{j1}]b_1(o_2) \\
+&=\max_j\{0.10\times 0.5,0.16\times 0.3,0.28\times 0.2\}\times 0.5 \\
+&=0.028 \\
+\psi_2(1)&=3 \\
+\delta_2(2)&=0.0504,\psi_2(2)=3 \\
+\delta_2(3)&=0.042,\psi_2(3)=3 \\
+\end{align}$$
+
+同样，在 $t=3$ 时，
+
+$$\begin{align}
+\delta_3(i)&=\max_{1\leqslant j\leqslant 3}[\delta_2(j)a_{ji}]b_i(o_3) \\
+\psi_3(i)&=\arg \max_{1\leqslant j\leqslant 3}[\delta_{2}(j)a_{ji}]\\
+\delta_3(1)&=0.00756,\psi_3(1)=2 \\
+\delta_3(2)&=0.01008,\psi_3(2)=2 \\
+\delta_3(3)&=0.0147,\psi_3(3)=3 \\
+\end{align}$$
+
+(3)以$$P^*$$表示最优路径的概率，则
+
+$$P^*=\max_{1\leqslant j\leqslant 3}\delta_3(i)=0.0147$$
+
+最优路径的终点是$$i_3^*$$：
+
+$$i_3^*=\arg \max_i[\delta_3(i)]=3$$
+
+(4)由最优路径的终点$$i^*_3$$,逆向找到$$i^*_2,i^*_1$$:
+
+$$t=2,~~~~~~~i^*_2=\psi_3(i^*_3)=\psi_3(3)=3$$
+
+$$t=1,~~~~~~~i^*_1=\psi_3(i^*_2)=\psi_2(3)=3$$
+
+于是求得最优路径，即最优状态序列
+
+$$I^*=(i_1^*,i_2^*,i_3^*)=(3,3,3)$$
