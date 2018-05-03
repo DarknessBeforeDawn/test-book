@@ -169,10 +169,10 @@ $$P(O|I,\lambda)=b_{i_1}(o_1)b_{i_2}(o_2)\cdots b_{i_T}(o_T)$$
 
  $O$ 和 $I$ 同时出现的联合概率为
 
-$$\begin{align}
+$$\begin{align*}
 P(O,I|\lambda)&=\frac{P(O,I,\lambda)}{P(\lambda)} = \frac{P(O,I,\lambda)}{P(I,\lambda)}\frac{P(I,\lambda)}{P(\lambda)}=P(O|I,\lambda)P(I|\lambda) \\
 &= \pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)a_{i_2i_3}\cdots a_{i_{T-1}i_T}b_{i_T}(o_T) \\
-\end{align}$$
+\end{align*}$$
 
 然后对所有可能的状态序列 $I$ 求和，得到观测序列 $O$ 的概率：
 
@@ -254,22 +254,22 @@ $$A=\begin{bmatrix}
 
 (1)计算初值
 
-$$\begin{align}
+$$\begin{align*}
 \alpha_1(1)&=\pi_1b_1(o_1)=0.10 \\
 \alpha_1(2)&=\pi_2b_2(o_1)=0.16 \\
 \alpha_1(3)&=\pi_3b_3(o_1)=0.28
-\end{align}$$
+\end{align*}$$
 
 (2)递推计算
 
-$$\begin{align}
+$$\begin{align*}
 \alpha_2(1)&=\biggl[\sum_{i=1}^3\alpha_1(i)a_{i1}\biggr]b_1(o_2)=0.154\times 0.5=0.077 \\
 \alpha_2(2)&=\biggl[\sum_{i=1}^3\alpha_1(i)a_{i2}\biggr]b_2(o_2)=0.184\times 0.6=0.1104 \\
 \alpha_2(3)&=\biggl[\sum_{i=1}^3\alpha_1(i)a_{i3}\biggr]b_3(o_2)=0.202\times 0.3=0.0606 \\
 \alpha_3(1)&=\biggl[\sum_{i=1}^3\alpha_2(i)a_{i1}\biggr]b_1(o_3)=0.04187 \\
 \alpha_3(2)&=\biggl[\sum_{i=1}^3\alpha_2(i)a_{i2}\biggr]b_2(o_3)=0.03551 \\
 \alpha_3(3)&=\biggl[\sum_{i=1}^3\alpha_2(i)a_{i3}\biggr]b_3(o_3)=0.05284 \\
-\end{align}$$
+\end{align*}$$
 
 (3)终止
 
@@ -334,13 +334,13 @@ $$P(O|\lambda)=\sum_{i=1}^N\alpha_{T-1}(i)\beta_{T-1}(i)$$
 
 由 $\alpha_{T-1}(i)$ 的递推公式得
 
-$$\begin{align}
+$$\begin{align*}
 P(O|\lambda)&=\sum_{i=1}^N\beta_{T-1}(i)\sum_{j=1}^N\alpha_{T-2}(j)a_{ji}b_i(O_{t-1}) \\
 &=\sum_{i=1}^N\sum_{j=1}^N\alpha_{T-2}(j)a_{ji}b_i(O_{t-1})\beta_{T-1}(i) \\
 &=\sum_{i=1}^N\alpha_{T-2}(i)\beta_{T-2}(i) \\
 &=\cdots \\
 &=\sum_{i=1}^N\alpha_1(i)\beta_1(i)
-\end{align}$$
+\end{align*}$$
 
 在前向算法和后向算法中，给每一个 $t$ 时刻的隐含状态结点定义了实际的物理含义，即 $\alpha_t(i),\beta_t(i)$ 两个中间变量分别从两边进行有向加权和有向边汇聚，形成一种递归结构，并且不断传播至两端，对任意 $t=1,t=T-1$ 时刻，分别进行累加就能求得 $P(O$ \| $\lambda)$  
 
@@ -666,24 +666,24 @@ $$\psi_2(i)=\arg \max_{1\leqslant j\leqslant 3}[\delta_{1}(j)a_{ji}]$$
 
 计算：
 
-$$\begin{align}
+$$\begin{align*}
 \delta_2(1)&=\max_{1\leqslant j\leqslant 3}[\delta_1(j)a_{j1}]b_1(o_2) \\
 &=\max_j\{0.10\times 0.5,0.16\times 0.3,0.28\times 0.2\}\times 0.5 \\
 &=0.028 \\
 \psi_2(1)&=3 \\
 \delta_2(2)&=0.0504,\psi_2(2)=3 \\
 \delta_2(3)&=0.042,\psi_2(3)=3 \\
-\end{align}$$
+\end{align*}$$
 
 同样，在 $t=3$ 时，
 
-$$\begin{align}
+$$\begin{align*}
 \delta_3(i)&=\max_{1\leqslant j\leqslant 3}[\delta_2(j)a_{ji}]b_i(o_3) \\
 \psi_3(i)&=\arg \max_{1\leqslant j\leqslant 3}[\delta_{2}(j)a_{ji}]\\
 \delta_3(1)&=0.00756,\psi_3(1)=2 \\
 \delta_3(2)&=0.01008,\psi_3(2)=2 \\
 \delta_3(3)&=0.0147,\psi_3(3)=3 \\
-\end{align}$$
+\end{align*}$$
 
 (3)以$$P^*$$表示最优路径的概率，则
 
