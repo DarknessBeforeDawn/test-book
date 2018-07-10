@@ -102,11 +102,12 @@ $$R_{\exp}(f)=E_X\sum_{k=1}^K[L(c_k,f(X))]P(c_k|X)$$
 
 为了使期望风险最小化，只需对 $X=x$ 逐个极小化，由此得到:
 
-$$\begin{align}
-f(x) &= \arg\min_{y\in \mathcal{Y}}\sum_{k=1}^KL(c_k,y)P(c_k|X=x)   \\
- &= \arg\min_{y\in \mathcal{Y}}\sum_{k=1}^KP(y\neq c_k|X=x)\\
-&= \arg\min_{y\in \mathcal{Y}}(1-P(y= c_k|X=x))  \\
- &= \arg\max_{y\in \mathcal{Y}}P(y= c_k|X=x) \\
+$$\begin{align} 
+f(x) &= \arg\min_{y\in \mathcal{Y}}\sum_{k=1}^KL(c_k,y)P(c_k|X=x) \\
+ &= \arg\min_{y\in \mathcal{Y}}\biggl(L(c_1,y)P(c_1|X=x)+L(c_2,y)P(c_2|X=x)+\cdots +L(c_K,y)P(c_K|X=x)\biggr)\\
+ &\Rightarrow ~~~ L(c_k,y)\max_{k=1,2,\cdots, K}P(c_k|X=x)=0 ~~~\Rightarrow ~~~L(c_k,y)=0\\
+ &= \arg\min_{y\in \mathcal{Y}}(1-P(y= c_k|X=x)) \\
+ &= \arg\max_{y\in \mathcal{Y}}P(y= c_k|X=x) \\ 
 \end{align} $$
 
 由以上推导就得到了后验概率最大化准则
