@@ -185,7 +185,7 @@ $$P(x_1,\cdots,x_K) = P(x_K|x_1,\cdots,x_{K-1})\cdots P(x_2|x_1)P(x_1)$$
 给定如下图所示的一个贝叶斯网络：
 
 <center class="half">
-    <img src="../../images/Bayes2.png"/>
+    <img src="../images/Bayes2.png"/>
 </center>
 
 则其联合分布为:
