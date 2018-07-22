@@ -48,13 +48,13 @@ $$
 
 上式称为全概率公式。
 
-![](https://darknessbeforedawn.github.io/test-book/images/EM1.png)
+![](../images/EM1.png)
 
 ## 1.3.Jensen不等式
 
 如果 $f$ 是凸函数, $X$是随机变量，那么 $E[f(X)]\geq f(EX)$ ,如果 $f$ 是凹函数, $X$是随机变量，那么 $E[f(X)]\leq f(EX)$ ,如果 $f$ 是严格凹或凸函数, 那么 $E[f(X)]=f(EX)$ 当且仅当 $p(x=E[X])=1$ ,也就是 $X$ 是常量。如下图：
 
-![](https://darknessbeforedawn.github.io/test-book/images/EM2.png)
+![](../images/EM2.png)
 
 
 # 2.EM算法原理及推导
@@ -149,7 +149,7 @@ $$\|\theta^{(t+1)}-\theta^{(t)}\|>\varepsilon_1~~~~or~~~~\|Q(\theta^{(t+1)}|\the
 EM算法是利用下边界逼近真实值，如下图：
 
 
-![](https://darknessbeforedawn.github.io/test-book/images/EM3.png)
+![](../images/EM3.png)
 
 $$
 \mathcal{l}(\mathbf{\theta}|X)\geqslant \sum_{z}p(z|X,\theta^{(t)})\ln P(X,z|\mathbf{\theta}) +\biggl(-\sum_{z}p(z|X,\theta^{(t)})\ln P(z|X,\theta^{(t)})\biggr)\triangleq g(\theta|\theta^{(t)})

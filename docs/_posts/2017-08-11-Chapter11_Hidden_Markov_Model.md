@@ -209,7 +209,7 @@ $$P(O|\lambda)=\sum_{i=1}^N\alpha_T(i)$$
 (1)初始化前向概率，是初始时刻的状态 $i_1=q_i$ 和观测 $o_1$ 的联合概率。(2)是前向概率的递推公式，计算到时刻 $t+1$ 部分观测序列为 $o_1,o_2,\cdots,o_t,o_{t+1}$ 且在时刻 $t+1$ 处于状态 $q_i$ 的前向概率，如图。
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM1.png"/>
+    <img src="../images/HMM1.png"/>
 </center>
 
 在递推公式的方括号里, $\alpha_t(j)$ 是时刻 $t$ 观测到 $o_1,o_2,\cdots,o_t$ 并在时刻 $t$ 处于状态 $q_j$ 的前向概率，那么乘积 $\alpha_t(j)a_{ji}$ 就是是时刻 $t$ 观测到 $o_1,o_2,\cdots,o_t$ 并在时刻 $t$ 处于状态 $q_j$ 而在时刻 $t+1$ 到达状态 $q_i$ 的联合概率。对于这个乘积在时刻 $t$ 的所有可能的 $N$ 个状态 $q_j$ 求和，其结果解释到时刻 $t$ 观测为 $o_1,o_2,\cdots,o_t$ 并在时刻 $t+1$ 处于状态 $q_i$ 的联合概率。方括号里的值与观测概率 $b_i(o_{t+1})$  的乘积恰好就是是到时刻 $t+1$ 观测到 $o_1,o_2,\cdots,o_t,o_{t+1}$ 并在时刻 $t+1$ 处于状态 $q_i$ 的前向概率 $\alpha_{t+1}(i)$. 
@@ -223,7 +223,7 @@ $$\alpha_T(i)=P(o_1,o_2,\cdots,o_t,i_T=q_i|\lambda)$$
 $$P(O|\lambda)=\sum_{i=1}^N\alpha_T(i)$$
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM2.jpg"/>
+    <img src="../images/HMM2.jpg"/>
 </center>
 
 如上图，前向算法实际是基于状态序列的路径结构递推计算 $P(O$ \| $\lambda)$ 的算法。前向算法高效的关键是其具备计算前向概率，然后利用路径结构将前向概率递推到全局，得到 $P(O$ \| $\lambda)$ .具体地，在时刻 $t=1$ ，计算 $\alpha_1(i)$ 的 $N$ 个值 $(i=1,2,\cdots,N)$ ；在各个时刻 $i=1,2,\cdots,T-1$ ，计算 $\alpha_{t+1}(i)$ 的 $N$ 个值, 而且每个 $\alpha_{t+1}(i)$ 的计算利用前一时刻 $N$ 个 $\alpha_t(j)$ .减少计算量的原因在于每一次计算直接引用前一时刻的计算结果，避免重复计算。这样利用前向概率计算 $P(O$ \| $\lambda)$ 的计算量是 $O(N^2T)$ 阶的。
@@ -305,7 +305,7 @@ $$P(O|\lambda)=\sum_{i=1}^N\pi_ib_i(o_1)\beta_1(i)$$
 (1)初始化后向概率，对最终时刻的所有状态 $q_i$ 规定 $\beta_T(i)=1$ 。(2)是后向概率的递推公式。
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM3.png"/>
+    <img src="../images/HMM3.png"/>
 </center>
 
 如上图，为了计算在时刻 $t$ 状态为 $q_i$ 条件下时刻 $t+1$ 之后的观测序列为 $o_{t+1},o_{t+2},\cdots,o_T$ 的后向概率 $\beta_t(i)$ ，只需考虑在时刻 $t+1$ 所有可能的 $N$ 个状态 $q_j$ 的转移概率 ( $a_{ij}$ 项)，以及在此状态下的观测 $o_{t+1}$ 的观测概率( $b_j(o_{t+1})$ 项)，然后考虑状态 $q_j$ 之后的观测序列的后向概率( $\beta_{t+1}(j)$ 项)。(3)求 $P(O$ \| $\lambda)$ 的思路与步骤(2) 一致，只是初始概率 $\pi_i$ 代替转移概率。
@@ -377,7 +377,7 @@ $$\xi_t(i,j)=\frac{P(i_t=q_i,i_{t+1} = q_j,O|\lambda)}{P(O|\lambda)}=\frac{P(i_t
 而 $\xi_t(i,j)$ ,其物理含义：从 $t$ 时刻出发由前向算法导出的中间节点 $S_i$ 和从 $t+1$ 时刻出发，由后向算法导出的中间节点 $S_j$ ,且节点 $S_i,S_j$ 中间还有一条加权有向边的关系 $a_{ij}b_j(O_{t+1})$ ，如下图:
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM4.png"/>
+    <img src="../images/HMM4.png"/>
 </center>
 
 $$P(i_t=q_i,i_{t+1} = q_j,O|\lambda)=\alpha_t(i)a_{ij}b_j(O_{t+1})\beta_{t+1}(j)$$
@@ -641,7 +641,7 @@ $$I^*=(i_1^*,i_2^*,i_3^*)$$
 **解**  如下图，
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/HMM5.png"/>
+    <img src="../images/HMM5.png"/>
 </center>
 
 要在所有可能路径中选择一个最优路径，按以下处理:

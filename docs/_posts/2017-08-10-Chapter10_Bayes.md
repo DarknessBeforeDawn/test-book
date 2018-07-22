@@ -165,7 +165,7 @@ $$P_\lambda(Y=c_k)=\frac{\sum\limits_{i=1}^NI(y_i=c_k)+\lambda}{N+K\lambda},k=1,
 假设节点 $E$ 直接影响到节点 $H$ ，即 $E\rightarrow H$ ，则用从 $E$ 指向 $H$ 的箭头建立结点 $E$ 到结点 $H$ 的有向弧 $(E,H)$ ，权值(即连接强度)用条件概率 $P(H$ \| $E)$ 来表示，如下图所示：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes1.png"/>
+    <img src="../images/Bayes1.png"/>
 </center>
 
 把某个研究系统中涉及的随机变量，根据是否条件独立绘制在一个有向图中，就形成了贝叶斯网络。其主要用来描述随机变量之间的条件依赖，用圈表示随机变量(random variables)，用箭头表示条件依赖(conditional dependencies)。
@@ -199,7 +199,7 @@ $$P(x_1)P(x_2)P(x_3)P(x_4|x_1,x_2,x_3)P(x_5|x_1,x_3)P(x_6|x_4)P(x_7|x_4,x_5)$$
 如下图为tail-to-tail类型:
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes3.png"/>
+    <img src="../images/Bayes3.png"/>
 </center>
 
 考虑 $c$ 未知，跟 $c$ 已知这两种情况：
@@ -223,7 +223,7 @@ $$P(a,b|c)=\frac{P(a,b,c)}{P(c)}=\frac{P(c)P(a|c)P(b|c)}{P(c)}=P(a|c)P(b|c)$$
 如下图为head-to-head类型:
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes4.png"/>
+    <img src="../images/Bayes4.png"/>
 </center>
 
 联合分布为:
@@ -241,7 +241,7 @@ $$\sum_cP(a,b,c)=\sum_cP(a)P(b)P(c|a,b)\Rightarrow P(a,b) = P(a)P(b)$$
 如下图为head-to-tail类型:
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes5.png"/>
+    <img src="../images/Bayes5.png"/>
 </center>
 
  $c$ 未知时，有：
@@ -265,7 +265,7 @@ $$P(a,b|c) = \frac{P(a)P(c|a)P(b|c)}{P(c)}=\frac{P(a,c)P(b|c)}{P(c)}= P(a|c)P(b|
 这个head-to-tail其实就是一个链式网络，如下图所示：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes6.png"/>
+    <img src="../images/Bayes6.png"/>
 </center>
 
 在 $x_i $给定的条件下， $x_{i+1}$ 的分布和 $x_1,x_2,\cdots,x_{i-1}$ 条件独立.也就是说 $x_{i+1}$ 的分布状态只和 $x_i$ 有关，和其他变量条件独立。当前状态只跟上一状态有关，跟上一个状态之前的所有状态无关。这种顺次演变的随机过程，就叫做马尔科夫链（Markov chain）。即：
@@ -281,7 +281,7 @@ $$P(X_{n+1}|X_0,X_1,\cdots,X_n)=P(X_{n+1}|X_n)$$
 # 3.3 因子图
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes7.png"/>
+    <img src="../images/Bayes7.png"/>
 </center>
 
  对于上图，在一个人已经呼吸困难（dyspnoea）的情况下，其抽烟（smoking）的概率是:
@@ -326,13 +326,13 @@ $$g(x_1,x_2,x_3,x_4,x_5)=f_A(x_1)f_B(x_2)f_C(x_1,x_2,x_3)f_D(x_3,x_4)f_E(x_3,x_5
 其对应的因子图为：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes8.png"/>
+    <img src="../images/Bayes8.png"/>
 </center>
 
 且上述因子图等价于：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes9.png"/>
+    <img src="../images/Bayes9.png"/>
 </center>
 
 在因子图中，所有的顶点不是变量节点就是函数节点，边线表示它们之间的函数关系。因子图跟贝叶斯网络和马尔科夫随机场（Markov Random Fields）一样，也是概率图的一种。
@@ -340,19 +340,19 @@ $$g(x_1,x_2,x_3,x_4,x_5)=f_A(x_1)f_B(x_2)f_C(x_1,x_2,x_3)f_D(x_3,x_4)f_E(x_3,x_5
 * 有向图模型，又称作贝叶斯网络（Directed Graphical Models, DGM, Bayesian Network）。
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes10.png"/>
+    <img src="../images/Bayes10.png"/>
 </center>
 
 * 但在有些情况下，强制对某些结点之间的边增加方向是不合适的。使用没有方向的无向边，形成了无向图模型（Undirected Graphical Model,UGM）, 又被称为马尔科夫随机场或者马尔科夫网络（Markov Random Field,  MRF or Markov network）。
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes11.png"/>
+    <img src="../images/Bayes11.png"/>
 </center>
 
 * 设 $X=(X_1,X_2,\cdots,X_n)$ 和 $Y=(Y_1,Y_2,\cdots,Y_m)$ 都是联合随机变量，若随机变量Y构成一个无向图 $G=(V,E)$ 表示的马尔科夫随机场（MRF），则条件概率分布P(Y|X)称为条件随机场（Conditional Random Field, 简称CRF）。如下图所示，便是一个线性链条件随机场的无向图模型：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes12.png"/>
+    <img src="../images/Bayes12.png"/>
 </center>
 
 在概率图中，求某个变量的边缘分布是常见的问题。这问题有很多求解方法，其中之一就是把贝叶斯网络或马尔科夫随机场转换成因子图，然后用sum-product算法求解。换言之，基于因子图可以用sum-product 算法高效的求各个变量的边缘分布。
@@ -362,7 +362,7 @@ $$g(x_1,x_2,x_3,x_4,x_5)=f_A(x_1)f_B(x_2)f_C(x_1,x_2,x_3)f_D(x_3,x_4)f_E(x_3,x_5
 给定下图所示的贝叶斯网络或马尔科夫随机场：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes13.png"/>
+    <img src="../images/Bayes13.png"/>
 </center>
 
 根据各个变量对应的关系，可得：
@@ -372,7 +372,7 @@ $$P(u,w,x,y,z)=P(u)P(w)P(x|u,w)P(y|x)P(z|x)$$
 其对应的因子图为（以下两种因子图的表示方式皆可）：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes14.png"/>
+    <img src="../images/Bayes14.png"/>
 </center>
 
 由上述例子总结出由贝叶斯网络构造因子图的方法：
@@ -384,7 +384,7 @@ $$P(u,w,x,y,z)=P(u)P(w)P(x|u,w)P(y|x)P(z|x)$$
 再比如，对于下图所示的由马尔科夫链转换而成的因子图：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes15.png"/>
+    <img src="../images/Bayes15.png"/>
 </center>
 
 有: 
@@ -394,7 +394,7 @@ $$P_{XYZ}(x,y,z) = P_X(x)P_{Y|X}(y|x)P_{Z|Y}(z|y)$$
 而对于如下图所示的由隐马尔科夫模型转换而成的因子图：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes16.png"/>
+    <img src="../images/Bayes16.png"/>
 </center>
 
 有:
@@ -406,7 +406,7 @@ $$P(x_0,x_1,x_2,\cdots,x_n,y_1,y_2,\cdots,y_n)=P(x_0)\prod_{k=1}^nP(x_k|x_{k-1})
 对于下图所示的因子图：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes17.png"/>
+    <img src="../images/Bayes17.png"/>
 </center>
 
 有:
@@ -439,13 +439,13 @@ $$\bar{f}_3(x_3)=\sum_{\substack{x_1,x_2,\cdots,x_7 \\ except ~~ x_3}} f(x_1,x_2
  同时，$f$ 能被分解如下：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes18.png"/>
+    <img src="../images/Bayes18.png"/>
 </center>
 
 提取公因子:
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes19.png"/>
+    <img src="../images/Bayes19.png"/>
 </center>
 
 因为变量的边缘概率等于所有与他相连的函数传递过来的消息的积，所以计算得到：
@@ -457,7 +457,7 @@ $$\bar{f}_3(x_3)=\biggl(\sum_{x_1,x_2}f_1(x_1)f_2(x_2)f_3(x_1,x_2,x_3)\biggr)\bi
  第一步,对于 $f$ 的分解图，根据蓝色虚线框、红色虚线框围住的两个box外面的消息传递：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes20.png"/>
+    <img src="../images/Bayes20.png"/>
 </center>
 
 可得:
@@ -467,7 +467,7 @@ $$\bar{f}_3(x_3)=\biggl(\underbrace{\sum_{x_1,x_2}f_1(x_1)f_2(x_2)f_3(x_1,x_2,x_
 第二步,根据蓝色虚线框、红色虚线框围住的两个box内部的消息传递：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes21.png"/>
+    <img src="../images/Bayes21.png"/>
 </center>
 
 根据
@@ -487,13 +487,13 @@ $$\overleftarrow{\mu}_{X_3}(x_3)=\sum_{x_4,x_5}\overrightarrow{\mu}_{X_4}(x_4)\o
 * 一种是变量(Variable)到函数(Function)的消息：$m_{x\rightarrow f}$ ，  此时，变量到函数的消息为 $m_{x\rightarrow f}=1$ ,如下图所示:
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes22.png"/>
+    <img src="../images/Bayes22.png"/>
 </center>
 
 * 另外一种是函数(Function)到变量(Variable)的消息： $m_{f\rightarrow x}$ , 此时，函数到变量的消息为： $m_{f\rightarrow x}=f(x)$ ,如下图所示：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes23.png"/>
+    <img src="../images/Bayes23.png"/>
 </center>
 
 sum-product算法的总体框架：
@@ -501,7 +501,7 @@ sum-product算法的总体框架：
 * 1.给定如下图所示的因子图：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes24.png"/>
+    <img src="../images/Bayes24.png"/>
 </center>
 
 * 2.sum-product 算法的消息计算规则为：
@@ -517,13 +517,13 @@ $$\bar{f}_X(x)=\overrightarrow{\mu}_{X}(x)\overleftarrow{\mu}_{X}(x)$$
 比如，下图所示的贝叶斯网络：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes25.png"/>
+    <img src="../images/Bayes25.png"/>
 </center>
 
  其转换成因子图后，为：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes26.png"/>
+    <img src="../images/Bayes26.png"/>
 </center>
 
 可以发现，若贝叶斯网络中存在“环”（无向），则因此构造的因子图会得到环。而使用消息传递的思想，这个消息将无限传输下去，不利于概率计算。
@@ -534,7 +534,7 @@ $$\bar{f}_X(x)=\overrightarrow{\mu}_{X}(x)\overleftarrow{\mu}_{X}(x)$$
 删除贝叶斯网络中的若干条边，使得它不含有无向环.比如给定下图中左边部分所示的原贝叶斯网络，可以通过去掉C和E之间的边，使得它重新变成有向无环图，从而成为图中右边部分的近似树结构：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/Bayes27.png"/>
+    <img src="../images/Bayes27.png"/>
 </center>
 
 具体变换的过程为最大权生成树算法MSWT，通过此算法，这课树的近似联合概率 $P'(x)$ 和原贝叶斯网络的联合概率 $P(x)$ 的相对熵最小。

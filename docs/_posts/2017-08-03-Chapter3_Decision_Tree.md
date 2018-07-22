@@ -190,7 +190,7 @@ $$\begin{equation}
 C(x)=sign\biggl[\sum_m^M\alpha_mC_m(x)\biggr]
 \end{equation}$$
 
-另外还有[AdaBoost](https://darknessbeforedawn.github.io/test-book/Chapter4_AdaBoost/)和[GBDT](https://darknessbeforedawn.github.io/test-book/Chapter5_Gradient_Boosting_Decision_Tree/)等。
+另外还有[AdaBoost](../Chapter4_AdaBoost/)和[GBDT](../Chapter5_Gradient_Boosting_Decision_Tree/)等。
 
 [决策树相关示例代码](https://github.com/DarknessBeforeDawn/test-book/blob/master/code/decision_tree/decision_tree.ipynb)
 

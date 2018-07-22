@@ -230,19 +230,19 @@ Lloyd方法初始化有多种方式，最常用的有以下几种:
 随机初始化过程如下图：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster1.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster2.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster3.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster4.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster5.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster6.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster7.PNG" width="300"/>
+    <img src="../images/cluster1.PNG" width="300"/>
+    <img src="../images/cluster2.PNG" width="300"/>
+    <img src="../images/cluster3.PNG" width="300"/>
+    <img src="../images/cluster4.PNG" width="300"/>
+    <img src="../images/cluster5.PNG" width="300"/>
+    <img src="../images/cluster6.PNG" width="300"/>
+    <img src="../images/cluster7.PNG" width="300"/>
 </center>
 
 但随机初始化，会存在如下问题：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster8.PNG"/>
+    <img src="../images/cluster8.PNG"/>
 </center>
 
 #### Furthest Traversal
@@ -256,15 +256,15 @@ For j = 1,2, $\cdots$ , k :
 过程如下：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster9.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster10.PNG" width="300"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster11.PNG" width="300"/>
+    <img src="../images/cluster9.PNG" width="300"/>
+    <img src="../images/cluster10.PNG" width="300"/>
+    <img src="../images/cluster11.PNG" width="300"/>
 </center>
 
 但是这种方法容易受到噪点的影响，如下：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster12.PNG"/>
+    <img src="../images/cluster12.PNG"/>
 </center>
 
 ### k-means++
@@ -300,7 +300,7 @@ k-means++ 每次需要计算点到中心的距离，复杂度为 $O(ndk)$ , d维
 可以看到算法的第三步选取新中心的方法，这样就能保证距离 $D(x)$ 较大的点，会被选出来作为聚类中心了。至于为什么原因很简单，如下图 所示： 
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster13.png"/>
+    <img src="../images/cluster13.png"/>
 </center> 
 
 假设A、B、C、D的 $D(x)$ 如上图所示，当算法取值 $Sum(D(x))*Random$ 时，该值会以较大的概率落入 $D(x)$ 较大的区间内，所以对应的点会以较大的概率被选中作为新的聚类中心。
@@ -385,7 +385,7 @@ $$p_{\mathcal{M}}(\mathbf{x})=\sum_{i=1}^k\alpha_i\cdot p(\mathbf{x}|\mathbf{\mu
 
 假设样本的生成过程由高斯混合分布给出：首先，根据 $\alpha_1,\alpha_2,\cdots,\alpha_k$ 定义的先验分布选择高斯混合成分，其中 $\alpha_i$ 为选择第$i$ 个混合成分的概率；然后，根据被选择的混合成分的概率进行采样，从而生成相应的样本。
 
-常用EM算法对上述分布进行迭代优化求解，之前已详细讨论过[EM算法](https://darknessbeforedawn.github.io/test-book/Chapter7_Expectation_Maximization/)，此处不再进行讨论。
+常用EM算法对上述分布进行迭代优化求解，之前已详细讨论过[EM算法](../Chapter7_Expectation_Maximization/)，此处不再进行讨论。
 
 # 5.密度聚类
 
@@ -406,7 +406,7 @@ DBSCAN是一种著名的密度聚类算法，它基于一组邻域(neighborhood)
 下图给出上述概念的直观概念
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster13.png"/>
+    <img src="../images/cluster13.png"/>
 </center> 
 
 上图中 $MinPts=3$ ，虚线显示出 $\epsilon-$ 邻域, $\mathbf{x_1}$ 是核心对象， $\mathbf{x_2}$ 由 $\mathbf{x_1}$ 密度直达， $\mathbf{x_3}$ 由 $\mathbf{x_1}$ 密度可达，$\mathbf{x_3}$ 与 $\mathbf{x_4}$ 密度相连。
@@ -484,13 +484,13 @@ $$d_{avg}(C_i,C_j)=\frac{1}{|C_i||C_j|}\sum_{x\in C_i}\sum_{z\in C_j}dist(x,z)$$
 单链接步骤如下图（1-5）
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster15.PNG"/>
+    <img src="../images/cluster15.PNG"/>
 </center> 
 
 全链接步骤如下图（1-5）
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/cluster16.PNG"/>
+    <img src="../images/cluster16.PNG"/>
 </center> 
 
 AGNES算法描述如下：

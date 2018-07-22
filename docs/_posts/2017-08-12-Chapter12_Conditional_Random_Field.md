@@ -33,13 +33,13 @@ $$P(Y_O|Y_W)>0\Rightarrow P(Y_v|Y_W) = P(Y_v|Y_O,Y_W)$$
 局部马尔科夫性如下图所示：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/CRF1.jpg"/>
+    <img src="../images/CRF1.jpg"/>
 </center>
 
 全局马尔科夫性:设结点集合 $A,B$ 是在无向图 $G$ 中被结点集合 $C$ 分开的任意结点集合，如下图：
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/CRF2.jpg"/>
+    <img src="../images/CRF2.jpg"/>
 </center>
 
 结点集合 $A,B$ 和 $C$ 对应的随机变量组分别是 $Y_A,Y_B,Y_C$ ，全局马尔科夫性是指给定随机变量组 $Y_C$ 条件下随机变量组 $Y_A$ 和 $Y_B$ 是条件独立的，即
@@ -55,7 +55,7 @@ $$P(Y_A,Y_B|Y_C)=P(Y_A|Y_C)P(Y_B|P_C)$$
 **团与最大团：** 无向图 $G$ 中任何两个结点均有边连接的结点子集称为团(Clique).若 $C$ 是无向图 $G$ 的一个团，并且不能再加进任何一个 $G$ 的结点使其成为一个更大的团，则称此 $C$ 为最大团(Maximal Clique).
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/CRF3.jpg"/>
+    <img src="../images/CRF3.jpg"/>
 </center>
 
 如上图表示由4个点组成的无向图。图中由2个结点组成的团由5个：
@@ -109,8 +109,8 @@ $$P(Y_v|X,Y_w,w\neq v)=P(Y_v|X,Y_w,w\sim v)$$
 在定义中并没有要求 $X$ 和 $Y$ 具有相同的结构。现实中，一般假设 $X$ 和 $Y$ 有相同的图结构。一般考虑无向图如下图所示的线性链情况。
 
 <center class="half">
-    <img src="https://darknessbeforedawn.github.io/test-book/images/CRF4.jpg" width="350"/>
-    <img src="https://darknessbeforedawn.github.io/test-book/images/CRF5.jpg" width="350"/>
+    <img src="../images/CRF4.jpg" width="350"/>
+    <img src="../images/CRF5.jpg" width="350"/>
 </center> 
 
 即
