@@ -66,6 +66,12 @@ $$\begin{equation}
 G(x)=sign(f(x))=sign\biggl(\sum_{m=1}^M\alpha_mG_m(x)\biggr)
 \end{equation}$$
 
+其中， 
+
+$$
+sign(x)=\begin{cases}1,&x>0\\-1,&x <  0\end{cases}
+$$
+
 # 2.示例
 给定训练样本：
 
@@ -130,7 +136,7 @@ $$
 (a)在权值分布为 $D_3$ 的训练数据上，阈值 $v$ 取5.5时分类误差率最低，基本分类器为：
 
 $$
-G_3(x)=\begin{cases}1,&x<5.5\\-1,&x >  5.5\end{cases}
+G_3(x)=\begin{cases}1,&x>5.5\\-1,&x <  5.5\end{cases}
 $$
 
 (b) $G_3(x)$ 在训练数据集上误差率 $e_3=0.1820$ .
