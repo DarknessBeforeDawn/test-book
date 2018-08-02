@@ -121,3 +121,7 @@ CRF
 50. 条件随机场（CRF） https://blog.csdn.net/a819825294/article/details/53893231
 
 51. 条件随机场 http://www.hankcs.com/ml/conditional-random-field.html
+
+决策树
+
+52. CART回归树 https://cethik.vip/2016/09/21/machineCAST/
